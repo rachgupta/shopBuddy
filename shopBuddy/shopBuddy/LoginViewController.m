@@ -21,7 +21,7 @@
     // Do any additional setup after loading the view.
 }
 - (IBAction)registerUser:(id)sender {
-    //[self checkFields];
+    [self checkFields];
     PFUser *newUser = [PFUser user];
         
         // set user properties
@@ -39,6 +39,7 @@
         }];
 }
 - (IBAction)loginUser:(id)sender {
+    [self checkFields];
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
         
@@ -50,6 +51,37 @@
             [self performSegueWithIdentifier:@"loginSegue" sender:nil];
         }
     }];
+}
+- (void) checkFields
+{
+    if([self.usernameField.text isEqual:@""])
+    {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No Username"
+                                                                                   message:@"Please input a Username"
+                                                                            preferredStyle:(UIAlertControllerStyleAlert)];
+        // create an OK action
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * _Nonnull action) {}];
+        // add the OK action to the alert controller
+        [alert addAction:okAction];
+        [self presentViewController:alert animated:YES completion:^{}];
+    }
+    if([self.passwordField.text isEqual:@""])
+    {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No Password"
+                                                                                   message:@"Please input a Password"
+                                                                            preferredStyle:(UIAlertControllerStyleAlert)];
+        // create an OK action
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * _Nonnull action) {
+                                                                 // handle response here.
+                                                         }];
+        // add the OK action to the alert controller
+        [alert addAction:okAction];
+        [self presentViewController:alert animated:YES completion:^{}];
+    }
 }
 
 /*
