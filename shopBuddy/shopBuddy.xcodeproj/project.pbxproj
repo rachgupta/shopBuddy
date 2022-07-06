@@ -17,6 +17,9 @@
 		06A3772D2875FE2600A6AA7D /* shopBuddyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A3772C2875FE2600A6AA7D /* shopBuddyTests.m */; };
 		06A377372875FE2600A6AA7D /* shopBuddyUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377362875FE2600A6AA7D /* shopBuddyUITests.m */; };
 		06A377392875FE2600A6AA7D /* shopBuddyUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377382875FE2600A6AA7D /* shopBuddyUITestsLaunchTests.m */; };
+		33ABBBA0EFD5F2DE0074496D /* Pods_shopBuddyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 223652829D200A57A0FB831D /* Pods_shopBuddyTests.framework */; };
+		4FAE13C4D0436D1585F1B7A0 /* Pods_shopBuddy_shopBuddyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F76603BFE840A21CA4331931 /* Pods_shopBuddy_shopBuddyUITests.framework */; };
+		83B39467872747913D42B033 /* Pods_shopBuddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4373E1465869E684E892CF1 /* Pods_shopBuddy.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0120EC177056832D6695B428 /* Pods-shopBuddyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddyTests.debug.xcconfig"; path = "Target Support Files/Pods-shopBuddyTests/Pods-shopBuddyTests.debug.xcconfig"; sourceTree = "<group>"; };
+		013DD7C4DF0A94FC4D7FC2D7 /* Pods-shopBuddy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddy.debug.xcconfig"; path = "Target Support Files/Pods-shopBuddy/Pods-shopBuddy.debug.xcconfig"; sourceTree = "<group>"; };
 		06A3770D2875FE2500A6AA7D /* shopBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shopBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06A377102875FE2500A6AA7D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		06A377112875FE2500A6AA7D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -54,6 +59,13 @@
 		06A377322875FE2600A6AA7D /* shopBuddyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = shopBuddyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		06A377362875FE2600A6AA7D /* shopBuddyUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = shopBuddyUITests.m; sourceTree = "<group>"; };
 		06A377382875FE2600A6AA7D /* shopBuddyUITestsLaunchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = shopBuddyUITestsLaunchTests.m; sourceTree = "<group>"; };
+		223652829D200A57A0FB831D /* Pods_shopBuddyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shopBuddyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		57D1447D4426488D803294F1 /* Pods-shopBuddyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddyTests.release.xcconfig"; path = "Target Support Files/Pods-shopBuddyTests/Pods-shopBuddyTests.release.xcconfig"; sourceTree = "<group>"; };
+		62258DBD9521EB8252325E07 /* Pods-shopBuddy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddy.release.xcconfig"; path = "Target Support Files/Pods-shopBuddy/Pods-shopBuddy.release.xcconfig"; sourceTree = "<group>"; };
+		74B92174F6E781B4284D2EB1 /* Pods-shopBuddy-shopBuddyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddy-shopBuddyUITests.debug.xcconfig"; path = "Target Support Files/Pods-shopBuddy-shopBuddyUITests/Pods-shopBuddy-shopBuddyUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		98F2B1699A5781A2A8C0A144 /* Pods-shopBuddy-shopBuddyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddy-shopBuddyUITests.release.xcconfig"; path = "Target Support Files/Pods-shopBuddy-shopBuddyUITests/Pods-shopBuddy-shopBuddyUITests.release.xcconfig"; sourceTree = "<group>"; };
+		A4373E1465869E684E892CF1 /* Pods_shopBuddy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shopBuddy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F76603BFE840A21CA4331931 /* Pods_shopBuddy_shopBuddyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shopBuddy_shopBuddyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83B39467872747913D42B033 /* Pods_shopBuddy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33ABBBA0EFD5F2DE0074496D /* Pods_shopBuddyTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FAE13C4D0436D1585F1B7A0 /* Pods_shopBuddy_shopBuddyUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +103,8 @@
 				06A3772B2875FE2600A6AA7D /* shopBuddyTests */,
 				06A377352875FE2600A6AA7D /* shopBuddyUITests */,
 				06A3770E2875FE2500A6AA7D /* Products */,
+				1F6BE763E66CD5E2542DF51A /* Pods */,
+				D88FD58F4E16319955A109C3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -136,6 +153,30 @@
 			path = shopBuddyUITests;
 			sourceTree = "<group>";
 		};
+		1F6BE763E66CD5E2542DF51A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				013DD7C4DF0A94FC4D7FC2D7 /* Pods-shopBuddy.debug.xcconfig */,
+				62258DBD9521EB8252325E07 /* Pods-shopBuddy.release.xcconfig */,
+				74B92174F6E781B4284D2EB1 /* Pods-shopBuddy-shopBuddyUITests.debug.xcconfig */,
+				98F2B1699A5781A2A8C0A144 /* Pods-shopBuddy-shopBuddyUITests.release.xcconfig */,
+				0120EC177056832D6695B428 /* Pods-shopBuddyTests.debug.xcconfig */,
+				57D1447D4426488D803294F1 /* Pods-shopBuddyTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		D88FD58F4E16319955A109C3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A4373E1465869E684E892CF1 /* Pods_shopBuddy.framework */,
+				F76603BFE840A21CA4331931 /* Pods_shopBuddy_shopBuddyUITests.framework */,
+				223652829D200A57A0FB831D /* Pods_shopBuddyTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,9 +184,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06A3773C2875FE2600A6AA7D /* Build configuration list for PBXNativeTarget "shopBuddy" */;
 			buildPhases = (
+				C181A772880582EA6932D2ED /* [CP] Check Pods Manifest.lock */,
 				06A377092875FE2500A6AA7D /* Sources */,
 				06A3770A2875FE2500A6AA7D /* Frameworks */,
 				06A3770B2875FE2500A6AA7D /* Resources */,
+				55134E77415062071C37E220 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -160,6 +203,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06A3773F2875FE2600A6AA7D /* Build configuration list for PBXNativeTarget "shopBuddyTests" */;
 			buildPhases = (
+				7925BF4B6B6F91766C0654A3 /* [CP] Check Pods Manifest.lock */,
 				06A377242875FE2600A6AA7D /* Sources */,
 				06A377252875FE2600A6AA7D /* Frameworks */,
 				06A377262875FE2600A6AA7D /* Resources */,
@@ -178,9 +222,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06A377422875FE2600A6AA7D /* Build configuration list for PBXNativeTarget "shopBuddyUITests" */;
 			buildPhases = (
+				F0F94530E2C8D3A0ABA8527D /* [CP] Check Pods Manifest.lock */,
 				06A3772E2875FE2600A6AA7D /* Sources */,
 				06A3772F2875FE2600A6AA7D /* Frameworks */,
 				06A377302875FE2600A6AA7D /* Resources */,
+				63B1F8D4DE25CE2B6686A174 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -260,6 +306,109 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		55134E77415062071C37E220 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-shopBuddy/Pods-shopBuddy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-shopBuddy/Pods-shopBuddy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-shopBuddy/Pods-shopBuddy-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		63B1F8D4DE25CE2B6686A174 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-shopBuddy-shopBuddyUITests/Pods-shopBuddy-shopBuddyUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-shopBuddy-shopBuddyUITests/Pods-shopBuddy-shopBuddyUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-shopBuddy-shopBuddyUITests/Pods-shopBuddy-shopBuddyUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7925BF4B6B6F91766C0654A3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-shopBuddyTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C181A772880582EA6932D2ED /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-shopBuddy-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F0F94530E2C8D3A0ABA8527D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-shopBuddy-shopBuddyUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		06A377092875FE2500A6AA7D /* Sources */ = {
@@ -437,6 +586,7 @@
 		};
 		06A3773D2875FE2600A6AA7D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 013DD7C4DF0A94FC4D7FC2D7 /* Pods-shopBuddy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -464,6 +614,7 @@
 		};
 		06A3773E2875FE2600A6AA7D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62258DBD9521EB8252325E07 /* Pods-shopBuddy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -491,6 +642,7 @@
 		};
 		06A377402875FE2600A6AA7D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0120EC177056832D6695B428 /* Pods-shopBuddyTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -509,6 +661,7 @@
 		};
 		06A377412875FE2600A6AA7D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 57D1447D4426488D803294F1 /* Pods-shopBuddyTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -527,6 +680,7 @@
 		};
 		06A377432875FE2600A6AA7D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74B92174F6E781B4284D2EB1 /* Pods-shopBuddy-shopBuddyUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -543,6 +697,7 @@
 		};
 		06A377442875FE2600A6AA7D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 98F2B1699A5781A2A8C0A144 /* Pods-shopBuddy-shopBuddyUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
