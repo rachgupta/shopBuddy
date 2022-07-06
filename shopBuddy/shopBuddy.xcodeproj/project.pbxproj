@@ -18,6 +18,7 @@
 		06A377372875FE2600A6AA7D /* shopBuddyUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377362875FE2600A6AA7D /* shopBuddyUITests.m */; };
 		06A377392875FE2600A6AA7D /* shopBuddyUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377382875FE2600A6AA7D /* shopBuddyUITestsLaunchTests.m */; };
 		06A377472876034000A6AA7D /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377462876034000A6AA7D /* LoginViewController.m */; };
+		06A3774A287605AD00A6AA7D /* ShoppingListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A37749287605AD00A6AA7D /* ShoppingListViewController.m */; };
 		33ABBBA0EFD5F2DE0074496D /* Pods_shopBuddyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 223652829D200A57A0FB831D /* Pods_shopBuddyTests.framework */; };
 		4FAE13C4D0436D1585F1B7A0 /* Pods_shopBuddy_shopBuddyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F76603BFE840A21CA4331931 /* Pods_shopBuddy_shopBuddyUITests.framework */; };
 		83B39467872747913D42B033 /* Pods_shopBuddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4373E1465869E684E892CF1 /* Pods_shopBuddy.framework */; };
@@ -62,6 +63,8 @@
 		06A377382875FE2600A6AA7D /* shopBuddyUITestsLaunchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = shopBuddyUITestsLaunchTests.m; sourceTree = "<group>"; };
 		06A377452876034000A6AA7D /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		06A377462876034000A6AA7D /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		06A37748287605AD00A6AA7D /* ShoppingListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShoppingListViewController.h; sourceTree = "<group>"; };
+		06A37749287605AD00A6AA7D /* ShoppingListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShoppingListViewController.m; sourceTree = "<group>"; };
 		223652829D200A57A0FB831D /* Pods_shopBuddyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shopBuddyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57D1447D4426488D803294F1 /* Pods-shopBuddyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddyTests.release.xcconfig"; path = "Target Support Files/Pods-shopBuddyTests/Pods-shopBuddyTests.release.xcconfig"; sourceTree = "<group>"; };
 		62258DBD9521EB8252325E07 /* Pods-shopBuddy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddy.release.xcconfig"; path = "Target Support Files/Pods-shopBuddy/Pods-shopBuddy.release.xcconfig"; sourceTree = "<group>"; };
@@ -131,6 +134,8 @@
 				06A377162875FE2500A6AA7D /* ViewController.h */,
 				06A377172875FE2500A6AA7D /* ViewController.m */,
 				06A377192875FE2500A6AA7D /* Main.storyboard */,
+				06A37748287605AD00A6AA7D /* ShoppingListViewController.h */,
+				06A37749287605AD00A6AA7D /* ShoppingListViewController.m */,
 				06A377452876034000A6AA7D /* LoginViewController.h */,
 				06A377462876034000A6AA7D /* LoginViewController.m */,
 				06A3771C2875FE2500A6AA7D /* Assets.xcassets */,
@@ -419,6 +424,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06A3774A287605AD00A6AA7D /* ShoppingListViewController.m in Sources */,
 				06A377182875FE2500A6AA7D /* ViewController.m in Sources */,
 				06A377122875FE2500A6AA7D /* AppDelegate.m in Sources */,
 				06A377232875FE2500A6AA7D /* main.m in Sources */,
