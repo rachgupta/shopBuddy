@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06644835287774D300D89317 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06644834287774D300D89317 /* ProfileViewController.m */; };
 		06A377122875FE2500A6AA7D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377112875FE2500A6AA7D /* AppDelegate.m */; };
 		06A377152875FE2500A6AA7D /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377142875FE2500A6AA7D /* SceneDelegate.m */; };
 		06A377182875FE2500A6AA7D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377172875FE2500A6AA7D /* ViewController.m */; };
@@ -44,6 +45,8 @@
 /* Begin PBXFileReference section */
 		0120EC177056832D6695B428 /* Pods-shopBuddyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddyTests.debug.xcconfig"; path = "Target Support Files/Pods-shopBuddyTests/Pods-shopBuddyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		013DD7C4DF0A94FC4D7FC2D7 /* Pods-shopBuddy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddy.debug.xcconfig"; path = "Target Support Files/Pods-shopBuddy/Pods-shopBuddy.debug.xcconfig"; sourceTree = "<group>"; };
+		06644833287774D300D89317 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		06644834287774D300D89317 /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		06A3770D2875FE2500A6AA7D /* shopBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shopBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06A377102875FE2500A6AA7D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		06A377112875FE2500A6AA7D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -134,6 +137,8 @@
 				06A377162875FE2500A6AA7D /* ViewController.h */,
 				06A377172875FE2500A6AA7D /* ViewController.m */,
 				06A377192875FE2500A6AA7D /* Main.storyboard */,
+				06644833287774D300D89317 /* ProfileViewController.h */,
+				06644834287774D300D89317 /* ProfileViewController.m */,
 				06A37748287605AD00A6AA7D /* ShoppingListViewController.h */,
 				06A37749287605AD00A6AA7D /* ShoppingListViewController.m */,
 				06A377452876034000A6AA7D /* LoginViewController.h */,
@@ -428,6 +433,7 @@
 				06A377182875FE2500A6AA7D /* ViewController.m in Sources */,
 				06A377122875FE2500A6AA7D /* AppDelegate.m in Sources */,
 				06A377232875FE2500A6AA7D /* main.m in Sources */,
+				06644835287774D300D89317 /* ProfileViewController.m in Sources */,
 				06A377152875FE2500A6AA7D /* SceneDelegate.m in Sources */,
 				06A377472876034000A6AA7D /* LoginViewController.m in Sources */,
 			);
