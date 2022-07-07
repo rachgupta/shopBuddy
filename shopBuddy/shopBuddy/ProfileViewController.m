@@ -6,8 +6,10 @@
 //
 
 #import "ProfileViewController.h"
+#import "Parse/Parse.h"
 
 @interface ProfileViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
 
 @end
 
@@ -15,7 +17,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSString *user = PFUser.currentUser.username;
+    self.welcomeLabel.text = [NSString stringWithFormat:@"Welcome, %@",user];
     // Do any additional setup after loading the view.
+}
+- (IBAction)didTapLogout:(id)sender {
+    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+    }];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /*
