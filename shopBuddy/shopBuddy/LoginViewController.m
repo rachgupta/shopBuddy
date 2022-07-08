@@ -54,7 +54,7 @@
 }
 - (void) checkFields
 {
-    if([self.usernameField.text isEqual:@""])
+    if([self.usernameField.text length] == 0)
     {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No Username"
                                                                                    message:@"Please input a Username"
@@ -67,7 +67,7 @@
         [alert addAction:okAction];
         [self presentViewController:alert animated:YES completion:^{}];
     }
-    if([self.passwordField.text isEqual:@""])
+    if([self.passwordField.text length] == 0)
     {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No Password"
                                                                                    message:@"Please input a Password"
