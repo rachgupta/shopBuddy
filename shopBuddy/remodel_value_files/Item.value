@@ -1,8 +1,8 @@
 Item {
-  NSInteger *barcode_number
+  NSNumber *barcode_number
   NSString *name
   NSArray<NSString *> *images
   NSString *list
   NSString *brand
-  NSString *description
+  NSString *item_description
 }
