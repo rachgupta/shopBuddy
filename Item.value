@@ -1,0 +1,8 @@
+Item {
+  NSInteger *barcode_number
+  NSString *name
+  NSArray<NSString *> *images
+  NSString *list
+  NSString *brand
+  NSString *description
+}
