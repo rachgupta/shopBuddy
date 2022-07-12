@@ -21,6 +21,8 @@
 		06A377472876034000A6AA7D /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377462876034000A6AA7D /* LoginViewController.m */; };
 		06A3774A287605AD00A6AA7D /* ShoppingListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A37749287605AD00A6AA7D /* ShoppingListViewController.m */; };
 		06AE10DE287CA9AF00365113 /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AE10DD287CA9AF00365113 /* ItemDetailViewController.m */; };
+		06AF73E7287DF44100703AB4 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06AF73E6287DF44100703AB4 /* Keys.plist */; };
+		06AF73EA287DF62E00703AB4 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AF73E9287DF62E00703AB4 /* APIManager.m */; };
 		33ABBBA0EFD5F2DE0074496D /* Pods_shopBuddyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 223652829D200A57A0FB831D /* Pods_shopBuddyTests.framework */; };
 		4FAE13C4D0436D1585F1B7A0 /* Pods_shopBuddy_shopBuddyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F76603BFE840A21CA4331931 /* Pods_shopBuddy_shopBuddyUITests.framework */; };
 		83B39467872747913D42B033 /* Pods_shopBuddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4373E1465869E684E892CF1 /* Pods_shopBuddy.framework */; };
@@ -71,6 +73,9 @@
 		06A37749287605AD00A6AA7D /* ShoppingListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShoppingListViewController.m; sourceTree = "<group>"; };
 		06AE10DC287CA9AF00365113 /* ItemDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ItemDetailViewController.h; sourceTree = "<group>"; };
 		06AE10DD287CA9AF00365113 /* ItemDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ItemDetailViewController.m; sourceTree = "<group>"; };
+		06AF73E6287DF44100703AB4 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		06AF73E8287DF62E00703AB4 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
+		06AF73E9287DF62E00703AB4 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		223652829D200A57A0FB831D /* Pods_shopBuddyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shopBuddyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57D1447D4426488D803294F1 /* Pods-shopBuddyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddyTests.release.xcconfig"; path = "Target Support Files/Pods-shopBuddyTests/Pods-shopBuddyTests.release.xcconfig"; sourceTree = "<group>"; };
 		62258DBD9521EB8252325E07 /* Pods-shopBuddy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddy.release.xcconfig"; path = "Target Support Files/Pods-shopBuddy/Pods-shopBuddy.release.xcconfig"; sourceTree = "<group>"; };
@@ -135,6 +140,8 @@
 			children = (
 				06A377102875FE2500A6AA7D /* AppDelegate.h */,
 				06A377112875FE2500A6AA7D /* AppDelegate.m */,
+				06AF73E8287DF62E00703AB4 /* APIManager.h */,
+				06AF73E9287DF62E00703AB4 /* APIManager.m */,
 				06A377132875FE2500A6AA7D /* SceneDelegate.h */,
 				06A377142875FE2500A6AA7D /* SceneDelegate.m */,
 				06A377162875FE2500A6AA7D /* ViewController.h */,
@@ -151,6 +158,7 @@
 				06A3771C2875FE2500A6AA7D /* Assets.xcassets */,
 				06A3771E2875FE2500A6AA7D /* LaunchScreen.storyboard */,
 				06A377212875FE2500A6AA7D /* Info.plist */,
+				06AF73E6287DF44100703AB4 /* Keys.plist */,
 				06A377222875FE2500A6AA7D /* main.m */,
 			);
 			path = shopBuddy;
@@ -304,6 +312,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06AF73E7287DF44100703AB4 /* Keys.plist in Resources */,
 				06A377202875FE2500A6AA7D /* LaunchScreen.storyboard in Resources */,
 				06A3771D2875FE2500A6AA7D /* Assets.xcassets in Resources */,
 				06A3771B2875FE2500A6AA7D /* Main.storyboard in Resources */,
@@ -436,6 +445,7 @@
 			files = (
 				06A3774A287605AD00A6AA7D /* ShoppingListViewController.m in Sources */,
 				06A377182875FE2500A6AA7D /* ViewController.m in Sources */,
+				06AF73EA287DF62E00703AB4 /* APIManager.m in Sources */,
 				06A377122875FE2500A6AA7D /* AppDelegate.m in Sources */,
 				06A377232875FE2500A6AA7D /* main.m in Sources */,
 				06644835287774D300D89317 /* ProfileViewController.m in Sources */,
