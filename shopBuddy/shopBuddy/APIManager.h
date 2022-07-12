@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)shared;
 
 
-- (void)getItem:(void(^)(NSArray *itemDetails, NSError *error))completion;
+- (void)getItem:(void(^)(NSDictionary *itemDetails, NSError *error))completion;
 
 @end
 
