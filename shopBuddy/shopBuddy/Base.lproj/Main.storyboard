@@ -82,6 +82,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8wP-Ka-CaI">
+                                <rect key="frame" x="157" y="581" width="102" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Add an Item"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sFg-5j-os8"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -132,7 +138,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OOa-yq-6xg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3717.3913043478265" y="120.53571428571428"/>
+            <point key="canvasLocation" x="4183" y="130"/>
         </scene>
         <!--Shopping List-->
         <scene sceneID="IqS-qm-eTc">

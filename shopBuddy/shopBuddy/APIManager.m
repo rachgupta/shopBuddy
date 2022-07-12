@@ -33,8 +33,7 @@ static NSString * const baseURLString = @"https://api.barcodelookup.com";
     NSString *barcode_call =@"v3/products?barcode=3614272049529&formatted=y&key";
     NSString *path = [NSString stringWithFormat:@"%@%@", barcode_call, key];
 
-    /*
-    [self.manager GET:path parameters:nil success:^(NSURLSessionDataTask *task, NSArray *itemDetails)
+    [self.manager GET:path parameters:nil headers: nil progress:nil success:^(NSURLSessionDataTask *task, NSArray *itemDetails)
      {
          // Success
          NSLog(@"Success: %@", itemDetails);
@@ -43,7 +42,6 @@ static NSString * const baseURLString = @"https://api.barcodelookup.com";
          // Failure
          NSLog(@"Failure: %@", error);
      }];
-     */
     
     
 }
