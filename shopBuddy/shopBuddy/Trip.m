@@ -8,10 +8,11 @@
 #endif
 
 #import "Trip.h"
+#import "Item.h"
 
 @implementation Trip
 
-- (instancetype)initWithTrip_id:(NSInteger *)trip_id date:(NSDate *)date name:(NSString *)name items:(NSArray<Item*> *)items price:(double *)price money_saved:(double *)money_saved
+- (instancetype)initWithTrip_id:(NSNumber *)trip_id date:(NSDate *)date name:(NSString *)name items:(NSArray<Item*> *)items price:(NSNumber *)price money_saved:(NSNumber *)money_saved
 {
   if ((self = [super init])) {
     _trip_id = [trip_id copy];

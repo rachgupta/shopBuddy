@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		061C55EB287E284F00033418 /* AddItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C55EA287E284F00033418 /* AddItemViewController.m */; };
+		061C55F2287E303C00033418 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C55ED287E303C00033418 /* Item.m */; };
+		061C55F3287E303C00033418 /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C55EF287E303C00033418 /* List.m */; };
+		061C55F4287E303C00033418 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C55F1287E303C00033418 /* Trip.m */; };
 		06644835287774D300D89317 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06644834287774D300D89317 /* ProfileViewController.m */; };
 		06A377122875FE2500A6AA7D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377112875FE2500A6AA7D /* AppDelegate.m */; };
 		06A377152875FE2500A6AA7D /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377142875FE2500A6AA7D /* SceneDelegate.m */; };
@@ -51,6 +54,12 @@
 		013DD7C4DF0A94FC4D7FC2D7 /* Pods-shopBuddy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddy.debug.xcconfig"; path = "Target Support Files/Pods-shopBuddy/Pods-shopBuddy.debug.xcconfig"; sourceTree = "<group>"; };
 		061C55E9287E284F00033418 /* AddItemViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddItemViewController.h; sourceTree = "<group>"; };
 		061C55EA287E284F00033418 /* AddItemViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddItemViewController.m; sourceTree = "<group>"; };
+		061C55EC287E303C00033418 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
+		061C55ED287E303C00033418 /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
+		061C55EE287E303C00033418 /* List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
+		061C55EF287E303C00033418 /* List.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
+		061C55F0287E303C00033418 /* Trip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trip.h; sourceTree = "<group>"; };
+		061C55F1287E303C00033418 /* Trip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trip.m; sourceTree = "<group>"; };
 		06644833287774D300D89317 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		06644834287774D300D89317 /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		06A3770D2875FE2500A6AA7D /* shopBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shopBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +170,12 @@
 				06A377452876034000A6AA7D /* LoginViewController.h */,
 				06A377462876034000A6AA7D /* LoginViewController.m */,
 				06A3771C2875FE2500A6AA7D /* Assets.xcassets */,
+				061C55EC287E303C00033418 /* Item.h */,
+				061C55ED287E303C00033418 /* Item.m */,
+				061C55EE287E303C00033418 /* List.h */,
+				061C55EF287E303C00033418 /* List.m */,
+				061C55F0287E303C00033418 /* Trip.h */,
+				061C55F1287E303C00033418 /* Trip.m */,
 				06A3771E2875FE2500A6AA7D /* LaunchScreen.storyboard */,
 				06A377212875FE2500A6AA7D /* Info.plist */,
 				06AF73E6287DF44100703AB4 /* Keys.plist */,
@@ -448,6 +463,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				061C55F4287E303C00033418 /* Trip.m in Sources */,
 				06A3774A287605AD00A6AA7D /* ShoppingListViewController.m in Sources */,
 				06A377182875FE2500A6AA7D /* ViewController.m in Sources */,
 				06AF73EA287DF62E00703AB4 /* APIManager.m in Sources */,
@@ -455,7 +471,9 @@
 				06A377122875FE2500A6AA7D /* AppDelegate.m in Sources */,
 				06A377232875FE2500A6AA7D /* main.m in Sources */,
 				06644835287774D300D89317 /* ProfileViewController.m in Sources */,
+				061C55F2287E303C00033418 /* Item.m in Sources */,
 				06A377152875FE2500A6AA7D /* SceneDelegate.m in Sources */,
+				061C55F3287E303C00033418 /* List.m in Sources */,
 				06AE10DE287CA9AF00365113 /* ItemDetailViewController.m in Sources */,
 				06A377472876034000A6AA7D /* LoginViewController.m in Sources */,
 			);

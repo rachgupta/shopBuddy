@@ -10,7 +10,18 @@
 #import "Item.h"
 
 @implementation Item
-
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super init];
+    if (self) {
+        self.barcode_number = dictionary[@"barcode_number"];
+        self.name = dictionary[@"title"];
+        self.images = dictionary[@"images"];
+        self.list = @"Unspecified";
+        self.brand = dictionary[@"brand"];
+        self.item_description = dictionary[@"discription"];
+    }
+    return self;
+}
 - (instancetype)initWithBarcode_number:(NSNumber *)barcode_number name:(NSString *)name images:(NSArray<NSString *> *)images list:(NSString *)list brand:(NSString *)brand item_description:(NSString *)item_description
 {
   if ((self = [super init])) {

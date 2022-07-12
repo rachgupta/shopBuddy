@@ -4,17 +4,18 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "Item.h"
 
 @interface Trip : NSObject <NSCopying>
 
-@property (nonatomic, readonly, copy) NSInteger *trip_id;
-@property (nonatomic, readonly, copy) NSDate *date;
-@property (nonatomic, readonly, copy) NSString *name;
-@property (nonatomic, readonly, copy) NSArray<Item*> *items;
-@property (nonatomic, readonly, copy) double *price;
-@property (nonatomic, readonly, copy) double *money_saved;
+@property (nonatomic) NSNumber *trip_id;
+@property (nonatomic) NSDate *date;
+@property (nonatomic) NSString *name;
+@property (nonatomic) NSArray<Item*> *items;
+@property (nonatomic) NSNumber *price;
+@property (nonatomic) NSNumber *money_saved;
 
-- (instancetype)initWithTrip_id:(NSInteger *)trip_id date:(NSDate *)date name:(NSString *)name items:(NSArray<Item*> *)items price:(double *)price money_saved:(double *)money_saved;
+- (instancetype)initWithTrip_id:(NSNumber *)trip_id date:(NSDate *)date name:(NSString *)name items:(NSArray<Item*> *)items price:(NSNumber *)price money_saved:(NSNumber *)money_saved;
 
 @end
 

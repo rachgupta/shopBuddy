@@ -7,6 +7,7 @@
 
 #import "AddItemViewController.h"
 #import "APIManager.h"
+#import "Item.h"
 
 @interface AddItemViewController ()
 
@@ -15,9 +16,15 @@
 @implementation AddItemViewController
 - (IBAction)didTapTestAPI:(id)sender {
     [[APIManager shared] getItem:^(NSDictionary *itemDetails, NSError *error) {
+        NSLog(@"😎😎😎 Successfully loaded itemDetails");
         if (itemDetails) {
             NSLog(@"😎😎😎 Successfully loaded itemDetails");
-        } else {
+            NSDictionary *itemDict = itemDetails[@"products"][0];
+            NSString *title = itemDict[@"title"];
+            self.item = [[Item alloc] initWithDictionary:itemDetails[@"products"][0]];
+            
+        }
+        else {
             NSLog(@"😫😫😫 Error getting item details: %@", error.localizedDescription);
         }
     }];

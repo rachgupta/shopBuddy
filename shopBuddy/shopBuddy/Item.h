@@ -7,14 +7,15 @@
 
 @interface Item : NSObject <NSCopying>
 
-@property (nonatomic, readonly, copy) NSNumber *barcode_number;
-@property (nonatomic, readonly, copy) NSString *name;
-@property (nonatomic, readonly, copy) NSArray<NSString *> *images;
-@property (nonatomic, readonly, copy) NSString *list;
-@property (nonatomic, readonly, copy) NSString *brand;
-@property (nonatomic, readonly, copy) NSString *item_description;
+@property (nonatomic, copy) NSNumber *barcode_number;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSArray<NSString *> *images;
+@property (nonatomic, copy) NSString *list;
+@property (nonatomic, copy) NSString *brand;
+@property (nonatomic, copy) NSString *item_description;
 
 - (instancetype)initWithBarcode_number:(NSNumber *)barcode_number name:(NSString *)name images:(NSArray<NSString *> *)images list:(NSString *)list brand:(NSString *)brand item_description:(NSString *)item_description;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end
 
