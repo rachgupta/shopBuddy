@@ -21,16 +21,29 @@ static NSString * const baseURLString = @"https://api.barcodelookup.com";
 
 - (instancetype) init {
     self = [super init];
-    self.manager = [AFHTTPSessionManager manager];
+    self.manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:baseURLString]];
     return self;
 }
 
 - (void)getItem:(void(^)(NSArray *itemDetails, NSError *error))completion
 {
 
-    NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
-    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"]];
     NSString *key = [dict objectForKey: @"api_key"];
+    NSString *barcode_call =@"v3/products?barcode=3614272049529&formatted=y&key";
+    NSString *path = [NSString stringWithFormat:@"%@%@", barcode_call, key];
+
+    /*
+    [self.manager GET:path parameters:nil success:^(NSURLSessionDataTask *task, NSArray *itemDetails)
+     {
+         // Success
+         NSLog(@"Success: %@", itemDetails);
+     }failure:^(NSURLSessionDataTask *task, NSError *error)
+     {
+         // Failure
+         NSLog(@"Failure: %@", error);
+     }];
+     */
     
     
 }
