@@ -22,6 +22,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    /*
     [[APIManager shared] getItem:^(Item *item, NSError *error)
      {
         NSLog(@"😎😎😎 Successfully loaded itemDetails");
@@ -40,19 +42,19 @@
             NSLog(@"😫😫😫 Error getting item details: %@", error.localizedDescription);
         }
     }];
-    /*
-    [[APIManager shared] getItemWithBarcode:self.barcode completion:^(NSDictionary *itemDetails, NSError *error) {
+     */
+    self.barcode = @"3614272049529";
+    [[APIManager shared] getItemWithBarcode:self.barcode completion:^(Item *item, NSError *error) {
         NSLog(@"😎😎😎 Successfully loaded itemDetails");
-        if (itemDetails) {
+        if (item) {
             NSLog(@"😎😎😎 Successfully loaded itemDetails");
-            self.item = [[Item alloc] initWithDictionary:itemDetails[@"products"][0]];
+            self.item = item;
             
         }
         else {
             NSLog(@"😫😫😫 Error getting item details: %@", error.localizedDescription);
         }
     }];
-     */
     
     // Do any additional setup after loading the view.
 }
