@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
+#import "Item.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)shared;
 
 
-- (void)getItem:(void(^)(NSDictionary *itemDetails, NSError *error))completion;
+- (void)getItem:(void(^)(Item *item, NSError *error))completion;
 
 @end
 

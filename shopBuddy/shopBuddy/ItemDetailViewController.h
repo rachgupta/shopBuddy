@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ItemDetailViewController : UIViewController
-@property (nonatomic, assign) Item *item;
+@property (nonatomic, assign) NSString *barcode;
+@property Item *item;
 
 @end
 

@@ -11,7 +11,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AddItemViewController : UIViewController
-@property (nonatomic, strong) Item *item;
 
 @end
 
