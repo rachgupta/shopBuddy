@@ -18,7 +18,7 @@
         self.images = dictionary[@"images"];
         self.list = @"Unspecified";
         self.brand = dictionary[@"brand"];
-        self.item_description = dictionary[@"discription"];
+        self.item_description = dictionary[@"description"];
     }
     return self;
 }
