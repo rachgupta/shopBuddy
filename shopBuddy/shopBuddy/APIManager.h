@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @interface APIManager : NSObject
-@property (strong, nonatomic) AFHTTPSessionManager *manager;
 
 + (instancetype)shared;
 

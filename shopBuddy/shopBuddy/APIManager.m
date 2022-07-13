@@ -8,8 +8,8 @@
 #import "APIManager.h"
 #import "AFNetworking.h"
 static NSString * const baseURLString = @"https://api.barcodelookup.com";
-
 @implementation APIManager
+AFHTTPSessionManager *manager;
 + (instancetype)shared {
     static APIManager *sharedManager = nil;
     static dispatch_once_t onceToken;
@@ -20,8 +20,10 @@ static NSString * const baseURLString = @"https://api.barcodelookup.com";
 }
 
 - (instancetype) init {
-    self = [super init];
-    self.manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:baseURLString]];
+    if(self=[super init])
+    {
+        manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:baseURLString]];
+    }
     return self;
 }
 
@@ -33,7 +35,7 @@ static NSString * const baseURLString = @"https://api.barcodelookup.com";
     NSString *barcode_call =@"v3/products?barcode=3614272049529&formatted=y&key=";
     NSString *path = [NSString stringWithFormat:@"%@%@", barcode_call, key];
 
-    [self.manager GET:path parameters:nil headers: nil progress:nil success:^(NSURLSessionTask *task, NSDictionary *responseObject)
+    [manager GET:path parameters:nil headers: nil progress:nil success:^(NSURLSessionTask *task, NSDictionary *responseObject)
      {
          // Success
          NSLog(@"Success: %@", responseObject);
