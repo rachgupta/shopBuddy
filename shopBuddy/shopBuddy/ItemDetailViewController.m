@@ -6,8 +6,14 @@
 //
 
 #import "ItemDetailViewController.h"
+#import "Item.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface ItemDetailViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *brandLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *itemImage;
 
 @end
 
@@ -15,6 +21,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.titleLabel.text = self.item.name;
+    self.brandLabel.text = self.item.brand;
+    self.descriptionLabel.text = self.item.item_description;
+    NSString *URLString = self.item.images[0];
+    NSURL *url = [NSURL URLWithString:URLString];
+    [self.itemImage setImageWithURL:url];
+    
     // Do any additional setup after loading the view.
 }
 

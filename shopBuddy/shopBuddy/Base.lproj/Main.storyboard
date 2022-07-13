@@ -110,29 +110,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CFI-dU-HwV">
-                                <rect key="frame" x="140" y="145" width="135" height="31"/>
+                                <rect key="frame" x="168" y="145" width="80" height="10"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Test Barcode API"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Get Item"/>
                                 <connections>
-                                    <action selector="didTapTestAPI:" destination="DU9-0J-PMc" eventType="touchUpInside" id="fCI-Ac-fwf"/>
+                                    <action selector="didTapGetItem:" destination="DU9-0J-PMc" eventType="touchUpInside" id="NNU-VN-M8v"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="l9D-6K-XzS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <segue destination="81r-ja-Gg9" kind="show" identifier="showDetailSegue" id="op9-hX-QNT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xEe-r7-aCG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3523" y="98"/>
+            <point key="canvasLocation" x="3521.739130434783" y="97.767857142857139"/>
         </scene>
         <!--Item Detail View Controller-->
         <scene sceneID="xaF-mn-pAD">
             <objects>
                 <viewController id="81r-ja-Gg9" customClass="ItemDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="U2y-Hw-yvO">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Item TItle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rD6-qL-EmS">
@@ -164,10 +167,17 @@
                         <viewLayoutGuide key="safeArea" id="fGT-Iw-t8m"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Use-FM-N0j"/>
+                    <connections>
+                        <outlet property="brandLabel" destination="D5h-Sv-3zT" id="0cq-bw-9L8"/>
+                        <outlet property="descriptionLabel" destination="eDp-wn-abr" id="Sgo-MK-UVS"/>
+                        <outlet property="itemImage" destination="1nA-O7-BHv" id="BFE-3L-dY3"/>
+                        <outlet property="titleLabel" destination="rD6-qL-EmS" id="Uno-hQ-Ki9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OOa-yq-6xg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4183" y="130"/>
+            <point key="canvasLocation" x="4478" y="123"/>
         </scene>
         <!--Shopping List-->
         <scene sceneID="IqS-qm-eTc">
