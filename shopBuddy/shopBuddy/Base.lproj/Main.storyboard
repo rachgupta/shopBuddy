@@ -163,15 +163,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDp-wn-abr">
-                                <rect key="frame" x="168" y="179" width="236" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="aTU-um-ZW0"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1nA-O7-BHv">
                                 <rect key="frame" x="20" y="94" width="128" height="128"/>
                                 <constraints>
@@ -179,27 +170,38 @@
                                     <constraint firstAttribute="width" constant="128" id="wpd-fQ-fQR"/>
                                 </constraints>
                             </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Qf0-3I-xWT">
+                                <rect key="frame" x="168" y="179" width="236" height="150"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="Mpe-qK-Sgp"/>
+                                </constraints>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fGT-Iw-t8m"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Qf0-3I-xWT" firstAttribute="top" secondItem="D5h-Sv-3zT" secondAttribute="bottom" constant="25" id="2mi-Yf-M8e"/>
                             <constraint firstItem="1nA-O7-BHv" firstAttribute="leading" secondItem="fGT-Iw-t8m" secondAttribute="leading" constant="20" id="47T-ot-tbI"/>
                             <constraint firstItem="fGT-Iw-t8m" firstAttribute="trailing" secondItem="rD6-qL-EmS" secondAttribute="trailing" constant="10" id="8Xd-TP-48b"/>
                             <constraint firstItem="D5h-Sv-3zT" firstAttribute="leading" secondItem="rD6-qL-EmS" secondAttribute="leading" id="Clv-uz-4Sq"/>
                             <constraint firstItem="rD6-qL-EmS" firstAttribute="leading" secondItem="1nA-O7-BHv" secondAttribute="trailing" constant="20" id="Gli-5U-1Uf"/>
+                            <constraint firstItem="Qf0-3I-xWT" firstAttribute="trailing" secondItem="D5h-Sv-3zT" secondAttribute="trailing" id="I4O-Vm-n1g"/>
+                            <constraint firstItem="Qf0-3I-xWT" firstAttribute="leading" secondItem="D5h-Sv-3zT" secondAttribute="leading" id="R3q-Ft-6uE"/>
                             <constraint firstItem="1nA-O7-BHv" firstAttribute="top" secondItem="fGT-Iw-t8m" secondAttribute="top" constant="50" id="Rep-Wi-7Cm"/>
-                            <constraint firstItem="eDp-wn-abr" firstAttribute="top" secondItem="D5h-Sv-3zT" secondAttribute="bottom" constant="25" id="USf-XB-Q74"/>
                             <constraint firstItem="D5h-Sv-3zT" firstAttribute="trailing" secondItem="rD6-qL-EmS" secondAttribute="trailing" id="XyB-qK-pqV"/>
                             <constraint firstItem="D5h-Sv-3zT" firstAttribute="top" secondItem="rD6-qL-EmS" secondAttribute="bottom" constant="10" id="a8J-xL-m1t"/>
-                            <constraint firstItem="eDp-wn-abr" firstAttribute="leading" secondItem="rD6-qL-EmS" secondAttribute="leading" id="c9p-mB-srb"/>
                             <constraint firstItem="rD6-qL-EmS" firstAttribute="top" secondItem="1nA-O7-BHv" secondAttribute="top" id="lxV-IN-hY4"/>
-                            <constraint firstItem="eDp-wn-abr" firstAttribute="trailing" secondItem="rD6-qL-EmS" secondAttribute="trailing" id="wNZ-0l-HvP"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Use-FM-N0j"/>
                     <connections>
                         <outlet property="brandLabel" destination="D5h-Sv-3zT" id="0cq-bw-9L8"/>
-                        <outlet property="descriptionLabel" destination="eDp-wn-abr" id="Sgo-MK-UVS"/>
+                        <outlet property="descriptionView" destination="Qf0-3I-xWT" id="Wbt-SF-Nek"/>
                         <outlet property="itemImage" destination="1nA-O7-BHv" id="BFE-3L-dY3"/>
                         <outlet property="titleLabel" destination="rD6-qL-EmS" id="Uno-hQ-Ki9"/>
                     </connections>
@@ -313,6 +315,9 @@
     <resources>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
         <image name="person" catalog="system" width="128" height="117"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

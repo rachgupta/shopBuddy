@@ -13,8 +13,8 @@
 @interface ItemDetailViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *brandLabel;
-@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *itemImage;
+@property (weak, nonatomic) IBOutlet UITextView *descriptionView;
 
 @end
 
@@ -22,28 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    /*
-    [[APIManager shared] getItem:^(Item *item, NSError *error)
-     {
-        NSLog(@"😎😎😎 Successfully loaded itemDetails");
-        if (item) {
-            NSLog(@"😎😎😎 Successfully loaded itemDetails");
-            self.item = item;
-            self.titleLabel.text = self.item.name;
-            self.brandLabel.text = self.item.brand;
-            self.descriptionLabel.text = self.item.item_description;
-            NSString *URLString = self.item.images[0];
-            NSURL *url = [NSURL URLWithString:URLString];
-            [self.itemImage setImageWithURL:url];
-            
-        }
-        else {
-            NSLog(@"😫😫😫 Error getting item details: %@", error.localizedDescription);
-        }
-    }];
-     */
-    //self.barcode = @"3614272049529";
+    self.descriptionView.scrollEnabled=YES;
     [[APIManager shared] getItemWithBarcode:self.barcode completion:^(Item *item, NSError *error) {
         NSLog(@"😎😎😎 Successfully loaded itemDetails");
         if (item) {
@@ -51,7 +30,7 @@
             self.item = item;
             self.titleLabel.text = self.item.name;
             self.brandLabel.text = self.item.brand;
-            self.descriptionLabel.text = self.item.item_description;
+            self.descriptionView.text = self.item.item_description;
             NSString *URLString = self.item.images[0];
             NSURL *url = [NSURL URLWithString:URLString];
             [self.itemImage setImageWithURL:url];
