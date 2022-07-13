@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		061C55EB287E284F00033418 /* AddItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C55EA287E284F00033418 /* AddItemViewController.m */; };
 		061C55F2287E303C00033418 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C55ED287E303C00033418 /* Item.m */; };
-		061C55F3287E303C00033418 /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C55EF287E303C00033418 /* List.m */; };
 		061C55F4287E303C00033418 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C55F1287E303C00033418 /* Trip.m */; };
 		06644835287774D300D89317 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06644834287774D300D89317 /* ProfileViewController.m */; };
 		06A377122875FE2500A6AA7D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377112875FE2500A6AA7D /* AppDelegate.m */; };
@@ -27,6 +26,7 @@
 		06AE10DE287CA9AF00365113 /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AE10DD287CA9AF00365113 /* ItemDetailViewController.m */; };
 		06AF73E7287DF44100703AB4 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06AF73E6287DF44100703AB4 /* Keys.plist */; };
 		06AF73EA287DF62E00703AB4 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AF73E9287DF62E00703AB4 /* APIManager.m */; };
+		06B5B6B8287F34740092C6E5 /* ShoppingList.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B5B6B6287F34730092C6E5 /* ShoppingList.m */; };
 		33ABBBA0EFD5F2DE0074496D /* Pods_shopBuddyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 223652829D200A57A0FB831D /* Pods_shopBuddyTests.framework */; };
 		4FAE13C4D0436D1585F1B7A0 /* Pods_shopBuddy_shopBuddyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F76603BFE840A21CA4331931 /* Pods_shopBuddy_shopBuddyUITests.framework */; };
 		83B39467872747913D42B033 /* Pods_shopBuddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4373E1465869E684E892CF1 /* Pods_shopBuddy.framework */; };
@@ -56,8 +56,6 @@
 		061C55EA287E284F00033418 /* AddItemViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddItemViewController.m; sourceTree = "<group>"; };
 		061C55EC287E303C00033418 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		061C55ED287E303C00033418 /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
-		061C55EE287E303C00033418 /* List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
-		061C55EF287E303C00033418 /* List.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
 		061C55F0287E303C00033418 /* Trip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trip.h; sourceTree = "<group>"; };
 		061C55F1287E303C00033418 /* Trip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trip.m; sourceTree = "<group>"; };
 		06644833287774D300D89317 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
@@ -88,6 +86,8 @@
 		06AF73E6287DF44100703AB4 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		06AF73E8287DF62E00703AB4 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		06AF73E9287DF62E00703AB4 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
+		06B5B6B6287F34730092C6E5 /* ShoppingList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingList.m; sourceTree = "<group>"; };
+		06B5B6B7287F34740092C6E5 /* ShoppingList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingList.h; sourceTree = "<group>"; };
 		223652829D200A57A0FB831D /* Pods_shopBuddyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shopBuddyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57D1447D4426488D803294F1 /* Pods-shopBuddyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddyTests.release.xcconfig"; path = "Target Support Files/Pods-shopBuddyTests/Pods-shopBuddyTests.release.xcconfig"; sourceTree = "<group>"; };
 		62258DBD9521EB8252325E07 /* Pods-shopBuddy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddy.release.xcconfig"; path = "Target Support Files/Pods-shopBuddy/Pods-shopBuddy.release.xcconfig"; sourceTree = "<group>"; };
@@ -172,8 +172,8 @@
 				06A3771C2875FE2500A6AA7D /* Assets.xcassets */,
 				061C55EC287E303C00033418 /* Item.h */,
 				061C55ED287E303C00033418 /* Item.m */,
-				061C55EE287E303C00033418 /* List.h */,
-				061C55EF287E303C00033418 /* List.m */,
+				06B5B6B7287F34740092C6E5 /* ShoppingList.h */,
+				06B5B6B6287F34730092C6E5 /* ShoppingList.m */,
 				061C55F0287E303C00033418 /* Trip.h */,
 				061C55F1287E303C00033418 /* Trip.m */,
 				06A3771E2875FE2500A6AA7D /* LaunchScreen.storyboard */,
@@ -472,8 +472,8 @@
 				06A377232875FE2500A6AA7D /* main.m in Sources */,
 				06644835287774D300D89317 /* ProfileViewController.m in Sources */,
 				061C55F2287E303C00033418 /* Item.m in Sources */,
+				06B5B6B8287F34740092C6E5 /* ShoppingList.m in Sources */,
 				06A377152875FE2500A6AA7D /* SceneDelegate.m in Sources */,
-				061C55F3287E303C00033418 /* List.m in Sources */,
 				06AE10DE287CA9AF00365113 /* ItemDetailViewController.m in Sources */,
 				06A377472876034000A6AA7D /* LoginViewController.m in Sources */,
 			);

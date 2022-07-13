@@ -7,10 +7,10 @@
 #error This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
 #endif
 
-#import "List.h"
+#import "ShoppingList.h"
 #import "Item.h"
 
-@implementation List
+@implementation ShoppingList
 
 - (instancetype)initWithStore:(NSString *)store items:(NSArray<Item*> *)items
 {
@@ -49,7 +49,7 @@
   return result;
 }
 
-- (BOOL)isEqual:(List *)object
+- (BOOL)isEqual:(ShoppingList *)object
 {
   if (self == object) {
     return YES;

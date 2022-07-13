@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 #import "Item.h"
 
-@interface List : NSObject <NSCopying>
+@interface ShoppingList : NSObject <NSCopying>
 
 @property (nonatomic, readonly, copy) NSString *store;
 @property (nonatomic, readonly, copy) NSArray<Item*> *items;
