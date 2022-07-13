@@ -43,12 +43,18 @@
         }
     }];
      */
-    self.barcode = @"3614272049529";
+    //self.barcode = @"3614272049529";
     [[APIManager shared] getItemWithBarcode:self.barcode completion:^(Item *item, NSError *error) {
         NSLog(@"😎😎😎 Successfully loaded itemDetails");
         if (item) {
             NSLog(@"😎😎😎 Successfully loaded itemDetails");
             self.item = item;
+            self.titleLabel.text = self.item.name;
+            self.brandLabel.text = self.item.brand;
+            self.descriptionLabel.text = self.item.item_description;
+            NSString *URLString = self.item.images[0];
+            NSURL *url = [NSURL URLWithString:URLString];
+            [self.itemImage setImageWithURL:url];
             
         }
         else {
