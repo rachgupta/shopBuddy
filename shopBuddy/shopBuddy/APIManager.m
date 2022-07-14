@@ -26,8 +26,7 @@ AFHTTPSessionManager *manager;
     if(self=[super init])
     {
         manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:baseURLString]];
-        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"]];
-        key = [dict objectForKey: @"api_key"];
+        key = [[NSDictionary dictionaryWithContentsOfFile: [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"]] objectForKey: @"api_key"];
     }
     return self;
 }
@@ -47,7 +46,6 @@ AFHTTPSessionManager *manager;
      {
          // Failure
         //TODO: Failure logic
-         NSLog(@"Failure: %@", error);
      }];
     
     
