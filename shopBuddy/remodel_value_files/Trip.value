@@ -1,0 +1,8 @@
+Trip {
+  NSInteger *trip_id
+  NSDate *date
+  NSString *name
+  NSArray<Item*> *items
+  double *price
+  double *money_saved
+}
