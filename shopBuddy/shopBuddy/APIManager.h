@@ -16,8 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)shared;
 
-
-- (void)getItem:(void(^)(Item *item, NSError *error))completion;
 - (void)getItemWithBarcode:(NSString *)barcode completion:(void(^)(Item *item, NSError *error))completion;
 
 @end

@@ -9,6 +9,7 @@
 #import "AFNetworking.h"
 #import "Item.h"
 static NSString * const baseURLString = @"https://api.barcodelookup.com";
+static NSString * const kBarcode_url = @"v3/products?barcode=%@&formatted=y&key=%@";
 NSString * key;
 @implementation APIManager
 AFHTTPSessionManager *manager;
@@ -34,41 +35,19 @@ AFHTTPSessionManager *manager;
 - (void)getItemWithBarcode:(NSString *)barcode completion:(void(^)(Item *item, NSError *error))completion
 {
 
-    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"]];
-    NSString *key = [dict objectForKey: @"api_key"];
-    //NSString *barcode_call =@"v3/products?barcode=3614272049529&formatted=y&key=";
-    NSString *const path = [NSString stringWithFormat:@"v3/products?barcode=%@&formatted=y&key=%@", barcode, key];
+    NSString *const path = [NSString stringWithFormat:kBarcode_url, barcode, key];
 
     [manager GET:path parameters:nil headers: nil progress:nil success:^(NSURLSessionTask *task, NSDictionary *responseObject)
      {
          // Success
          NSLog(@"Success: %@", responseObject);
+        //TODO: Validate server response
         Item *item = [[Item alloc] initWithDictionary:responseObject[@"products"][0]];
         completion(item, nil);
      }failure:^(NSURLSessionDataTask *task, NSError *error)
      {
          // Failure
-         NSLog(@"Failure: %@", error);
-     }];
-    
-    
-}
-- (void)getItem:(void(^)(Item *item, NSError *error))completion
-{
-
-    NSString *barcode = @"3614272049529";
-    //NSString *barcode_call =@"v3/products?barcode=3614272049529&formatted=y&key=";
-    NSString *const path = [NSString stringWithFormat:@"v3/products?barcode=%@&formatted=y&key=%@", barcode, key];
-
-    [manager GET:path parameters:nil headers: nil progress:nil success:^(NSURLSessionTask *task, NSDictionary *responseObject)
-     {
-         // Success
-         NSLog(@"Success: %@", responseObject);
-        Item *item = [[Item alloc] initWithDictionary:responseObject[@"products"][0]];
-        completion(item, nil);
-     }failure:^(NSURLSessionDataTask *task, NSError *error)
-     {
-         // Failure
+        //TODO: Failure logic
          NSLog(@"Failure: %@", error);
      }];
     

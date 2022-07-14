@@ -38,6 +38,7 @@
         }
         else {
             NSLog(@"😫😫😫 Error getting item details: %@", error.localizedDescription);
+            //TODO: Failure logic
         }
     }];
     

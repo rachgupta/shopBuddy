@@ -19,35 +19,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    /*
-    [[APIManager shared] getItem:^(NSDictionary *itemDetails, NSError *error) {
-        NSLog(@"😎😎😎 Successfully loaded itemDetails");
-        if (itemDetails) {
-            NSLog(@"😎😎😎 Successfully loaded itemDetails");
-            self.item = [[Item alloc] initWithDictionary:itemDetails[@"products"][0]];
-            
-        }
-        else {
-            NSLog(@"😫😫😫 Error getting item details: %@", error.localizedDescription);
-        }
-    }];
-     */
-    // Do any additional setup after loading the view.
 }
 - (IBAction)didTapGetItem:(id)sender {
-    /*
-    [[APIManager shared] getItem:^(NSDictionary *itemDetails, NSError *error) {
-        NSLog(@"😎😎😎 Successfully loaded itemDetails");
-        if (itemDetails) {
-            NSLog(@"😎😎😎 Successfully loaded itemDetails");
-            self.item = [[Item alloc] initWithDictionary:itemDetails[@"products"][0]];
-            
-        }
-        else {
-            NSLog(@"😫😫😫 Error getting item details: %@", error.localizedDescription);
-        }
-    }];
-     */
     [self performSegueWithIdentifier:@"showDetailSegue" sender:self];
     
 }
@@ -60,8 +33,6 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     ItemDetailViewController *detailVC = [segue destinationViewController];
     detailVC.barcode = self.barcodeField.text;
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 }
 
 @end
