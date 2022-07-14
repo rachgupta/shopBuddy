@@ -109,21 +109,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CFI-dU-HwV">
-                                <rect key="frame" x="107" y="150" width="201" height="41"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Get Sample Item"/>
-                                <connections>
-                                    <action selector="didTapGetItem:" destination="DU9-0J-PMc" eventType="touchUpInside" id="NNU-VN-M8v"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="3614272049529" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1vQ-Ye-R8K">
                                 <rect key="frame" x="139" y="115" width="137" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zJA-qT-Wtm">
+                                <rect key="frame" x="151" y="411" width="114" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Scan Barcode"/>
+                                <connections>
+                                    <action selector="didTapScanBarcode:" destination="DU9-0J-PMc" eventType="touchUpInside" id="u2e-1Q-AEp"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="OR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rHi-Ow-tpd">
+                                <rect key="frame" x="187" y="292" width="24" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CFI-dU-HwV">
+                                <rect key="frame" x="62" y="157" width="291" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Get Sample Item from Barcode"/>
+                                <connections>
+                                    <action selector="didTapGetItem:" destination="DU9-0J-PMc" eventType="touchUpInside" id="NNU-VN-M8v"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="l9D-6K-XzS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -131,6 +147,7 @@
                     <connections>
                         <outlet property="barcodeField" destination="1vQ-Ye-R8K" id="P9H-A8-bmD"/>
                         <segue destination="81r-ja-Gg9" kind="show" identifier="showDetailSegue" id="op9-hX-QNT"/>
+                        <segue destination="CGZ-BZ-W37" kind="show" identifier="showBarcodeSegue" id="RXD-sV-kYU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xEe-r7-aCG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -273,6 +290,58 @@
             </objects>
             <point key="canvasLocation" x="2350.7246376811595" y="835.71428571428567"/>
         </scene>
+        <!--Scan Barcode View Controller-->
+        <scene sceneID="M2z-po-CpA">
+            <objects>
+                <viewController id="CGZ-BZ-W37" customClass="ScanBarcodeViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yJ5-c0-Wue">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e98-95-Kaw">
+                                <rect key="frame" x="0.0" y="96" width="414" height="652"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="labelColor"/>
+                            </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="10r-L6-BoQ">
+                                <rect key="frame" x="0.0" y="748" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem width="141" style="plain" systemItem="fixedSpace" id="vr2-Yt-i26"/>
+                                    <barButtonItem title="Start Scanning" id="sWu-N3-Kej">
+                                        <connections>
+                                            <action selector="startStopScanning:" destination="CGZ-BZ-W37" id="Vzk-rU-189"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="fixedSpace" id="POP-uT-1EC"/>
+                                </items>
+                            </toolbar>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uaD-oR-vX1">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="88"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Lookup"/>
+                                <connections>
+                                    <action selector="didTapLookup:" destination="CGZ-BZ-W37" eventType="touchUpInside" id="CLW-Ti-NPH"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6wz-tm-CMP"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="lookupButton" destination="uaD-oR-vX1" id="RLG-tY-aZz"/>
+                        <outlet property="preview" destination="e98-95-Kaw" id="ZZ1-kp-GaW"/>
+                        <outlet property="scanButton" destination="sWu-N3-Kej" id="6An-Z6-CbP"/>
+                        <segue destination="81r-ja-Gg9" kind="show" identifier="showItemDetailView" id="JT3-aC-7fp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jgk-Mb-4ro" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3527.5362318840585" y="795.53571428571422"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="2zb-DL-zmc">
             <objects>
@@ -312,6 +381,9 @@
             <point key="canvasLocation" x="1500.0000000000002" y="850.44642857142856"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="op9-hX-QNT"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
         <image name="person" catalog="system" width="128" height="117"/>

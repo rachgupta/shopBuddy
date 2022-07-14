@@ -24,9 +24,7 @@
     [super viewDidLoad];
     self.descriptionView.scrollEnabled=YES;
     [[APIManager shared] getItemWithBarcode:self.barcode completion:^(Item *item, NSError *error) {
-        NSLog(@"😎😎😎 Successfully loaded itemDetails");
         if (item) {
-            NSLog(@"😎😎😎 Successfully loaded itemDetails");
             self.item = item;
             self.titleLabel.text = self.item.name;
             self.brandLabel.text = self.item.brand;

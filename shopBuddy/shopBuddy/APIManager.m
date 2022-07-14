@@ -40,7 +40,6 @@ AFHTTPSessionManager *manager;
     [manager GET:path parameters:nil headers: nil progress:nil success:^(NSURLSessionTask *task, NSDictionary *responseObject)
      {
          // Success
-         NSLog(@"Success: %@", responseObject);
         //TODO: Validate server response
         Item *item = [[Item alloc] initWithDictionary:responseObject[@"products"][0]];
         completion(item, nil);
