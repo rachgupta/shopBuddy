@@ -276,7 +276,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="2zb-DL-zmc">
             <objects>
-                <tabBarController storyboardIdentifier="tabViewController" automaticallyAdjustsScrollViewInsets="NO" id="UXi-DE-6tN" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="tabViewController" automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="UXi-DE-6tN" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="0cg-eJ-NOy">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
