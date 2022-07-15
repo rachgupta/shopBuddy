@@ -10,6 +10,7 @@
 		061C55EB287E284F00033418 /* AddItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C55EA287E284F00033418 /* AddItemViewController.m */; };
 		061C55F2287E303C00033418 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C55ED287E303C00033418 /* Item.m */; };
 		061C55F4287E303C00033418 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C55F1287E303C00033418 /* Trip.m */; };
+		064A476D28809E8800AEF527 /* ScanBarcodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064A476C28809E8800AEF527 /* ScanBarcodeViewController.m */; };
 		06644835287774D300D89317 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06644834287774D300D89317 /* ProfileViewController.m */; };
 		06A377122875FE2500A6AA7D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377112875FE2500A6AA7D /* AppDelegate.m */; };
 		06A377152875FE2500A6AA7D /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A377142875FE2500A6AA7D /* SceneDelegate.m */; };
@@ -58,6 +59,8 @@
 		061C55ED287E303C00033418 /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
 		061C55F0287E303C00033418 /* Trip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trip.h; sourceTree = "<group>"; };
 		061C55F1287E303C00033418 /* Trip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trip.m; sourceTree = "<group>"; };
+		064A476B28809E8800AEF527 /* ScanBarcodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScanBarcodeViewController.h; sourceTree = "<group>"; };
+		064A476C28809E8800AEF527 /* ScanBarcodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScanBarcodeViewController.m; sourceTree = "<group>"; };
 		06644833287774D300D89317 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		06644834287774D300D89317 /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		06A3770D2875FE2500A6AA7D /* shopBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shopBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,6 +162,8 @@
 				06A377162875FE2500A6AA7D /* ViewController.h */,
 				06A377172875FE2500A6AA7D /* ViewController.m */,
 				06A377192875FE2500A6AA7D /* Main.storyboard */,
+				064A476B28809E8800AEF527 /* ScanBarcodeViewController.h */,
+				064A476C28809E8800AEF527 /* ScanBarcodeViewController.m */,
 				061C55E9287E284F00033418 /* AddItemViewController.h */,
 				061C55EA287E284F00033418 /* AddItemViewController.m */,
 				06644833287774D300D89317 /* ProfileViewController.h */,
@@ -463,6 +468,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				064A476D28809E8800AEF527 /* ScanBarcodeViewController.m in Sources */,
 				061C55F4287E303C00033418 /* Trip.m in Sources */,
 				06A3774A287605AD00A6AA7D /* ShoppingListViewController.m in Sources */,
 				06A377182875FE2500A6AA7D /* ViewController.m in Sources */,

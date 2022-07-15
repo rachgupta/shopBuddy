@@ -9,6 +9,7 @@
 #import "APIManager.h"
 #import "Item.h"
 #import "ItemDetailViewController.h"
+#import "ScanBarcodeViewController.h"
 
 @interface AddItemViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *barcodeField;
@@ -20,19 +21,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
+
+- (IBAction)didTapScanBarcode:(id)sender {
+    [self performSegueWithIdentifier:@"showBarcodeSegue" sender:self];
+}
+
 - (IBAction)didTapGetItem:(id)sender {
     [self performSegueWithIdentifier:@"showDetailSegue" sender:self];
     
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-*/
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    ItemDetailViewController *detailVC = [segue destinationViewController];
-    detailVC.barcode = self.barcodeField.text;
+    if([segue.identifier isEqual:@"showDetailSegue"])
+    {
+        ItemDetailViewController *detailVC = [segue destinationViewController];
+        detailVC.barcode = self.barcodeField.text;
+    } else if([segue.identifier isEqual:@"showBarcodeSegue"]) {
+        ScanBarcodeViewController *barcodeVC = [segue destinationViewController];
+    }
 }
 
 @end
