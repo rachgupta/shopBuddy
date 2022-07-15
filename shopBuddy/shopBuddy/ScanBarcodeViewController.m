@@ -38,8 +38,7 @@
         if ([self startScanning]) {
             [scanButton setTitle:@"Stop Scanning"];
         }
-    }
-    else{
+    } else {
         [self stopScanning];
         [scanButton setTitle:@"Start Scanning"];
     }
@@ -74,6 +73,7 @@
 -(void)updateWithBarcode:(NSString *)givenBarcode {
     [lookupButton setTitle:[NSString stringWithFormat:@"Lookup Item with Barcode %@",givenBarcode] forState:UIControlStateNormal];
     barcode = givenBarcode;
+    //TODO: Validate Barcode
 }
 
 //this method stops the capture session
