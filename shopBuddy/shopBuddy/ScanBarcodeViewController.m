@@ -31,62 +31,51 @@
     [lookupButton setTitle:@" " forState:UIControlStateNormal];
     
 }
+
 //changes the boolean property if the stop/start button is pressed
 - (IBAction)startStopScanning:(id)sender {
     if (!isScanning) {
-            if ([self startScanning]) {
-                [scanButton setTitle:@"Stop Scanning"];
-            }
+        if ([self startScanning]) {
+            [scanButton setTitle:@"Stop Scanning"];
         }
-        else{
-            [self stopScanning];
-            [scanButton setTitle:@"Start Scanning"];
-        }
-        
-    isScanning = !isScanning;
     }
+    else{
+        [self stopScanning];
+        [scanButton setTitle:@"Start Scanning"];
+    }
+    isScanning = !isScanning;
+}
+
 //starts scanning for barcodes (metadata objects) and runs the capturesession
 - (BOOL)startScanning {
     NSError *error;
  
     AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];
-     
-        if (!input) {
-            return NO;
-        }
-    captureSession = [[AVCaptureSession alloc] init];
+    if (!input) {
+        return NO;
+    }
+    captureSession = [AVCaptureSession new];
     [captureSession addInput:input];
-    AVCaptureMetadataOutput *captureMetadataOutput = [[AVCaptureMetadataOutput alloc] init];
-        [captureSession addOutput:captureMetadataOutput];
-    dispatch_queue_t dispatchQueue;
-        dispatchQueue = dispatch_queue_create("myQueue", NULL);
-        [captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatchQueue];
-        [captureMetadataOutput setMetadataObjectTypes:[NSArray arrayWithObject:AVMetadataObjectTypeEAN13Code]];
-        videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:captureSession];
-        [videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-        [videoPreviewLayer setFrame:preview.layer.bounds];
-        [preview.layer addSublayer:videoPreviewLayer];
+    AVCaptureMetadataOutput *captureMetadataOutput = [AVCaptureMetadataOutput new];
+    [captureSession addOutput:captureMetadataOutput];
+    const dispatch_queue_t dispatchQueue = dispatch_queue_create("myQueue", NULL);
+    [captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatchQueue];
+    [captureMetadataOutput setMetadataObjectTypes:[NSArray arrayWithObject:AVMetadataObjectTypeEAN13Code]];
+    videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:captureSession];
+    [videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+    [videoPreviewLayer setFrame:preview.layer.bounds];
+    [preview.layer addSublayer:videoPreviewLayer];
     [captureSession startRunning];
     return YES;
-    
 }
-//run when an object is captured (a barcode is scanned)
--(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection{
-    if (metadataObjects != nil && [metadataObjects count] > 0) {
-        AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
-            [self performSelectorOnMainThread:@selector(stopScanning) withObject:nil waitUntilDone:NO];
-        [scanButton performSelectorOnMainThread:@selector(setTitle:) withObject:@"Start Scanning" waitUntilDone:NO];
-        [self performSelectorOnMainThread:@selector(updateWithBarcode:) withObject:[metadataObj stringValue] waitUntilDone:NO];
-                isScanning = NO;
-        }
-    }
 
 //updates the lookup button and the _barcode variable to reflect the new barcode
 -(void)updateWithBarcode:(NSString *)givenBarcode {
     [lookupButton setTitle:[NSString stringWithFormat:@"Lookup Item with Barcode %@",givenBarcode] forState:UIControlStateNormal];
     barcode = givenBarcode;
 }
+
 //this method stops the capture session
 -(void)stopScanning{
     [captureSession stopRunning];
@@ -102,11 +91,22 @@
 
 //sends barcode info to detail view
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqual:@"showItemDetailView"])
-    {
+    if([segue.identifier isEqual:@"showItemDetailView"]) {
         ItemDetailViewController *detailVC = [segue destinationViewController];
         detailVC.barcode = barcode;
     }
 }
+#pragma mark - AVCaptureMetadataOutputObjectsDelegate
+
+//run when an object is captured (a barcode is scanned)
+-(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection {
+    if (metadataObjects != nil && [metadataObjects count] > 0) {
+        AVMetadataMachineReadableCodeObject *const metadataObj = [metadataObjects objectAtIndex:0];
+        [self performSelectorOnMainThread:@selector(stopScanning) withObject:nil waitUntilDone:NO];
+        [scanButton performSelectorOnMainThread:@selector(setTitle:) withObject:@"Start Scanning" waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(updateWithBarcode:) withObject:[metadataObj stringValue] waitUntilDone:NO];
+        isScanning = NO;
+        }
+    }
 
 @end
