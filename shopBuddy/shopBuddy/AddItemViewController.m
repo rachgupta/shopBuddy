@@ -9,7 +9,6 @@
 #import "APIManager.h"
 #import "Item.h"
 #import "ItemDetailViewController.h"
-#import <AVFoundation/AVFoundation.h>
 #import "ScanBarcodeViewController.h"
 
 @interface AddItemViewController ()
@@ -22,9 +21,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
+
 - (IBAction)didTapScanBarcode:(id)sender {
     [self performSegueWithIdentifier:@"showBarcodeSegue" sender:self];
 }
+
 - (IBAction)didTapGetItem:(id)sender {
     [self performSegueWithIdentifier:@"showDetailSegue" sender:self];
     
