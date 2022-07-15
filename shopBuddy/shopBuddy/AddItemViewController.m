@@ -36,9 +36,7 @@
     {
         ItemDetailViewController *detailVC = [segue destinationViewController];
         detailVC.barcode = self.barcodeField.text;
-    }
-    else if([segue.identifier isEqual:@"showBarcodeSegue"])
-    {
+    } else if([segue.identifier isEqual:@"showBarcodeSegue"]) {
         ScanBarcodeViewController *barcodeVC = [segue destinationViewController];
     }
 }

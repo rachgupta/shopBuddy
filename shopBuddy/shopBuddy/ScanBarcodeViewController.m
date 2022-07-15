@@ -28,25 +28,25 @@
     [super viewDidLoad];
     isScanning = NO;
     captureSession = nil;
-    [lookupButton setTitle:@" " forState:UIControlStateNormal];
+    [lookupButton setTitle:@"" forState:UIControlStateNormal];
     
 }
 
 //changes the boolean property if the stop/start button is pressed
 - (IBAction)startStopScanning:(id)sender {
     if (!isScanning) {
-        if ([self startScanning]) {
+        if ([self _startScanning]) {
             [scanButton setTitle:@"Stop Scanning"];
         }
     } else {
-        [self stopScanning];
+        [self _stopScanning];
         [scanButton setTitle:@"Start Scanning"];
     }
     isScanning = !isScanning;
 }
 
 //starts scanning for barcodes (metadata objects) and runs the capturesession
-- (BOOL)startScanning {
+- (BOOL)_startScanning {
     NSError *error;
  
     AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -70,14 +70,14 @@
 }
 
 //updates the lookup button and the _barcode variable to reflect the new barcode
--(void)updateWithBarcode:(NSString *)givenBarcode {
+-(void)_updateWithBarcode:(NSString *)givenBarcode {
     [lookupButton setTitle:[NSString stringWithFormat:@"Lookup Item with Barcode %@",givenBarcode] forState:UIControlStateNormal];
     barcode = givenBarcode;
     //TODO: Validate Barcode
 }
 
 //this method stops the capture session
--(void)stopScanning{
+-(void)_stopScanning{
     [captureSession stopRunning];
     captureSession = nil;
     [videoPreviewLayer removeFromSuperlayer];
@@ -96,17 +96,18 @@
         detailVC.barcode = barcode;
     }
 }
+
 #pragma mark - AVCaptureMetadataOutputObjectsDelegate
 
 //run when an object is captured (a barcode is scanned)
 -(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection {
-    if (metadataObjects != nil && [metadataObjects count] > 0) {
+    if ([metadataObjects count] > 0) {
         AVMetadataMachineReadableCodeObject *const metadataObj = [metadataObjects objectAtIndex:0];
-        [self performSelectorOnMainThread:@selector(stopScanning) withObject:nil waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(_stopScanning) withObject:nil waitUntilDone:NO];
         [scanButton performSelectorOnMainThread:@selector(setTitle:) withObject:@"Start Scanning" waitUntilDone:NO];
-        [self performSelectorOnMainThread:@selector(updateWithBarcode:) withObject:[metadataObj stringValue] waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(_updateWithBarcode:) withObject:[metadataObj stringValue] waitUntilDone:NO];
         isScanning = NO;
-        }
     }
+}
 
 @end
