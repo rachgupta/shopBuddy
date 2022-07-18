@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.descriptionView.scrollEnabled=YES;
-    if(self.item!=nil) {
+    if (self.item != nil) {
         [self _populateView];
     } else {
         [self _callAPI];
@@ -46,8 +46,8 @@
     self.titleLabel.text = self.item.name;
     self.brandLabel.text = self.item.brand;
     self.descriptionView.text = self.item.item_description;
-    NSString *URLString = self.item.images[0];
-    NSURL *url = [NSURL URLWithString:URLString];
+    NSString *const URLString = self.item.images[0];
+    NSURL *const url = [NSURL URLWithString:URLString];
     [self.itemImage setImageWithURL:url];
 }
 

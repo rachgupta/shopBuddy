@@ -47,14 +47,14 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqual:@"showDetailSegue"])
     {
-        ItemDetailViewController *detailVC = [segue destinationViewController];
+        ItemDetailViewController *const detailVC = [segue destinationViewController];
         detailVC.barcode = barcodeField.text;
     } else if([segue.identifier isEqual:@"showBarcodeSegue"]) {
-        ScanBarcodeViewController *barcodeVC = [segue destinationViewController];
+        ScanBarcodeViewController *const barcodeVC = [segue destinationViewController];
     } else if([segue.identifier isEqual:@"showResultDetailSegue"]) {
         NSIndexPath *const myPath = [tableView indexPathForCell:sender];
-        Item *selected_item = searchResults[myPath.row];
-        ItemDetailViewController *detailVC = [segue destinationViewController];
+        Item *const selected_item = searchResults[myPath.row];
+        ItemDetailViewController *const detailVC = [segue destinationViewController];
         detailVC.item = selected_item;
     }
 }
@@ -67,10 +67,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:
     (NSIndexPath *)indexPath {
     SearchResultItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ResultCell"];
-    Item *item = searchResults[indexPath.row];
+    Item *const item = searchResults[indexPath.row];
     cell.itemTitle.text = item.name;
-    NSString *URLString = item.images[0];
-    NSURL *url = [NSURL URLWithString:URLString];
+    NSString *const URLString = item.images[0];
+    NSURL *const url = [NSURL URLWithString:URLString];
     [cell.itemPhoto setImageWithURL:url];
     return cell;
 }
