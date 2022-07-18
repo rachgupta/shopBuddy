@@ -23,24 +23,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.descriptionView.scrollEnabled=YES;
+    if (self.item != nil) {
+        [self _populateView];
+    } else {
+        [self _callAPI];
+    }
+}
+
+- (void)_callAPI {
     [[APIManager shared] getItemWithBarcode:self.barcode completion:^(Item *item, NSError *error) {
         if (item) {
             self.item = item;
-            self.titleLabel.text = self.item.name;
-            self.brandLabel.text = self.item.brand;
-            self.descriptionView.text = self.item.item_description;
-            NSString *URLString = self.item.images[0];
-            NSURL *url = [NSURL URLWithString:URLString];
-            [self.itemImage setImageWithURL:url];
-            
-        }
-        else {
-            NSLog(@"😫😫😫 Error getting item details: %@", error.localizedDescription);
+            [self _populateView];
+        } else {
             //TODO: Failure logic
         }
     }];
-    
-    // Do any additional setup after loading the view.
+}
+
+- (void)_populateView {
+    //TODO: add Show More button and shortened description
+    self.titleLabel.text = self.item.name;
+    self.brandLabel.text = self.item.brand;
+    self.descriptionView.text = self.item.item_description;
+    NSString *const URLString = self.item.images[0];
+    NSURL *const url = [NSURL URLWithString:URLString];
+    [self.itemImage setImageWithURL:url];
 }
 
 /*
