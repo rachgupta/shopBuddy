@@ -5,9 +5,9 @@
 //  Created by Rachna Gupta on 7/15/22.
 //
 
-#import "ResultCell.h"
+#import "SearchResultItemCell.h"
 
-@implementation ResultCell
+@implementation SearchResultItemCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];

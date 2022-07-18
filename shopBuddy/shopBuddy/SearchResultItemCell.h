@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ResultCell : UITableViewCell
+@interface SearchResultItemCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *itemTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *itemPhoto;
 

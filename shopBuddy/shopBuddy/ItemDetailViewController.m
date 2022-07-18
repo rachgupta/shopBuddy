@@ -23,27 +23,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.descriptionView.scrollEnabled=YES;
-    if(self.hasItemPopulated==YES)
-    {
-        [self populateView];
+    if(self.item!=nil) {
+        [self _populateView];
     } else {
-        [self callAPI];
+        [self _callAPI];
     }
 }
 
-- (void)callAPI {
+- (void)_callAPI {
     [[APIManager shared] getItemWithBarcode:self.barcode completion:^(Item *item, NSError *error) {
         if (item) {
             self.item = item;
-            [self populateView];
-        }
-        else {
+            [self _populateView];
+        } else {
             //TODO: Failure logic
         }
     }];
 }
 
-- (void)populateView {
+- (void)_populateView {
     //TODO: add Show More button and shortened description
     self.titleLabel.text = self.item.name;
     self.brandLabel.text = self.item.brand;

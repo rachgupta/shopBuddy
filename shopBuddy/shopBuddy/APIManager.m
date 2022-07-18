@@ -51,7 +51,7 @@ AFHTTPSessionManager *manager;
     
     
 }
-- (void)getItemWithSearch:(NSString *)search completion:(void(^)(NSMutableArray<Item*> *items, NSError *error))completion
+- (void)searchItemsWithQuery:(NSString *)search completion:(void(^)(NSMutableArray<Item*> *items, NSError *error))completion
 {
 
     NSString *const path = [NSString stringWithFormat:kSearch_url, search, key];

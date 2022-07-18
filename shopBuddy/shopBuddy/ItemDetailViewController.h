@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ItemDetailViewController : UIViewController
 @property (strong, nonatomic) NSString *barcode;
 @property Item *item;
-@property (nonatomic) BOOL hasItemPopulated;
 
 @end
 

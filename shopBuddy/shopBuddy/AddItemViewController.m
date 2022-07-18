@@ -10,7 +10,7 @@
 #import "Item.h"
 #import "ItemDetailViewController.h"
 #import "ScanBarcodeViewController.h"
-#import "ResultCell.h"
+#import "SearchResultItemCell.h"
 #import "UIImageView+AFNetworking.h"
 
 @interface AddItemViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -36,14 +36,9 @@
     [self performSegueWithIdentifier:@"showBarcodeSegue" sender:self];
 }
 
-- (IBAction)didTapGetItem:(id)sender {
-    [self performSegueWithIdentifier:@"showDetailSegue" sender:self];
-    
-}
-
 - (IBAction)didTapSearch:(id)sender {
     //TODO: Search field validation
-    [[APIManager shared] getItemWithSearch:searchField.text completion:^(NSMutableArray<Item*> *items, NSError *error) {
+    [[APIManager shared] searchItemsWithQuery:searchField.text completion:^(NSMutableArray<Item*> *items, NSError *error) {
         self->searchResults = items;
         [self->tableView reloadData];
     }];
@@ -57,11 +52,10 @@
     } else if([segue.identifier isEqual:@"showBarcodeSegue"]) {
         ScanBarcodeViewController *barcodeVC = [segue destinationViewController];
     } else if([segue.identifier isEqual:@"showResultDetailSegue"]) {
-        NSIndexPath *myPath = [tableView indexPathForCell:sender];
+        NSIndexPath *const myPath = [tableView indexPathForCell:sender];
         Item *selected_item = searchResults[myPath.row];
         ItemDetailViewController *detailVC = [segue destinationViewController];
         detailVC.item = selected_item;
-        detailVC.hasItemPopulated = YES;
     }
 }
 #pragma mark - TableViewDelegate and Data Source methods
@@ -72,7 +66,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:
     (NSIndexPath *)indexPath {
-    ResultCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ResultCell"];
+    SearchResultItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ResultCell"];
     Item *item = searchResults[indexPath.row];
     cell.itemTitle.text = item.name;
     NSString *URLString = item.images[0];
