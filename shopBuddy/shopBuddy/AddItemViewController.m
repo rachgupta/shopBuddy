@@ -14,17 +14,21 @@
 #import "UIImageView+AFNetworking.h"
 
 @interface AddItemViewController () <UITableViewDataSource, UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UITextField *barcodeField;
-@property (weak, nonatomic) IBOutlet UITextField *searchField;
+{
+    UITableView *tableView;
+    UITextField *barcodeField;
+    UITextField *searchField;
+    NSMutableArray<Item*> *searchResults;
+}
+
 @end
 
-NSMutableArray<Item*> *searchResults;
 @implementation AddItemViewController
 
 - (void)viewDidLoad {
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
+    tableView.dataSource = self;
+    tableView.delegate = self;
+    tableView.rowHeight = UITableViewAutomaticDimension;
     [super viewDidLoad];
 }
 
@@ -36,17 +40,36 @@ NSMutableArray<Item*> *searchResults;
     [self performSegueWithIdentifier:@"showDetailSegue" sender:self];
     
 }
+
 - (IBAction)didTapSearch:(id)sender {
     //TODO: Search field validation
-    [[APIManager shared] getItemWithSearch:self.searchField.text completion:^(NSMutableArray<Item*> *items, NSError *error) {
-        searchResults = items;
-        [self.tableView reloadData];
+    [[APIManager shared] getItemWithSearch:searchField.text completion:^(NSMutableArray<Item*> *items, NSError *error) {
+        self->searchResults = items;
+        [self->tableView reloadData];
     }];
-    [self.tableView reloadData];
+    
 }
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([segue.identifier isEqual:@"showDetailSegue"])
+    {
+        ItemDetailViewController *detailVC = [segue destinationViewController];
+        detailVC.barcode = barcodeField.text;
+    } else if([segue.identifier isEqual:@"showBarcodeSegue"]) {
+        ScanBarcodeViewController *barcodeVC = [segue destinationViewController];
+    } else if([segue.identifier isEqual:@"showResultDetailSegue"]) {
+        NSIndexPath *myPath = [tableView indexPathForCell:sender];
+        Item *selected_item = searchResults[myPath.row];
+        ItemDetailViewController *detailVC = [segue destinationViewController];
+        detailVC.item = selected_item;
+        detailVC.hasItemPopulated = YES;
+    }
+}
+#pragma mark - TableViewDelegate and Data Source methods
+
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return searchResults.count;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:
     (NSIndexPath *)indexPath {
     ResultCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ResultCell"];
@@ -56,15 +79,6 @@ NSMutableArray<Item*> *searchResults;
     NSURL *url = [NSURL URLWithString:URLString];
     [cell.itemPhoto setImageWithURL:url];
     return cell;
-}
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqual:@"showDetailSegue"])
-    {
-        ItemDetailViewController *detailVC = [segue destinationViewController];
-        detailVC.barcode = self.barcodeField.text;
-    } else if([segue.identifier isEqual:@"showBarcodeSegue"]) {
-        ScanBarcodeViewController *barcodeVC = [segue destinationViewController];
-    }
 }
 
 @end
