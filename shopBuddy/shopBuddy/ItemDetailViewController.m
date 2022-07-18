@@ -23,6 +23,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.descriptionView.scrollEnabled=YES;
+    [self callAPI];
+}
+- (void)callAPI {
     [[APIManager shared] getItemWithBarcode:self.barcode completion:^(Item *item, NSError *error) {
         if (item) {
             self.item = item;

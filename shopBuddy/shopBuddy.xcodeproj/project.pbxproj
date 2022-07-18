@@ -28,6 +28,7 @@
 		06AF73E7287DF44100703AB4 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06AF73E6287DF44100703AB4 /* Keys.plist */; };
 		06AF73EA287DF62E00703AB4 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AF73E9287DF62E00703AB4 /* APIManager.m */; };
 		06B5B6B8287F34740092C6E5 /* ShoppingList.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B5B6B6287F34730092C6E5 /* ShoppingList.m */; };
+		06F39F8428820D7300B1EFE0 /* ResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F39F8328820D7300B1EFE0 /* ResultCell.m */; };
 		33ABBBA0EFD5F2DE0074496D /* Pods_shopBuddyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 223652829D200A57A0FB831D /* Pods_shopBuddyTests.framework */; };
 		4FAE13C4D0436D1585F1B7A0 /* Pods_shopBuddy_shopBuddyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F76603BFE840A21CA4331931 /* Pods_shopBuddy_shopBuddyUITests.framework */; };
 		83B39467872747913D42B033 /* Pods_shopBuddy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4373E1465869E684E892CF1 /* Pods_shopBuddy.framework */; };
@@ -91,6 +92,8 @@
 		06AF73E9287DF62E00703AB4 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		06B5B6B6287F34730092C6E5 /* ShoppingList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingList.m; sourceTree = "<group>"; };
 		06B5B6B7287F34740092C6E5 /* ShoppingList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingList.h; sourceTree = "<group>"; };
+		06F39F8228820D7300B1EFE0 /* ResultCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResultCell.h; sourceTree = "<group>"; };
+		06F39F8328820D7300B1EFE0 /* ResultCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResultCell.m; sourceTree = "<group>"; };
 		223652829D200A57A0FB831D /* Pods_shopBuddyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shopBuddyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57D1447D4426488D803294F1 /* Pods-shopBuddyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddyTests.release.xcconfig"; path = "Target Support Files/Pods-shopBuddyTests/Pods-shopBuddyTests.release.xcconfig"; sourceTree = "<group>"; };
 		62258DBD9521EB8252325E07 /* Pods-shopBuddy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-shopBuddy.release.xcconfig"; path = "Target Support Files/Pods-shopBuddy/Pods-shopBuddy.release.xcconfig"; sourceTree = "<group>"; };
@@ -162,6 +165,8 @@
 				06A377162875FE2500A6AA7D /* ViewController.h */,
 				06A377172875FE2500A6AA7D /* ViewController.m */,
 				06A377192875FE2500A6AA7D /* Main.storyboard */,
+				06F39F8228820D7300B1EFE0 /* ResultCell.h */,
+				06F39F8328820D7300B1EFE0 /* ResultCell.m */,
 				064A476B28809E8800AEF527 /* ScanBarcodeViewController.h */,
 				064A476C28809E8800AEF527 /* ScanBarcodeViewController.m */,
 				061C55E9287E284F00033418 /* AddItemViewController.h */,
@@ -474,6 +479,7 @@
 				06A377182875FE2500A6AA7D /* ViewController.m in Sources */,
 				06AF73EA287DF62E00703AB4 /* APIManager.m in Sources */,
 				061C55EB287E284F00033418 /* AddItemViewController.m in Sources */,
+				06F39F8428820D7300B1EFE0 /* ResultCell.m in Sources */,
 				06A377122875FE2500A6AA7D /* AppDelegate.m in Sources */,
 				06A377232875FE2500A6AA7D /* main.m in Sources */,
 				06644835287774D300D89317 /* ProfileViewController.m in Sources */,

@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)getItemWithBarcode:(NSString *)barcode completion:(void(^)(Item *item, NSError *error))completion;
 
+- (void)getItemWithSearch:(NSString *)search completion:(void(^)(NSMutableArray<Item*> *items, NSError *error))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END
