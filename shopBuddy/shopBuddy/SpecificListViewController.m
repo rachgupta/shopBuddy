@@ -5,16 +5,18 @@
 //  Created by Rachna Gupta on 7/6/22.
 //
 
-#import "ShoppingListViewController.h"
+#import "SpecificListViewController.h"
 
-@interface ShoppingListViewController ()
+@interface SpecificListViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *list_label;
 
 @end
 
-@implementation ShoppingListViewController
+@implementation SpecificListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _list_label.text = [NSString stringWithFormat:@"%@ Shopping List", self.list.store_name];
     // Do any additional setup after loading the view.
 }
 

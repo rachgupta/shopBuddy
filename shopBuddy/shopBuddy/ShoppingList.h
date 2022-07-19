@@ -1,17 +1,20 @@
 /**
  * This file is generated using the remodel generation script.
- * The name of the input file is List.value
+ * The name of the input file is ShoppingList.value
  */
 
 #import <Foundation/Foundation.h>
+#import "Parse/Parse.h"
 #import "Item.h"
 
-@interface ShoppingList : NSObject <NSCopying>
+@interface ShoppingList : PFObject <PFSubclassing>
 
-@property (nonatomic, readonly, copy) NSString *store;
-@property (nonatomic, readonly, copy) NSArray<Item*> *items;
+@property (nonatomic) NSString *store_name;
+@property (nonatomic) NSMutableArray<Item*>  *items;
+@property (nonatomic) PFUser *user;
 
-- (instancetype)initWithStore:(NSString *)store items:(NSArray<Item*> *)items;
++ (void) createList:(NSString *)store_name withCompletion: (PFBooleanResultBlock  _Nullable)completion;
+- (void) refreshPost;
+
 
 @end
-

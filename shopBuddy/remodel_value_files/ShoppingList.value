@@ -1,0 +1,6 @@
+%type name="PFObject<PFSubclassing>" library="Parse" file="Parse"
+ShoppingList {
+  NSString *store_name
+  NSMutableArray<Item*> *items
+  PFUser *user
+}
