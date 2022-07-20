@@ -24,14 +24,14 @@
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
-    [self fetchLists];
+    [self _fetchLists];
     [super viewDidLoad];
 }
 
-- (void)fetchLists {
+- (void)_fetchLists {
     PFQuery *query = [PFQuery queryWithClassName:@"ShoppingList"];
     [query orderByDescending:@"createdAt"];
-    [query includeKey:@"user"];
+    [query whereKey:@"user" equalTo:[PFUser currentUser]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *fetched_lists, NSError *error) {
         if (fetched_lists != nil) {
             self->lists = fetched_lists;
@@ -39,6 +39,14 @@
         }
     }];
 }
+
+- (IBAction)didTapAddList:(id)sender {
+    //TODO: add List names (make List of stores)
+    [ShoppingList createList: @"New_List" withCompletion:^(BOOL succeeded, NSError *error) {}];
+    [self _fetchLists];
+    
+}
+
 #pragma mark - TableViewDelegate and Data Source methods
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

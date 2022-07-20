@@ -1,19 +1,17 @@
 //
-//  ResultCell.h
+//  ListItemCell.h
 //  shopBuddy
 //
-//  Created by Rachna Gupta on 7/15/22.
+//  Created by Rachna Gupta on 7/20/22.
 //
 
 #import <UIKit/UIKit.h>
-#import "Item.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SearchResultItemCell : UITableViewCell
+@interface ListItemCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *itemPhoto;
 @property (weak, nonatomic) IBOutlet UILabel *itemTitle;
-
 
 @end
 

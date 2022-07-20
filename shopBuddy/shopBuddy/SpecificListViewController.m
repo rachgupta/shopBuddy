@@ -6,8 +6,16 @@
 //
 
 #import "SpecificListViewController.h"
+#import "ListItemCell.h"
+#import "Item.h"
+#import "UIImageView+AFNetworking.h"
 
-@interface SpecificListViewController ()
+@interface SpecificListViewController () <UITableViewDataSource, UITableViewDelegate>
+{
+    __weak IBOutlet UITableView *tableView;
+    NSArray<Item *> *items;
+    
+}
 @property (weak, nonatomic) IBOutlet UILabel *list_label;
 
 @end
@@ -16,8 +24,38 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    tableView.dataSource = self;
+    tableView.delegate = self;
+    tableView.rowHeight = UITableViewAutomaticDimension;
     _list_label.text = [NSString stringWithFormat:@"%@ Shopping List", self.list.store_name];
-    // Do any additional setup after loading the view.
+    [self _fetchItems];
+}
+- (void)_fetchItems {
+    PFQuery *query = [PFQuery queryWithClassName:@"Item"];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"list" equalTo:self.list];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *fetched_items, NSError *error) {
+        if (fetched_items != nil) {
+            self->items = fetched_items;
+            [self->tableView reloadData];
+        }
+    }];
+}
+#pragma mark - TableViewDelegate and Data Source methods
+
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return items.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:
+    (NSIndexPath *)indexPath {
+    ListItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListItemCell"];
+    Item *const item = items[indexPath.row];
+    cell.itemTitle.text = item[@"name"];
+    NSString *const URLString = item.images[0];
+    NSURL *const url = [NSURL URLWithString:URLString];
+    [cell.itemPhoto setImageWithURL:url];
+    return cell;
 }
 
 /*

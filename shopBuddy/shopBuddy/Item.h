@@ -4,17 +4,18 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "Parse/Parse.h"
+#import "ShoppingList.h"
 
-@interface Item : NSObject <NSCopying>
+@interface Item : PFObject <PFSubclassing>
 
-@property (nonatomic, copy) NSNumber *barcode_number;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSArray<NSString *> *images;
-@property (nonatomic, copy) NSString *list;
-@property (nonatomic, copy) NSString *brand;
-@property (nonatomic, copy) NSString *item_description;
+@property (nonatomic) NSNumber *barcode_number;
+@property (nonatomic) NSString *name;
+@property (nonatomic) NSArray<NSString *> *images;
+@property (nonatomic) ShoppingList *list;
+@property (nonatomic) NSString *brand;
+@property (nonatomic) NSString *item_description;
 
-- (instancetype)initWithBarcode_number:(NSNumber *)barcode_number name:(NSString *)name images:(NSArray<NSString *> *)images list:(NSString *)list brand:(NSString *)brand item_description:(NSString *)item_description;
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

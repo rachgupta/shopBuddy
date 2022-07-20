@@ -9,12 +9,18 @@
 #import "Item.h"
 #import "UIImageView+AFNetworking.h"
 #import "APIManager.h"
+#import "ShoppingList.h"
 
 @interface ItemDetailViewController ()
+{
+    NSArray<ShoppingList*> *lists;
+}
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *brandLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *itemImage;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionView;
+@property (weak, nonatomic) IBOutlet UIButton *addItemToListButton;
+
 
 @end
 
@@ -28,6 +34,7 @@
     } else {
         [self _callAPI];
     }
+    [self _fetchLists];
 }
 
 - (void)_callAPI {
@@ -51,6 +58,31 @@
     [self.itemImage setImageWithURL:url];
 }
 
+- (void)_fetchLists {
+    PFQuery *query = [PFQuery queryWithClassName:@"ShoppingList"];
+    [query orderByDescending:@"createdAt"];
+    [query includeKey:@"user"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *fetched_lists, NSError *error) {
+        if (fetched_lists != nil) {
+            self->lists = fetched_lists;
+            [self _makeMenu];
+        }
+    }];
+}
+- (void) _makeMenu {
+    NSMutableArray* actions = [[NSMutableArray alloc] init];
+    for (ShoppingList *list in lists) {
+        NSString *const actionTitle = [NSString stringWithFormat:@"Add Item to '%@' list", list.store_name];
+        [actions addObject:[UIAction actionWithTitle:actionTitle image:nil identifier:nil handler:^(__kindof UIAction* _Nonnull action) {
+                    self.item.list = list;
+                    [list addItemToList:self.item];
+                    [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
+                }]];
+    }
+    UIMenu *menu = [UIMenu menuWithTitle:@"" children:actions];
+    _addItemToListButton.menu = menu;
+    _addItemToListButton.showsMenuAsPrimaryAction = YES;
+}
 /*
 #pragma mark - Navigation
 
