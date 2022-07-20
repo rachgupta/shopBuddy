@@ -8,6 +8,7 @@
 #endif
 
 #import "Item.h"
+#import "ShoppingList.h"
 
 @implementation Item
 @dynamic barcode_number;

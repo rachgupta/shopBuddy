@@ -10,11 +10,11 @@
 
 @property (nonatomic) NSString *store_name;
 @property (nonatomic) PFUser *user;
-@property (nonnull) NSArray<Item*> *items;
+@property (nonatomic) NSArray<Item*> *items;
 
 + (void) createList:(NSString *)store_name withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 - (void) refreshList;
-//- (void) addItemToList: (Item *)item;
+- (void) addItemToList: (Item *)item;
 
 
 @end
