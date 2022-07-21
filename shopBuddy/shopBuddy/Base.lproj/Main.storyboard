@@ -222,7 +222,7 @@
                                         </tableViewCellContentView>
                                         <accessibility key="accessibilityConfiguration" identifier="ResultCell"/>
                                         <connections>
-                                            <outlet property="itemPhoto" destination="SRh-FL-sjX" id="Ott-c4-0S0"/>
+                                            <outlet property="itemPhoto" destination="SRh-FL-sjX" id="XY7-8q-oYb"/>
                                             <outlet property="itemTitle" destination="9Cy-Id-W1X" id="Fdf-Js-M5a"/>
                                         </connections>
                                     </tableViewCell>

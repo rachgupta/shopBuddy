@@ -10,8 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ListItemCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *itemPhoto;
 @property (weak, nonatomic) IBOutlet UILabel *itemTitle;
+@property (weak, nonatomic) IBOutlet UIImageView *itemPhoto;
 
 @end
 

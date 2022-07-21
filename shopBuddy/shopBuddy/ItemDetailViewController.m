@@ -10,6 +10,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "APIManager.h"
 #import "ShoppingList.h"
+#import "ShoppingList+Persistent.h"
 
 @interface ItemDetailViewController ()
 {
@@ -61,7 +62,7 @@
 - (void)_fetchLists {
     PFQuery *query = [PFQuery queryWithClassName:@"ShoppingList"];
     [query orderByDescending:@"createdAt"];
-    [query includeKey:@"user"];
+    [query whereKey:@"user" equalTo:[PFUser currentUser]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *fetched_lists, NSError *error) {
         if (fetched_lists != nil) {
             self->lists = fetched_lists;
@@ -74,8 +75,15 @@
     for (ShoppingList *list in lists) {
         NSString *const actionTitle = [NSString stringWithFormat:@"Add Item to '%@' list", list.store_name];
         [actions addObject:[UIAction actionWithTitle:actionTitle image:nil identifier:nil handler:^(__kindof UIAction* _Nonnull action) {
-                    self.item.list = list;
-                    [list addItemToList:self.item];
+            [list addItemToList:self.item withList:list  withCompletion:^(BOOL succeeded, NSError *error) {
+                        if(error){
+                             NSLog(@"Error adding item: %@", error.localizedDescription);
+                        }
+                        else{
+                            NSLog(@"Successfully added item");
+                        }
+                        
+                    }];
                     [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
                 }]];
     }

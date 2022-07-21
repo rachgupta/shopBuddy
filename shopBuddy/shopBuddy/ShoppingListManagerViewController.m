@@ -9,6 +9,7 @@
 #import "ShoppingListCell.h"
 #import "ShoppingList.h"
 #import "SpecificListViewController.h"
+#import "ShoppingList+Persistent.h"
 @interface ShoppingListManagerViewController () <UITableViewDataSource, UITableViewDelegate>
 {
     __weak IBOutlet UITableView *tableView;
@@ -42,7 +43,7 @@
 
 - (IBAction)didTapAddList:(id)sender {
     //TODO: add List names (make List of stores)
-    [ShoppingList createList: @"New_List" withCompletion:^(BOOL succeeded, NSError *error) {}];
+    [ShoppingList createEmptyList: @"New_List" withCompletion:^(BOOL succeeded, NSError *error) {}];
     [self _fetchLists];
     
 }

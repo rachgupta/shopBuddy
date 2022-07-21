@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Parse/Parse.h"
-#import "ShoppingList.h"
+@class ShoppingList;
 
 @interface Item : PFObject <PFSubclassing>
 

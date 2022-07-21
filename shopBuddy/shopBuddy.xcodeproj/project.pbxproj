@@ -11,6 +11,9 @@
 		061C55F2287E303C00033418 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C55ED287E303C00033418 /* Item.m */; };
 		061C55F4287E303C00033418 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = 061C55F1287E303C00033418 /* Trip.m */; };
 		064A476D28809E8800AEF527 /* ScanBarcodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064A476C28809E8800AEF527 /* ScanBarcodeViewController.m */; };
+		065115912889C926007C1028 /* ListItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 065115902889C925007C1028 /* ListItemCell.m */; };
+		065115972889CEB0007C1028 /* Item+Persistent.m in Sources */ = {isa = PBXBuildFile; fileRef = 065115962889CEB0007C1028 /* Item+Persistent.m */; };
+		0651159A2889D72D007C1028 /* ShoppingList+Persistent.m in Sources */ = {isa = PBXBuildFile; fileRef = 065115992889D72D007C1028 /* ShoppingList+Persistent.m */; };
 		06644835287774D300D89317 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06644834287774D300D89317 /* ProfileViewController.m */; };
 		066F0B3928872E7900BE5213 /* ShoppingList.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F0B3728872E7800BE5213 /* ShoppingList.m */; };
 		066F0B3C2887351500BE5213 /* ShoppingListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F0B3B2887351500BE5213 /* ShoppingListCell.m */; };
@@ -64,6 +67,12 @@
 		061C55F1287E303C00033418 /* Trip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trip.m; sourceTree = "<group>"; };
 		064A476B28809E8800AEF527 /* ScanBarcodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScanBarcodeViewController.h; sourceTree = "<group>"; };
 		064A476C28809E8800AEF527 /* ScanBarcodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScanBarcodeViewController.m; sourceTree = "<group>"; };
+		0651158F2889C925007C1028 /* ListItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ListItemCell.h; path = /Users/rachnagupta/Desktop/shopBuddy/shopBuddy/shopBuddy/ListItemCell.h; sourceTree = "<absolute>"; };
+		065115902889C925007C1028 /* ListItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ListItemCell.m; path = /Users/rachnagupta/Desktop/shopBuddy/shopBuddy/shopBuddy/ListItemCell.m; sourceTree = "<absolute>"; };
+		065115952889CEB0007C1028 /* Item+Persistent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Item+Persistent.h"; sourceTree = "<group>"; };
+		065115962889CEB0007C1028 /* Item+Persistent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Item+Persistent.m"; sourceTree = "<group>"; };
+		065115982889D72D007C1028 /* ShoppingList+Persistent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ShoppingList+Persistent.h"; sourceTree = "<group>"; };
+		065115992889D72D007C1028 /* ShoppingList+Persistent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ShoppingList+Persistent.m"; sourceTree = "<group>"; };
 		06644833287774D300D89317 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		06644834287774D300D89317 /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		066F0B3728872E7800BE5213 /* ShoppingList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ShoppingList.m; path = /Users/rachnagupta/Desktop/shopBuddy/shopBuddy/shopBuddy/ShoppingList.m; sourceTree = "<absolute>"; };
@@ -189,8 +198,14 @@
 				06644834287774D300D89317 /* ProfileViewController.m */,
 				06AE10DC287CA9AF00365113 /* ItemDetailViewController.h */,
 				06AE10DD287CA9AF00365113 /* ItemDetailViewController.m */,
+				065115952889CEB0007C1028 /* Item+Persistent.h */,
+				065115982889D72D007C1028 /* ShoppingList+Persistent.h */,
+				065115992889D72D007C1028 /* ShoppingList+Persistent.m */,
+				065115962889CEB0007C1028 /* Item+Persistent.m */,
 				06A377452876034000A6AA7D /* LoginViewController.h */,
 				06A377462876034000A6AA7D /* LoginViewController.m */,
+				0651158F2889C925007C1028 /* ListItemCell.h */,
+				065115902889C925007C1028 /* ListItemCell.m */,
 				06A3771C2875FE2500A6AA7D /* Assets.xcassets */,
 				061C55EC287E303C00033418 /* Item.h */,
 				061C55ED287E303C00033418 /* Item.m */,
@@ -491,9 +506,12 @@
 				06826747288628450090D635 /* SpecificListViewController.m in Sources */,
 				061C55EB287E284F00033418 /* AddItemViewController.m in Sources */,
 				06A377122875FE2500A6AA7D /* AppDelegate.m in Sources */,
+				065115912889C926007C1028 /* ListItemCell.m in Sources */,
 				06EC27442885FF9D006C8183 /* SearchResultItemCell.m in Sources */,
 				06A377232875FE2500A6AA7D /* main.m in Sources */,
 				06644835287774D300D89317 /* ProfileViewController.m in Sources */,
+				0651159A2889D72D007C1028 /* ShoppingList+Persistent.m in Sources */,
+				065115972889CEB0007C1028 /* Item+Persistent.m in Sources */,
 				061C55F2287E303C00033418 /* Item.m in Sources */,
 				0682674D288629EA0090D635 /* ShoppingListManagerViewController.m in Sources */,
 				06A377152875FE2500A6AA7D /* SceneDelegate.m in Sources */,
