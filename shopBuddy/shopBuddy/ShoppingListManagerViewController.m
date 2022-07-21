@@ -25,27 +25,20 @@
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
-    [self _fetchLists];
-    [super viewDidLoad];
-}
-
-- (void)_fetchLists {
-    PFQuery *query = [PFQuery queryWithClassName:@"ShoppingList"];
-    [query orderByDescending:@"createdAt"];
-    [query whereKey:@"user" equalTo:[PFUser currentUser]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *fetched_lists, NSError *error) {
-        if (fetched_lists != nil) {
-            self->lists = fetched_lists;
-            [self->tableView reloadData];
-        }
+    [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
+        self->lists = lists;
+        [self->tableView reloadData];
     }];
+    [super viewDidLoad];
 }
 
 - (IBAction)didTapAddList:(id)sender {
     //TODO: add List names (make List of stores)
     [ShoppingList createEmptyList: @"New_List" withCompletion:^(BOOL succeeded, NSError *error) {}];
-    [self _fetchLists];
-    
+    [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
+        self->lists = lists;
+        [self->tableView reloadData];
+    }];
 }
 
 #pragma mark - TableViewDelegate and Data Source methods

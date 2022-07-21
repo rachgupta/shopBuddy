@@ -11,8 +11,8 @@
 
 @implementation ShoppingList (Persistent)
 
-- (void) saveList: (ShoppingList *)list{
-    [list saveInBackground];
+- (void) saveList: (ShoppingList *)list {
+    [self saveInBackground];
 }
 + (void) createEmptyList:(NSString *)store_name withCompletion: (PFBooleanResultBlock  _Nullable)completion {
     
@@ -27,11 +27,27 @@
     [mutable_items addObject:item];
     NSArray *array = [mutable_items copy];
     list.items = array;
-    item.list = self;
-    [list saveList: list];
-    [item saveInBackgroundWithBlock: completion];
-    NSString *test = @"hello";
-    
+    item.list = list;
+    [list saveList:list];
+    [item saveInBackgroundWithBlock:completion];
+    //TODO: add failure logic for list + item
+}
+
+- (void) fetchItemsInList: (ShoppingList *)list withCompletion:(void(^)(NSArray *items, NSError *error))completion {
+    PFQuery *query = [PFQuery queryWithClassName:@"Item"];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"list" equalTo:list];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *fetched_items, NSError *error) {
+        completion(fetched_items, nil);
+    }];
+}
++ (void)fetchListsByUser: (PFUser *) user withCompletion:(void(^)(NSArray *lists, NSError *error))completion {
+    PFQuery *query = [PFQuery queryWithClassName:@"ShoppingList"];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"user" equalTo:[PFUser currentUser]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *fetched_lists, NSError *error) {
+        completion(fetched_lists,nil);
+    }];
 }
 
 @end

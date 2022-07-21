@@ -9,6 +9,7 @@
 #import "ListItemCell.h"
 #import "Item.h"
 #import "UIImageView+AFNetworking.h"
+#import "ShoppingList+Persistent.h"
 
 @interface SpecificListViewController () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -28,19 +29,12 @@
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
     _list_label.text = [NSString stringWithFormat:@"%@ Shopping List", self.list.store_name];
-    [self _fetchItems];
-}
-- (void)_fetchItems {
-    PFQuery *query = [PFQuery queryWithClassName:@"Item"];
-    [query orderByDescending:@"createdAt"];
-    [query whereKey:@"list" equalTo:self.list];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *fetched_items, NSError *error) {
-        if (fetched_items != nil) {
-            self->items = fetched_items;
-            [self->tableView reloadData];
-        }
+    [self.list fetchItemsInList:self.list withCompletion:^(NSArray *items, NSError *error) {
+        self->items = items;
+        [self->tableView reloadData];
     }];
 }
+
 #pragma mark - TableViewDelegate and Data Source methods
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

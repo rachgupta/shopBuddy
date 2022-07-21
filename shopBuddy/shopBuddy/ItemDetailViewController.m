@@ -15,13 +15,13 @@
 @interface ItemDetailViewController ()
 {
     NSArray<ShoppingList*> *lists;
+    __weak IBOutlet UITextView *descriptionView;
+    __weak IBOutlet UILabel *titleLabel;
+    __weak IBOutlet UILabel *brandLabel;
+    __weak IBOutlet UIImageView *itemImage;
+    __weak IBOutlet UIButton *addItemToListButton;
+    
 }
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *brandLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *itemImage;
-@property (weak, nonatomic) IBOutlet UITextView *descriptionView;
-@property (weak, nonatomic) IBOutlet UIButton *addItemToListButton;
-
 
 @end
 
@@ -29,13 +29,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.descriptionView.scrollEnabled=YES;
+    descriptionView.scrollEnabled=YES;
     if (self.item != nil) {
         [self _populateView];
     } else {
         [self _callAPI];
     }
-    [self _fetchLists];
+    [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
+        self->lists = lists;
+        [self _makeMenu];
+    }];
 }
 
 - (void)_callAPI {
@@ -51,25 +54,14 @@
 
 - (void)_populateView {
     //TODO: add Show More button and shortened description
-    self.titleLabel.text = self.item.name;
-    self.brandLabel.text = self.item.brand;
-    self.descriptionView.text = self.item.item_description;
+    titleLabel.text = self.item.name;
+    brandLabel.text = self.item.brand;
+    descriptionView.text = self.item.item_description;
     NSString *const URLString = self.item.images[0];
     NSURL *const url = [NSURL URLWithString:URLString];
-    [self.itemImage setImageWithURL:url];
+    [itemImage setImageWithURL:url];
 }
 
-- (void)_fetchLists {
-    PFQuery *query = [PFQuery queryWithClassName:@"ShoppingList"];
-    [query orderByDescending:@"createdAt"];
-    [query whereKey:@"user" equalTo:[PFUser currentUser]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *fetched_lists, NSError *error) {
-        if (fetched_lists != nil) {
-            self->lists = fetched_lists;
-            [self _makeMenu];
-        }
-    }];
-}
 - (void) _makeMenu {
     NSMutableArray* actions = [[NSMutableArray alloc] init];
     for (ShoppingList *list in lists) {
@@ -77,19 +69,18 @@
         [actions addObject:[UIAction actionWithTitle:actionTitle image:nil identifier:nil handler:^(__kindof UIAction* _Nonnull action) {
             [list addItemToList:self.item withList:list  withCompletion:^(BOOL succeeded, NSError *error) {
                         if(error){
-                             NSLog(@"Error adding item: %@", error.localizedDescription);
+                             NSLog(@"Error adding item to list: %@", error.localizedDescription);
                         }
                         else{
                             NSLog(@"Successfully added item");
                         }
-                        
                     }];
                     [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
                 }]];
     }
     UIMenu *menu = [UIMenu menuWithTitle:@"" children:actions];
-    _addItemToListButton.menu = menu;
-    _addItemToListButton.showsMenuAsPrimaryAction = YES;
+    addItemToListButton.menu = menu;
+    addItemToListButton.showsMenuAsPrimaryAction = YES;
 }
 /*
 #pragma mark - Navigation

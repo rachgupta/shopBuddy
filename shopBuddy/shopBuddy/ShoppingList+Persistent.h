@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (void) createEmptyList:(NSString *)store_name withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 - (void) saveList: (ShoppingList *)list;
 - (void) addItemToList: (Item *)item withList: (ShoppingList *)list withCompletion: (PFBooleanResultBlock  _Nullable)completion;
+- (void) fetchItemsInList: (ShoppingList *)list withCompletion:(void(^)(NSArray *items, NSError *error))completion;
++ (void) fetchListsByUser: (PFUser *) user withCompletion:(void(^)(NSArray *lists, NSError *error))completion;
 @end
 
 NS_ASSUME_NONNULL_END
