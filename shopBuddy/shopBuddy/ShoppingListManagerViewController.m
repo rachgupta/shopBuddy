@@ -22,22 +22,23 @@
 @implementation ShoppingListManagerViewController
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
-    [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
+    [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray<ShoppingList *> *lists, NSError *error) {
         self->lists = lists;
         [self->tableView reloadData];
     }];
-    [super viewDidLoad];
 }
 
 - (IBAction)didTapAddList:(id)sender {
     //TODO: add List names (make List of stores)
-    [ShoppingList createEmptyList: @"New_List" withCompletion:^(BOOL succeeded, NSError *error) {}];
-    [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
-        self->lists = lists;
-        [self->tableView reloadData];
+    [ShoppingList createEmptyList: @"New_List" withCompletion:^(BOOL succeeded, NSError *error) {
+        [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
+            self->lists = lists;
+            [self->tableView reloadData];
+        }];
     }];
 }
 

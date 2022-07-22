@@ -12,10 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ShoppingList (Persistent)
 
 + (void) createEmptyList:(NSString *)store_name withCompletion: (PFBooleanResultBlock  _Nullable)completion;
-- (void) saveList: (ShoppingList *)list;
-- (void) addItemToList: (Item *)item withList: (ShoppingList *)list withCompletion: (PFBooleanResultBlock  _Nullable)completion;
-- (void) fetchItemsInList: (ShoppingList *)list withCompletion:(void(^)(NSArray *items, NSError *error))completion;
-+ (void) fetchListsByUser: (PFUser *) user withCompletion:(void(^)(NSArray *lists, NSError *error))completion;
+- (void) saveList;
+- (void) addItemToList: (Item *)item withCompletion: (PFBooleanResultBlock  _Nullable)completion;
+- (void) fetchItemsInList: (void(^)(NSArray<Item *> *items, NSError *error))completion;
++ (void) fetchListsByUser: (PFUser *) user withCompletion:(void(^)(NSArray<ShoppingList *> *lists, NSError *error))completion;
 @end
 
 NS_ASSUME_NONNULL_END

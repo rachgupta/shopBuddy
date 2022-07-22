@@ -29,7 +29,7 @@
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
     _list_label.text = [NSString stringWithFormat:@"%@ Shopping List", self.list.store_name];
-    [self.list fetchItemsInList:self.list withCompletion:^(NSArray *items, NSError *error) {
+    [self.list fetchItemsInList:^(NSArray<Item *> *items, NSError *error) {
         self->items = items;
         [self->tableView reloadData];
     }];

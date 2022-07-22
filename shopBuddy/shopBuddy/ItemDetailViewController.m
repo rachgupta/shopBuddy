@@ -67,15 +67,15 @@
     for (ShoppingList *list in lists) {
         NSString *const actionTitle = [NSString stringWithFormat:@"Add Item to '%@' list", list.store_name];
         [actions addObject:[UIAction actionWithTitle:actionTitle image:nil identifier:nil handler:^(__kindof UIAction* _Nonnull action) {
-            [list addItemToList:self.item withList:list  withCompletion:^(BOOL succeeded, NSError *error) {
+            [list addItemToList:self.item withCompletion:^(BOOL succeeded, NSError *error) {
                         if(error){
                              NSLog(@"Error adding item to list: %@", error.localizedDescription);
                         }
                         else{
                             NSLog(@"Successfully added item");
+                            [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
                         }
                     }];
-                    [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
                 }]];
     }
     UIMenu *menu = [UIMenu menuWithTitle:@"" children:actions];
