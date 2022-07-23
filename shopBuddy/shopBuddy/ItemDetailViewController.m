@@ -11,6 +11,7 @@
 #import "APIManager.h"
 #import "ShoppingList.h"
 #import "ShoppingList+Persistent.h"
+#import "Parse/Parse.h"
 
 @interface ItemDetailViewController ()
 {
@@ -67,19 +68,11 @@
     for (ShoppingList *list in lists) {
         NSString *const actionTitle = [NSString stringWithFormat:@"Add Item to '%@' list", list.store_name];
         [actions addObject:[UIAction actionWithTitle:actionTitle image:nil identifier:nil handler:^(__kindof UIAction* _Nonnull action) {
-            [list addItemToList:self.item withCompletion:^(BOOL succeeded, NSError *error) {
-                        if(error){
-                             NSLog(@"Error adding item to list: %@", error.localizedDescription);
-                        }
-                        else{
-                            NSLog(@"Successfully added item");
-                            [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
-                        }
-                    }];
-                }]];
+            [ShoppingList addItemToList:self.item withList:list];
+            [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
+        }]];
     }
-    UIMenu *menu = [UIMenu menuWithTitle:@"" children:actions];
-    addItemToListButton.menu = menu;
+    addItemToListButton.menu = [UIMenu menuWithTitle:@"" children:actions];
     addItemToListButton.showsMenuAsPrimaryAction = YES;
 }
 /*

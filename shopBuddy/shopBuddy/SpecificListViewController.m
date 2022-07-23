@@ -10,6 +10,7 @@
 #import "Item.h"
 #import "UIImageView+AFNetworking.h"
 #import "ShoppingList+Persistent.h"
+#import "Item+Persistent.h"
 
 @interface SpecificListViewController () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -45,7 +46,7 @@
     (NSIndexPath *)indexPath {
     ListItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListItemCell"];
     Item *const item = items[indexPath.row];
-    cell.itemTitle.text = item[@"name"];
+    cell.itemTitle.text = item.name;
     NSString *const URLString = item.images[0];
     NSURL *const url = [NSURL URLWithString:URLString];
     [cell.itemPhoto setImageWithURL:url];

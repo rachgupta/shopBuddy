@@ -10,6 +10,7 @@
 #import "ShoppingList.h"
 #import "SpecificListViewController.h"
 #import "ShoppingList+Persistent.h"
+#import "Parse/Parse.h"
 @interface ShoppingListManagerViewController () <UITableViewDataSource, UITableViewDelegate>
 {
     __weak IBOutlet UITableView *tableView;
@@ -26,19 +27,21 @@
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
+    __weak __typeof__(self) weakSelf = self;
+    [weakSelf reloadLists];
+}
+
+- (void)reloadLists {
     [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray<ShoppingList *> *lists, NSError *error) {
         self->lists = lists;
         [self->tableView reloadData];
     }];
 }
-
 - (IBAction)didTapAddList:(id)sender {
     //TODO: add List names (make List of stores)
-    [ShoppingList createEmptyList: @"New_List" withCompletion:^(BOOL succeeded, NSError *error) {
-        [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
-            self->lists = lists;
-            [self->tableView reloadData];
-        }];
+    __weak __typeof__(self) weakSelf = self;
+    [ShoppingList createEmptyList: @"New_List" withCompletion:^(ShoppingList *list) {
+        [weakSelf reloadLists];
     }];
 }
 

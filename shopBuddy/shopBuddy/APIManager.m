@@ -8,6 +8,8 @@
 #import "APIManager.h"
 #import "AFNetworking.h"
 #import "Item.h"
+#import "Item+Persistent.h"
+
 static NSString * const baseURLString = @"https://api.barcodelookup.com";
 static NSString * const kBarcode_url = @"v3/products?barcode=%@&formatted=y&key=%@";
 static NSString * const kSearch_url = @"v3/products?search=%@&formatted=y&key=%@";
@@ -41,7 +43,7 @@ AFHTTPSessionManager *manager;
      {
          // Success
         //TODO: Validate server response
-        Item *item = [[Item alloc] initWithDictionary:responseObject[@"products"][0]];
+        Item *item = [Item createItemWithDictionary:responseObject[@"products"][0]];
         completion(item, nil);
      }failure:^(NSURLSessionDataTask *task, NSError *error)
      {
@@ -63,7 +65,7 @@ AFHTTPSessionManager *manager;
         NSMutableArray *items = [NSMutableArray new];
         for (int i = 0; i < [responseObject[@"products"] count]; i++)
         {
-            Item *item = [[Item alloc] initWithDictionary:responseObject[@"products"][i]];
+            Item *item = [Item createItemWithDictionary:responseObject[@"products"][i]];
             [items addObject:item];
             
         }

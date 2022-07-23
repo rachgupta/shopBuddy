@@ -15,7 +15,6 @@
 		065115972889CEB0007C1028 /* Item+Persistent.m in Sources */ = {isa = PBXBuildFile; fileRef = 065115962889CEB0007C1028 /* Item+Persistent.m */; };
 		0651159A2889D72D007C1028 /* ShoppingList+Persistent.m in Sources */ = {isa = PBXBuildFile; fileRef = 065115992889D72D007C1028 /* ShoppingList+Persistent.m */; };
 		06644835287774D300D89317 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06644834287774D300D89317 /* ProfileViewController.m */; };
-		066F0B3928872E7900BE5213 /* ShoppingList.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F0B3728872E7800BE5213 /* ShoppingList.m */; };
 		066F0B3C2887351500BE5213 /* ShoppingListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F0B3B2887351500BE5213 /* ShoppingListCell.m */; };
 		06826747288628450090D635 /* SpecificListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06826746288628450090D635 /* SpecificListViewController.m */; };
 		0682674D288629EA0090D635 /* ShoppingListManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0682674C288629EA0090D635 /* ShoppingListManagerViewController.m */; };
@@ -33,6 +32,7 @@
 		06AE10DE287CA9AF00365113 /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AE10DD287CA9AF00365113 /* ItemDetailViewController.m */; };
 		06AF73E7287DF44100703AB4 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06AF73E6287DF44100703AB4 /* Keys.plist */; };
 		06AF73EA287DF62E00703AB4 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AF73E9287DF62E00703AB4 /* APIManager.m */; };
+		06B0EE26288B179C0038BD51 /* ShoppingList.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B0EE24288B179C0038BD51 /* ShoppingList.m */; };
 		06EC27442885FF9D006C8183 /* SearchResultItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06EC27432885FF9C006C8183 /* SearchResultItemCell.m */; };
 		33ABBBA0EFD5F2DE0074496D /* Pods_shopBuddyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 223652829D200A57A0FB831D /* Pods_shopBuddyTests.framework */; };
 		4FAE13C4D0436D1585F1B7A0 /* Pods_shopBuddy_shopBuddyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F76603BFE840A21CA4331931 /* Pods_shopBuddy_shopBuddyUITests.framework */; };
@@ -75,8 +75,6 @@
 		065115992889D72D007C1028 /* ShoppingList+Persistent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ShoppingList+Persistent.m"; sourceTree = "<group>"; };
 		06644833287774D300D89317 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		06644834287774D300D89317 /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
-		066F0B3728872E7800BE5213 /* ShoppingList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ShoppingList.m; path = /Users/rachnagupta/Desktop/shopBuddy/shopBuddy/shopBuddy/ShoppingList.m; sourceTree = "<absolute>"; };
-		066F0B3828872E7900BE5213 /* ShoppingList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ShoppingList.h; path = /Users/rachnagupta/Desktop/shopBuddy/shopBuddy/shopBuddy/ShoppingList.h; sourceTree = "<absolute>"; };
 		066F0B3A2887351500BE5213 /* ShoppingListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShoppingListCell.h; sourceTree = "<group>"; };
 		066F0B3B2887351500BE5213 /* ShoppingListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShoppingListCell.m; sourceTree = "<group>"; };
 		06826745288628450090D635 /* SpecificListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecificListViewController.h; sourceTree = "<group>"; };
@@ -107,6 +105,8 @@
 		06AF73E6287DF44100703AB4 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		06AF73E8287DF62E00703AB4 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		06AF73E9287DF62E00703AB4 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
+		06B0EE24288B179C0038BD51 /* ShoppingList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingList.m; sourceTree = "<group>"; };
+		06B0EE25288B179C0038BD51 /* ShoppingList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingList.h; sourceTree = "<group>"; };
 		06EC27422885FF9C006C8183 /* SearchResultItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SearchResultItemCell.h; path = /Users/rachnagupta/Desktop/shopBuddy/shopBuddy/shopBuddy/SearchResultItemCell.h; sourceTree = "<absolute>"; };
 		06EC27432885FF9C006C8183 /* SearchResultItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SearchResultItemCell.m; path = /Users/rachnagupta/Desktop/shopBuddy/shopBuddy/shopBuddy/SearchResultItemCell.m; sourceTree = "<absolute>"; };
 		223652829D200A57A0FB831D /* Pods_shopBuddyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_shopBuddyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,8 +171,6 @@
 		06A3770F2875FE2500A6AA7D /* shopBuddy */ = {
 			isa = PBXGroup;
 			children = (
-				066F0B3828872E7900BE5213 /* ShoppingList.h */,
-				066F0B3728872E7800BE5213 /* ShoppingList.m */,
 				06EC27422885FF9C006C8183 /* SearchResultItemCell.h */,
 				06EC27432885FF9C006C8183 /* SearchResultItemCell.m */,
 				06A377102875FE2500A6AA7D /* AppDelegate.h */,
@@ -209,6 +207,8 @@
 				06A3771C2875FE2500A6AA7D /* Assets.xcassets */,
 				061C55EC287E303C00033418 /* Item.h */,
 				061C55ED287E303C00033418 /* Item.m */,
+				06B0EE25288B179C0038BD51 /* ShoppingList.h */,
+				06B0EE24288B179C0038BD51 /* ShoppingList.m */,
 				061C55F0287E303C00033418 /* Trip.h */,
 				061C55F1287E303C00033418 /* Trip.m */,
 				06A3771E2875FE2500A6AA7D /* LaunchScreen.storyboard */,
@@ -507,6 +507,7 @@
 				061C55EB287E284F00033418 /* AddItemViewController.m in Sources */,
 				06A377122875FE2500A6AA7D /* AppDelegate.m in Sources */,
 				065115912889C926007C1028 /* ListItemCell.m in Sources */,
+				06B0EE26288B179C0038BD51 /* ShoppingList.m in Sources */,
 				06EC27442885FF9D006C8183 /* SearchResultItemCell.m in Sources */,
 				06A377232875FE2500A6AA7D /* main.m in Sources */,
 				06644835287774D300D89317 /* ProfileViewController.m in Sources */,
@@ -515,7 +516,6 @@
 				061C55F2287E303C00033418 /* Item.m in Sources */,
 				0682674D288629EA0090D635 /* ShoppingListManagerViewController.m in Sources */,
 				06A377152875FE2500A6AA7D /* SceneDelegate.m in Sources */,
-				066F0B3928872E7900BE5213 /* ShoppingList.m in Sources */,
 				06AE10DE287CA9AF00365113 /* ItemDetailViewController.m in Sources */,
 				06A377472876034000A6AA7D /* LoginViewController.m in Sources */,
 			);

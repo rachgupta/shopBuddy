@@ -6,16 +6,23 @@
 //
 
 #import "ShoppingList.h"
+#import "Parse/Parse.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ShoppingList (Persistent)
 
-+ (void) createEmptyList:(NSString *)store_name withCompletion: (PFBooleanResultBlock  _Nullable)completion;
-- (void) saveList;
-- (void) addItemToList: (Item *)item withCompletion: (PFBooleanResultBlock  _Nullable)completion;
+@property (nonatomic,copy) NSString *objectID;
+
++ (void) createEmptyList:(NSString *)store_name withCompletion:(void(^)(ShoppingList *new_list))completion;
+
++ (void) addItemToList: (Item *)item withList: (ShoppingList *)list;
+
 - (void) fetchItemsInList: (void(^)(NSArray<Item *> *items, NSError *error))completion;
+
 + (void) fetchListsByUser: (PFUser *) user withCompletion:(void(^)(NSArray<ShoppingList *> *lists, NSError *error))completion;
+
 @end
+
 
 NS_ASSUME_NONNULL_END

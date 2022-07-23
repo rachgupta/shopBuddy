@@ -6,8 +6,21 @@
 //
 
 #import "Item+Persistent.h"
+#import "Parse/Parse.h"
+#import <objc/runtime.h>
+#import "ShoppingList.h"
 
 @implementation Item (Persistent)
+
+
+
+- (NSString *)objectID {
+    return objc_getAssociatedObject(self, @selector(objectID));
+}
+
+- (void)setObjectID:(NSString *)new_objectID {
+    objc_setAssociatedObject(self, @selector(objectID), new_objectID, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
 
 + (void)deleteItemFromList {
     //TODO: delete functionality
@@ -20,10 +33,45 @@
 - (void) fetchSpecificItem {
     //TODO: prices
 }
-
-- (PFObject *) hydratePFObject {
-    //TODO: hydrate object
-    return [PFObject new];
+/*
+- (void) saveItem {
+    //NSDictionary *dict = @{ @"barcode_number" : dictionary[@"barcode_number"], @"name" : dictionary[@"title"], @"images" : dictionary[@"images"], @"brand" : dictionary[@"brand"], @"item_description" : dictionary[@"description"]};
+    //PFObject *new_object = [PFObject objectWithClassName:@"Item" dictionary:dict];
+    Item *const newItem = [Item hydrateItemFromPFObject:new_object];
+    completion(newItem);
+    
 }
+ */
+
++ (void) createObject:(PFObject *)object {
+    [object saveInBackground];
+}
+
+//creates an item from dictionary from api
++ (Item *) createItemWithDictionary:(NSDictionary *)dictionary {
+    Item *const new_item = [[Item alloc] initWithBarcode_number:dictionary[@"barcode_number"] name:dictionary[@"title"] images:dictionary[@"images"] brand:dictionary[@"brand"] item_description:dictionary[@"description"]];
+    return new_item;
+}
+
+//gets the full PFObject from the pointer PFObject in the List object
++ (PFObject *)populateObjectFromPointerObject: (PFObject *)object {
+    PFQuery *query = [PFQuery queryWithClassName:@"Item"];
+    return [query getObjectWithId:object.objectId];
+}
+
+//creates a new object from the item in a given list
+- (PFObject *) hydratePFObjectFromItemWithListObject: (PFObject *)list {
+    NSDictionary *dict = @{ @"name" : self.name, @"barcode_number" : self.barcode_number, @"images" : self.images, @"brand" : self.brand, @"item_description" : self.item_description, @"list" : list};
+    return [PFObject objectWithClassName:@"Item" dictionary:dict];
+}
+
+//creates an item to house the PFObject
++ (Item *) hydrateItemFromPFObject: (PFObject *)object {
+    NSLog(@"%@",object[@"name"]);
+    Item *const new_item = [[Item alloc] initWithBarcode_number:object[@"barcode_number"] name:object[@"name"] images:object[@"images"] brand:object[@"brand"] item_description:object[@"item_description"]];
+    new_item.objectID = object.objectId;
+    return new_item;
+}
+
 
 @end
