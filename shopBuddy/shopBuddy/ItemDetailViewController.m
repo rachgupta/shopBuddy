@@ -39,8 +39,8 @@
     }
     __weak __typeof__(self) weakSelf = self;
     [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
-        if(weakSelf) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if(strongSelf) {
             strongSelf->lists = lists;
             [weakSelf _makeMenu];
         }
@@ -52,7 +52,7 @@
     [[APIManager shared] getItemWithBarcode:self.barcode completion:^(Item *item, NSError *error) {
         if (item) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            if(weakSelf)
+            if(strongSelf)
             {
                 strongSelf->_item = item;
                 [weakSelf _populateView];
