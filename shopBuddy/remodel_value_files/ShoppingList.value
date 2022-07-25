@@ -1,0 +1,4 @@
+ShoppingList {
+  NSString *store_name
+  NSArray<Item*> *items
+}

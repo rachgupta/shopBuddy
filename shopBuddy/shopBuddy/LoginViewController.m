@@ -7,6 +7,8 @@
 
 #import "LoginViewController.h"
 #import "Parse/Parse.h"
+#import "ShoppingList.h"
+#import "ShoppingList+Persistent.h"
 
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
@@ -33,7 +35,14 @@
                 NSLog(@"Error: %@", error.localizedDescription);
             } else {
                 NSLog(@"User registered successfully");
-                [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+                [ShoppingList createEmptyList: @"Unspecified" withCompletion:^(ShoppingList *shoppingList,NSError *error) {
+                    if(!error) {
+                        [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+                    }
+                    else {
+                        NSLog(@"%@",error);
+                    }
+                }];
                 // manually segue to logged in view
             }
         }];
@@ -56,29 +65,16 @@
 {
     if([self.usernameField.text length] == 0)
     {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No Username"
-                                                                                   message:@"Please input a Username"
-                                                                            preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No Username" message:@"Please input a Username" preferredStyle:(UIAlertControllerStyleAlert)];
         // create an OK action
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:^(UIAlertAction * _Nonnull action) {}];
-        // add the OK action to the alert controller
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){}];
         [alert addAction:okAction];
         [self presentViewController:alert animated:YES completion:^{}];
     }
     if([self.passwordField.text length] == 0)
     {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No Password"
-                                                                                   message:@"Please input a Password"
-                                                                            preferredStyle:(UIAlertControllerStyleAlert)];
-        // create an OK action
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:^(UIAlertAction * _Nonnull action) {
-                                                                 // handle response here.
-                                                         }];
-        // add the OK action to the alert controller
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No Password" message:@"Please input a Password" preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){}];
         [alert addAction:okAction];
         [self presentViewController:alert animated:YES completion:^{}];
     }

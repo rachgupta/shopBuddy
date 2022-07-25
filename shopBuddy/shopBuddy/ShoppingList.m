@@ -1,6 +1,6 @@
 /**
  * This file is generated using the remodel generation script.
- * The name of the input file is List.value
+ * The name of the input file is ShoppingList.value
  */
 
 #if  ! __has_feature(objc_arc)
@@ -12,10 +12,10 @@
 
 @implementation ShoppingList
 
-- (instancetype)initWithStore:(NSString *)store items:(NSArray<Item*> *)items
+- (instancetype)initWithStore_name:(NSString *)store_name items:(NSArray<Item*> *)items
 {
   if ((self = [super init])) {
-    _store = [store copy];
+    _store_name = [store_name copy];
     _items = [items copy];
   }
 
@@ -29,12 +29,12 @@
 
 - (NSString *)description
 {
-  return [NSString stringWithFormat:@"%@ - \n\t store: %@; \n\t items: %@; \n", [super description], _store, _items];
+  return [NSString stringWithFormat:@"%@ - \n\t store_name: %@; \n\t items: %@; \n", [super description], _store_name, _items];
 }
 
 - (NSUInteger)hash
 {
-  NSUInteger subhashes[] = {[_store hash], [_items hash]};
+  NSUInteger subhashes[] = {[_store_name hash], [_items hash]};
   NSUInteger result = subhashes[0];
   for (int ii = 1; ii < 2; ++ii) {
     unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
@@ -57,7 +57,7 @@
     return NO;
   }
   return
-    (_store == object->_store ? YES : [_store isEqual:object->_store]) &&
+    (_store_name == object->_store_name ? YES : [_store_name isEqual:object->_store_name]) &&
     (_items == object->_items ? YES : [_items isEqual:object->_items]);
 }
 

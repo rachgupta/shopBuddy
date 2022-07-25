@@ -1,4 +1,0 @@
-List {
-  NSString *store
-  NSArray<Item*> *items
-}
