@@ -30,23 +30,6 @@
     //TODO: prices
 }
 
-- (void) fetchSpecificItem {
-    //TODO: prices
-}
-/*
-- (void) saveItem {
-    //NSDictionary *dict = @{ @"barcode_number" : dictionary[@"barcode_number"], @"name" : dictionary[@"title"], @"images" : dictionary[@"images"], @"brand" : dictionary[@"brand"], @"item_description" : dictionary[@"description"]};
-    //PFObject *new_object = [PFObject objectWithClassName:@"Item" dictionary:dict];
-    Item *const newItem = [Item hydrateItemFromPFObject:new_object];
-    completion(newItem);
-    
-}
- */
-
-+ (void) createObject:(PFObject *)object {
-    [object saveInBackground];
-}
-
 //creates an item from dictionary from api
 + (Item *) createItemWithDictionary:(NSDictionary *)dictionary {
     Item *const new_item = [[Item alloc] initWithBarcode_number:dictionary[@"barcode_number"] name:dictionary[@"title"] images:dictionary[@"images"] brand:dictionary[@"brand"] item_description:dictionary[@"description"]];
@@ -66,7 +49,7 @@
 }
 
 //creates an item to house the PFObject
-+ (Item *) hydrateItemFromPFObject: (PFObject *)object {
++ (Item *) createItemFromPFObject: (PFObject *)object {
     NSLog(@"%@",object[@"name"]);
     Item *const new_item = [[Item alloc] initWithBarcode_number:object[@"barcode_number"] name:object[@"name"] images:object[@"images"] brand:object[@"brand"] item_description:object[@"item_description"]];
     new_item.objectID = object.objectId;

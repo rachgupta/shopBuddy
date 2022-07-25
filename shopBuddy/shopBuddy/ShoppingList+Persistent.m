@@ -53,11 +53,11 @@
 + (void) addItemToList: (Item *)item withList: (ShoppingList *)list {
     NSMutableArray *const mutable_items = [NSMutableArray arrayWithArray:list.items];
     [mutable_items addObject:item];
-    NSArray *array = [mutable_items copy];
-    ShoppingList *const newList = [[ShoppingList alloc] initWithStore_name:list.store_name items:array];
+    //NSArray *array = [mutable_items copy];
+    ShoppingList *const newList = [[ShoppingList alloc] initWithStore_name:list.store_name items:[mutable_items copy]];
     newList.objectID = list.objectID;
     PFObject *item_to_save = [item hydratePFObjectFromItemWithListObject:[newList _retrievePFObject]];
-    [Item createObject:item_to_save];
+    [item_to_save saveInBackground];
     [newList _updateSavedListWithNewItem: item_to_save];
 }
 
@@ -77,7 +77,7 @@
         NSMutableArray<Item *> *new_items = [NSMutableArray new];
         for (PFObject *object in fetched_objects)
         {
-            Item *const item_to_add = [Item hydrateItemFromPFObject:object];
+            Item *const item_to_add = [Item createItemFromPFObject:object];
             [new_items addObject:item_to_add];
         }
         completion([NSArray arrayWithArray:new_items],nil);
@@ -108,7 +108,7 @@
     NSMutableArray<Item *> *items = [NSMutableArray new];
     for (PFObject* item_object in item_objects){
         PFObject *full_item_object = [Item populateObjectFromPointerObject:item_object];
-        Item *new_item = [Item hydrateItemFromPFObject:full_item_object];
+        Item *new_item = [Item createItemFromPFObject:full_item_object];
         [items addObject:new_item];
     }
     ShoppingList *const newList = [[ShoppingList alloc] initWithStore_name:object[@"store_name"] items:[NSArray arrayWithArray:items]];

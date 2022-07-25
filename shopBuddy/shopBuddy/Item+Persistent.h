@@ -15,11 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,copy) NSString *objectID;
 
-+ (void) createObject:(PFObject *)object;
-
 + (Item *) createItemWithDictionary:(NSDictionary *)dictionary;
 
-+ (Item *) hydrateItemFromPFObject: (PFObject *)object;
++ (Item *) createItemFromPFObject: (PFObject *)object;
 
 - (PFObject *) hydratePFObjectFromItemWithListObject: (PFObject *)list;
 
