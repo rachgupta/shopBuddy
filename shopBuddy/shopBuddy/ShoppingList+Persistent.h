@@ -13,10 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ShoppingList (Persistent)
 
 @property (nonatomic,copy) NSString *objectID;
+@property (nonatomic,copy) PFObject *listObject;
 
-+ (void) createEmptyList:(NSString *)store_name withCompletion:(void(^)(ShoppingList *new_list))completion;
++ (void) createEmptyList:(NSString *)store_name withCompletion:(void(^)(ShoppingList *new_list, NSError *error))completion;
 
-+ (void) addItemToList: (Item *)item withList: (ShoppingList *)list;
++ (void) createFromList:(ShoppingList *)list withItem:(Item *)item withCompletion:(void(^)(BOOL succeeded, NSError *error))completion;
 
 - (void) fetchItemsInList: (void(^)(NSArray<Item *> *items, NSError *error))completion;
 

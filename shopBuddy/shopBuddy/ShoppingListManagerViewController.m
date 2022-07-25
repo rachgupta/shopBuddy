@@ -40,8 +40,13 @@
 - (IBAction)didTapAddList:(id)sender {
     //TODO: add List names (make List of stores)
     __weak __typeof__(self) weakSelf = self;
-    [ShoppingList createEmptyList: @"New_List" withCompletion:^(ShoppingList *list) {
-        [weakSelf reloadLists];
+    [ShoppingList createEmptyList: @"New_List" withCompletion:^(ShoppingList *list,NSError *error) {
+        if(!error) {
+            [weakSelf reloadLists];
+        }
+        else {
+            NSLog(@"%@",error);
+        }
     }];
 }
 

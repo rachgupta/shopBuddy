@@ -21,8 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (PFObject *) hydratePFObjectFromItemWithListObject: (PFObject *)list;
 
-+ (PFObject *)populateObjectFromPointerObject: (PFObject *)object;
-
 @end
 
 NS_ASSUME_NONNULL_END

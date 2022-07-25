@@ -22,11 +22,7 @@
     objc_setAssociatedObject(self, @selector(objectID), new_objectID, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-+ (void)deleteItemFromList {
-    //TODO: delete functionality
-}
-
-- (void) syncPrices {
+- (void) _syncPrices {
     //TODO: prices
 }
 
@@ -34,12 +30,6 @@
 + (Item *) createItemWithDictionary:(NSDictionary *)dictionary {
     Item *const new_item = [[Item alloc] initWithBarcode_number:dictionary[@"barcode_number"] name:dictionary[@"title"] images:dictionary[@"images"] brand:dictionary[@"brand"] item_description:dictionary[@"description"]];
     return new_item;
-}
-
-//gets the full PFObject from the pointer PFObject in the List object
-+ (PFObject *)populateObjectFromPointerObject: (PFObject *)object {
-    PFQuery *query = [PFQuery queryWithClassName:@"Item"];
-    return [query getObjectWithId:object.objectId];
 }
 
 //creates a new object from the item in a given list

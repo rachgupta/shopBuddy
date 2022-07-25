@@ -31,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     descriptionView.scrollEnabled=YES;
+    
     if (self.item != nil) {
         [self _populateView];
     } else {
@@ -72,8 +73,11 @@
     for (ShoppingList *list in lists) {
         NSString *const actionTitle = [NSString stringWithFormat:@"Add Item to '%@' list", list.store_name];
         [actions addObject:[UIAction actionWithTitle:actionTitle image:nil identifier:nil handler:^(__kindof UIAction* _Nonnull action) {
-            [ShoppingList addItemToList:self.item withList:list];
-            [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
+            [ShoppingList createFromList:list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
+                if(succeeded) {
+                    [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
+                }
+            }];
         }]];
     }
     addItemToListButton.menu = [UIMenu menuWithTitle:@"" children:actions];

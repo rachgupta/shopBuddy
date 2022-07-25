@@ -35,8 +35,14 @@
                 NSLog(@"Error: %@", error.localizedDescription);
             } else {
                 NSLog(@"User registered successfully");
-                [ShoppingList createEmptyList: @"Unspecified" withCompletion:^(ShoppingList *shoppingList) {}];
-                [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+                [ShoppingList createEmptyList: @"Unspecified" withCompletion:^(ShoppingList *shoppingList,NSError *error) {
+                    if(!error) {
+                        [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+                    }
+                    else {
+                        NSLog(@"%@",error);
+                    }
+                }];
                 // manually segue to logged in view
             }
         }];
