@@ -46,9 +46,10 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqual:@"showDetailSegue"])
-    {
+    if([segue.identifier isEqual:@"showDetailSegue"]) {
         ItemDetailViewController *const detailVC = [segue destinationViewController];
+        detailVC.delegate = self.delegate;
+        detailVC.lists = self.lists;
         detailVC.barcode = barcodeField.text;
     } else if([segue.identifier isEqual:@"showBarcodeSegue"]) {
         ScanBarcodeViewController *const barcodeVC = [segue destinationViewController];
@@ -57,6 +58,8 @@
         Item *const selected_item = searchResults[myPath.row];
         ItemDetailViewController *const detailVC = [segue destinationViewController];
         detailVC.item = selected_item;
+        detailVC.delegate = self.delegate;
+        detailVC.lists = self.lists;
     }
 }
 #pragma mark - TableViewDelegate and Data Source methods
