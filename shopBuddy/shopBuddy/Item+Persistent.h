@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Item (Persistent)
 
 @property (nonatomic,copy) NSString *objectID;
+@property (nonatomic,copy) PFObject *itemObject;
 
 + (Item *) createItemWithDictionary:(NSDictionary *)dictionary;
 

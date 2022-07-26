@@ -114,7 +114,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="store_name" destination="gmu-Qf-9uv" id="Add-EV-l8z"/>
-                                            <segue destination="RBZ-s6-Fyj" kind="show" id="NMo-dU-iOr"/>
+                                            <segue destination="RBZ-s6-Fyj" kind="show" identifier="segueToList" id="NMo-dU-iOr"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -125,6 +125,15 @@
                                 <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title="Add a List"/>
                                 <connections>
                                     <action selector="didTapAddList:" destination="5nf-XL-tEi" eventType="touchUpInside" id="xyv-wh-5jz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jnW-Xj-Q8s">
+                                <rect key="frame" x="128" y="570" width="135" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Add an Item"/>
+                                <connections>
+                                    <action selector="didTapAddItem:" destination="5nf-XL-tEi" eventType="touchUpInside" id="kPE-CJ-6gC"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -145,27 +154,12 @@
                     <navigationItem key="navigationItem" id="j0d-c0-FD9"/>
                     <connections>
                         <outlet property="tableView" destination="Jsa-KI-o7X" id="TMx-6t-xXS"/>
+                        <segue destination="DU9-0J-PMc" kind="show" identifier="segueToAddItem" id="whX-fd-Dbb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JXJ-qU-OSd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1557.9710144927537" y="97.767857142857139"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="HSJ-5J-EfW">
-            <objects>
-                <viewController id="5Ju-pH-1Cn" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="TLo-WJ-Vdg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="hfH-xp-uqY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="HSA-4T-99L"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dZp-Sp-NbL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2256" y="39"/>
         </scene>
         <!--Specific List View Controller-->
         <scene sceneID="93F-nB-mwz">
@@ -228,15 +222,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eJw-hz-aTg">
-                                <rect key="frame" x="156" y="631" width="102" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Add an Item"/>
-                                <connections>
-                                    <segue destination="DU9-0J-PMc" kind="show" id="cqv-uj-ddU"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="VcX-hw-xwa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -613,6 +598,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="whX-fd-Dbb"/>
         <segue reference="QU9-bt-dF1"/>
         <segue reference="Hsz-sw-o2a"/>
     </inferredMetricsTieBreakers>

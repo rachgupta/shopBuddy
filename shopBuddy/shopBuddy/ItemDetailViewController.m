@@ -15,7 +15,6 @@
 
 @interface ItemDetailViewController ()
 {
-    NSArray<ShoppingList*> *lists;
     __weak IBOutlet UITextView *descriptionView;
     __weak IBOutlet UILabel *titleLabel;
     __weak IBOutlet UILabel *brandLabel;
@@ -38,13 +37,18 @@
         [self _callAPI];
     }
     __weak __typeof__(self) weakSelf = self;
-    [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
-        if(weakSelf) {
+    if (self.lists==nil) {
+        [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            strongSelf->lists = lists;
-            [weakSelf _makeMenu];
-        }
-    }];
+            if(strongSelf) {
+                strongSelf.lists = lists;
+                [weakSelf _makeMenu];
+            }
+        }];
+    }
+    else {
+        [self _makeMenu];
+    }
 }
 
 - (void)_callAPI {
@@ -52,7 +56,7 @@
     [[APIManager shared] getItemWithBarcode:self.barcode completion:^(Item *item, NSError *error) {
         if (item) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            if(weakSelf)
+            if(strongSelf)
             {
                 strongSelf->_item = item;
                 [weakSelf _populateView];
@@ -75,14 +79,21 @@
 
 - (void) _makeMenu {
     NSMutableArray* actions = [[NSMutableArray alloc] init];
-    for (ShoppingList *list in lists) {
+    for (ShoppingList *list in self.lists) {
         NSString *const actionTitle = [NSString stringWithFormat:@"Add Item to '%@' list", list.store_name];
         [actions addObject:[UIAction actionWithTitle:actionTitle image:nil identifier:nil handler:^(__kindof UIAction* _Nonnull action) {
+            [self.delegate addItemToList:list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
+                if(succeeded) {
+                    [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
+                }
+            }];
+            /*
             [ShoppingList createFromList:list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
                 if(succeeded) {
                     [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
                 }
             }];
+            */
         }]];
     }
     addItemToListButton.menu = [UIMenu menuWithTitle:@"" children:actions];

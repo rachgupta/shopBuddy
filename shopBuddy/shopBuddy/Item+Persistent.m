@@ -22,6 +22,14 @@
     objc_setAssociatedObject(self, @selector(objectID), new_objectID, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+- (NSString *)itemObject {
+    return objc_getAssociatedObject(self, @selector(itemObject));
+}
+
+- (void)setItemObject:(PFObject *)new_itemObject {
+    objc_setAssociatedObject(self, @selector(itemObject), new_itemObject, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 - (void) _syncPrices {
     //TODO: prices
 }
@@ -35,6 +43,8 @@
 //creates a new object from the item in a given list
 - (PFObject *) hydratePFObjectFromItemWithListObject: (PFObject *)list {
     NSDictionary *dict = @{ @"name" : self.name, @"barcode_number" : self.barcode_number, @"images" : self.images, @"brand" : self.brand, @"item_description" : self.item_description, @"list" : list};
+    PFObject *new_object = [PFObject objectWithClassName:@"Item" dictionary:dict];
+    self.itemObject = new_object;
     return [PFObject objectWithClassName:@"Item" dictionary:dict];
 }
 
@@ -43,6 +53,7 @@
     NSLog(@"%@",object[@"name"]);
     Item *const new_item = [[Item alloc] initWithBarcode_number:object[@"barcode_number"] name:object[@"name"] images:object[@"images"] brand:object[@"brand"] item_description:object[@"item_description"]];
     new_item.objectID = object.objectId;
+    new_item.itemObject = object;
     return new_item;
 }
 

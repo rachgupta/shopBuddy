@@ -6,10 +6,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ShoppingList.h"
+#import "ShoppingListManagerViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AddItemViewController : UIViewController
+@property (strong, nonatomic) NSArray<ShoppingList *> *lists;
+@property (nonatomic, weak) id<ShoppingListDelegate> delegate;
 
 @end
 
