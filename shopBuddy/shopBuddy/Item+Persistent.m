@@ -22,6 +22,14 @@
     objc_setAssociatedObject(self, @selector(objectID), new_objectID, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+- (NSDictionary *)prices {
+    return objc_getAssociatedObject(self, @selector(prices));
+}
+
+- (void)setPrices:(NSDictionary *)new_prices {
+    objc_setAssociatedObject(self, @selector(prices), new_prices, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 - (NSString *)itemObject {
     return objc_getAssociatedObject(self, @selector(itemObject));
 }
@@ -50,7 +58,6 @@
 
 //creates an item to house the PFObject
 + (Item *) createItemFromPFObject: (PFObject *)object {
-    NSLog(@"%@",object[@"name"]);
     Item *const new_item = [[Item alloc] initWithBarcode_number:object[@"barcode_number"] name:object[@"name"] images:object[@"images"] brand:object[@"brand"] item_description:object[@"item_description"]];
     new_item.objectID = object.objectId;
     new_item.itemObject = object;

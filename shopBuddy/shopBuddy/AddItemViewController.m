@@ -6,7 +6,7 @@
 //
 
 #import "AddItemViewController.h"
-#import "APIManager.h"
+#import "BarcodeAPIManager.h"
 #import "Item.h"
 #import "ItemDetailViewController.h"
 #import "ScanBarcodeViewController.h"
@@ -38,7 +38,7 @@
 
 - (IBAction)didTapSearch:(id)sender {
     //TODO: Search field validation
-    [[APIManager shared] searchItemsWithQuery:searchField.text completion:^(NSMutableArray<Item*> *items, NSError *error) {
+    [[BarcodeAPIManager shared] searchItemsWithQuery:searchField.text completion:^(NSMutableArray<Item*> *items, NSError *error) {
         self->searchResults = items;
         [self->tableView reloadData];
     }];
@@ -53,6 +53,8 @@
         detailVC.barcode = barcodeField.text;
     } else if([segue.identifier isEqual:@"showBarcodeSegue"]) {
         ScanBarcodeViewController *const barcodeVC = [segue destinationViewController];
+        barcodeVC.delegate = self.delegate;
+        barcodeVC.lists = self.lists;
     } else if([segue.identifier isEqual:@"showResultDetailSegue"]) {
         NSIndexPath *const myPath = [tableView indexPathForCell:sender];
         Item *const selected_item = searchResults[myPath.row];

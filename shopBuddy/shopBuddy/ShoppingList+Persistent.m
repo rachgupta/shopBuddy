@@ -126,7 +126,6 @@
 
 //makes a list to house a given list object
 + (ShoppingList*)_hydrateShoppingListFromPFObject: (PFObject *)object {
-    NSLog(@"%@",object.objectId);
     NSArray<PFObject *> *item_objects = object[@"items"];
     NSMutableArray<Item *> *items = [NSMutableArray new];
     for (PFObject* item_object in item_objects){

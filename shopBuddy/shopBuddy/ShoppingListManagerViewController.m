@@ -12,10 +12,13 @@
 #import "ShoppingList+Persistent.h"
 #import "Parse/Parse.h"
 #import "AddItemViewController.h"
+
 @interface ShoppingListManagerViewController () <UITableViewDataSource, UITableViewDelegate,ShoppingListDelegate>
 {
     __weak IBOutlet UITableView *tableView;
     NSArray<ShoppingList*> *lists;
+    NSArray<NSString*> *stores;
+    __weak IBOutlet UIButton *addListButton;
     
 }
 
@@ -29,7 +32,9 @@
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
     __weak __typeof__(self) weakSelf = self;
+    stores = @[@"Walmart",@"Target",@"Amazon"];
     [weakSelf _fetchLists];
+    [self _makeMenu];
 }
 
 - (void)_fetchLists {
@@ -56,22 +61,31 @@
     lists = mutable_lists;
     [tableView reloadData];
 }
-- (IBAction)didTapAddList:(id)sender {
-    //TODO: add List names (make List of stores)
-    __weak __typeof__(self) weakSelf = self;
-    [ShoppingList createEmptyList: @"New_List" withCompletion:^(ShoppingList *list,NSError *error) {
-        if(!error) {
-            [weakSelf _updateListsWithNewList:list];
-        }
-        else {
-            NSLog(@"%@",error);
-        }
-    }];
+- (void) _makeMenu {
+    NSMutableArray* actions = [[NSMutableArray alloc] init];
+    for (NSString *store in stores) {
+        NSString *const actionTitle = [NSString stringWithFormat:@"Add '%@' list", store];
+        __weak __typeof__(self) weakSelf = self;
+        [actions addObject:[UIAction actionWithTitle:actionTitle image:nil identifier:nil handler:^(__kindof UIAction* _Nonnull action) {
+            [ShoppingList createEmptyList:store withCompletion:^(ShoppingList *list,NSError *error) {
+                if(!error) {
+                    [weakSelf _updateListsWithNewList:list];
+                }
+                else {
+                    NSLog(@"%@",error);
+                }
+            }];
+            
+        }]];
+    }
+    addListButton.menu = [UIMenu menuWithTitle:@"" children:actions];
+    addListButton.showsMenuAsPrimaryAction = YES;
 }
+
+#pragma mark - Actions
 - (IBAction)didTapAddItem:(id)sender {
     [self performSegueWithIdentifier:@"segueToAddItem" sender:self];
 }
-
 #pragma mark - TableViewDelegate and Data Source methods
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -115,8 +129,6 @@
         addVC.lists = lists;
         addVC.delegate = self;
     }
-    // Get the new view controller using [segue destinalujreffivtfhieeftgbblbjifktddrhdreidlkhickcbgfjbtlreikkngbudjrkhtionViewController].
-    // Pass the selected object to the new view controller.
 }
 
 @end

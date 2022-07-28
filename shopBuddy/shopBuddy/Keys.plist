@@ -2,7 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>api_key</key>
+	<key>barcode_api_key</key>
 	<string>qsku6wfd35004xgpuvo6q21bkkbych</string>
+	<key>price_api_key</key>
+	<string>NDPLRSFKOSOLPOIHVYESIKWLGCMKCKCDNQKTNSRAUBZTOUCZFSLWJZMAWFYPIYEH</string>
 </dict>
 </plist>

@@ -8,10 +8,11 @@
 #import "ItemDetailViewController.h"
 #import "Item.h"
 #import "UIImageView+AFNetworking.h"
-#import "APIManager.h"
+#import "BarcodeAPIManager.h"
 #import "ShoppingList.h"
 #import "ShoppingList+Persistent.h"
 #import "Parse/Parse.h"
+#import "GlobalManager.h"
 
 @interface ItemDetailViewController ()
 {
@@ -30,11 +31,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     descriptionView.scrollEnabled=YES;
-    
+    GlobalManager *myManager = [GlobalManager sharedManager];
+    [self _callPricesAPI:myManager];
     if (self.item != nil) {
         [self _populateView];
     } else {
-        [self _callAPI];
+        [self _callBarcodeAPI];
     }
     __weak __typeof__(self) weakSelf = self;
     if (self.lists==nil) {
@@ -51,9 +53,9 @@
     }
 }
 
-- (void)_callAPI {
+- (void)_callBarcodeAPI {
     __weak __typeof__(self) weakSelf = self;
-    [[APIManager shared] getItemWithBarcode:self.barcode completion:^(Item *item, NSError *error) {
+    [[BarcodeAPIManager shared] getItemWithBarcode:self.barcode completion:^(Item *item, NSError *error) {
         if (item) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if(strongSelf)
@@ -64,6 +66,12 @@
         } else {
             //TODO: Failure logic
         }
+    }];
+}
+
+- (void) _callPricesAPI: (GlobalManager *)manager{
+    [manager fetchPricesWithItem:self.item fromStore:@"google_shopping" completion:^(NSDictionary * _Nonnull prices, BOOL success) {
+        NSLog(@"%@",prices);
     }];
 }
 
@@ -87,26 +95,10 @@
                     [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
                 }
             }];
-            /*
-            [ShoppingList createFromList:list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
-                if(succeeded) {
-                    [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
-                }
-            }];
-            */
         }]];
     }
     addItemToListButton.menu = [UIMenu menuWithTitle:@"" children:actions];
     addItemToListButton.showsMenuAsPrimaryAction = YES;
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

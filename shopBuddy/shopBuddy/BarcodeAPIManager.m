@@ -5,7 +5,7 @@
 //  Created by Rachna Gupta on 7/12/22.
 //
 
-#import "APIManager.h"
+#import "BarcodeAPIManager.h"
 #import "AFNetworking.h"
 #import "Item.h"
 #import "Item+Persistent.h"
@@ -14,10 +14,10 @@ static NSString * const baseURLString = @"https://api.barcodelookup.com";
 static NSString * const kBarcode_url = @"v3/products?barcode=%@&formatted=y&key=%@";
 static NSString * const kSearch_url = @"v3/products?search=%@&formatted=y&key=%@";
 NSString * key;
-@implementation APIManager
+@implementation BarcodeAPIManager
 AFHTTPSessionManager *manager;
 + (instancetype)shared {
-    static APIManager *sharedManager = nil;
+    static BarcodeAPIManager *sharedManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedManager = [[self alloc] init];
@@ -29,7 +29,7 @@ AFHTTPSessionManager *manager;
     if(self=[super init])
     {
         manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:baseURLString]];
-        key = [[NSDictionary dictionaryWithContentsOfFile: [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"]] objectForKey: @"api_key"];
+        key = [[NSDictionary dictionaryWithContentsOfFile: [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"]] objectForKey: @"barcode_api_key"];
     }
     return self;
 }
