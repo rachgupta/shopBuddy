@@ -10,6 +10,9 @@
 #import <objc/runtime.h>
 #import "ShoppingList.h"
 
+@interface Item (Persistent)
+@property (nonatomic,copy) PFObject *itemObject;
+@end
 @implementation Item (Persistent)
 
 

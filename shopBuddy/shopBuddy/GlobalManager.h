@@ -12,11 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GlobalManager : NSObject
 
-/*
-@property (atomic, strong) NSMutableDictionary<NSString *, NSString *> *itemJobIdMap;
-@property (atomic, strong) NSMutableArray<NSString *> *outstandingJobs; // Job sync in progress
-@property (atomic, strong) NSMutableDictionary<NSString *, NSDictionary *> *completeJobs;
-*/
 + (id)sharedManager;
 
 - (void)fetchPricesWithItem:(Item *)item fromStore: (NSString *)store completion:(void(^)(NSDictionary *prices, BOOL success))completion;

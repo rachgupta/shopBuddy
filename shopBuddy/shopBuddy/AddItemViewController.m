@@ -14,21 +14,19 @@
 #import "UIImageView+AFNetworking.h"
 
 @interface AddItemViewController () <UITableViewDataSource, UITableViewDelegate>
-{
-    UITableView *tableView;
-    UITextField *barcodeField;
-    UITextField *searchField;
-    NSMutableArray<Item*> *searchResults;
-}
+@property UITextField *searchField;
+@property NSMutableArray<Item*> *searchResults;
+@property UITextField *barcodeField;
+@property UITableView *tableView;
 
 @end
 
 @implementation AddItemViewController
 
 - (void)viewDidLoad {
-    tableView.dataSource = self;
-    tableView.delegate = self;
-    tableView.rowHeight = UITableViewAutomaticDimension;
+    _tableView.dataSource = self;
+    _tableView.delegate = self;
+    _tableView.rowHeight = UITableViewAutomaticDimension;
     [super viewDidLoad];
 }
 
@@ -38,10 +36,10 @@
 
 - (IBAction)didTapSearch:(id)sender {
     //TODO: Search field validation
-    [[BarcodeAPIManager shared] searchItemsWithQuery:searchField.text completion:^(NSMutableArray<Item*> *items, NSError *error) {
+    [[BarcodeAPIManager shared] searchItemsWithQuery:_searchField.text completion:^(NSMutableArray<Item*> *items, NSError *error) {
         //TODO: handle error
-        self->searchResults = items;
-        [self->tableView reloadData];
+        self.searchResults = items;
+        [self.tableView reloadData];
     }];
     
 }
@@ -51,14 +49,14 @@
         ItemDetailViewController *const detailVC = [segue destinationViewController];
         detailVC.delegate = self.delegate;
         detailVC.lists = self.lists;
-        detailVC.barcode = barcodeField.text;
+        detailVC.barcode = _barcodeField.text;
     } else if([segue.identifier isEqual:@"showBarcodeSegue"]) {
         ScanBarcodeViewController *const barcodeVC = [segue destinationViewController];
         barcodeVC.delegate = self.delegate;
         barcodeVC.lists = self.lists;
     } else if([segue.identifier isEqual:@"showResultDetailSegue"]) {
-        NSIndexPath *const myPath = [tableView indexPathForCell:sender];
-        Item *const selected_item = searchResults[myPath.row];
+        NSIndexPath *const myPath = [_tableView indexPathForCell:sender];
+        Item *const selected_item = _searchResults[myPath.row];
         ItemDetailViewController *const detailVC = [segue destinationViewController];
         detailVC.item = selected_item;
         detailVC.delegate = self.delegate;
@@ -68,13 +66,13 @@
 #pragma mark - TableViewDelegate and Data Source methods
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return searchResults.count;
+    return _searchResults.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:
     (NSIndexPath *)indexPath {
     SearchResultItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ResultCell"];
-    Item *const item = searchResults[indexPath.row];
+    Item *const item = _searchResults[indexPath.row];
     cell.itemTitle.text = item.name;
     NSString *const URLString = item.images[0];
     NSURL *const url = [NSURL URLWithString:URLString];

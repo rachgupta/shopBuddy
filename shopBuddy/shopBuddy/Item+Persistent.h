@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Item (Persistent)
 
 @property (nonatomic,copy) NSString *objectID;
-@property (nonatomic,copy) PFObject *itemObject;
 @property (nonatomic,copy) NSDictionary *prices;
 @property (nonatomic,copy) NSString *priceSyncStatus;
 

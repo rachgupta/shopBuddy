@@ -47,11 +47,16 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
 - (void)fetchPricesWithItem:(Item *)item fromStore: (NSString *)store completion:(void(^)(NSDictionary *prices, BOOL success))completion {
     //TODO: Parse Dictionary and return Array of NSObject Price
     NSString *const jobId = self.itemJobIdMap[item.name];
+    
     if (jobId == nil) {
+        __weak __typeof(self) weakSelf = self;
         [self _submitJob:item.name withStore:store withCompletion:^(NSString *job_id, NSError *error) {
             if(!error) {
-                self.itemJobIdMap[item.name] = job_id;
-                [self _checkJobStatus:job_id withCompletion:completion];
+                weakSelf.itemJobIdMap[item.name] = job_id;
+                [weakSelf _checkJobStatus:job_id withCompletion:completion];
+            }
+            else {
+                completion(nil, NO);
             }
         }];
     } else {
@@ -68,12 +73,7 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
 
     if ([self.outstandingJobs containsObject:job_id]) {
         // Time window passed but last sync is not ready
-        __weak __typeof(self) weakSelf = self;
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        const dispatch_time_t timeoutTime = dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
-        dispatch_after(timeoutTime, queue, ^{
-            [weakSelf _checkJobStatus:job_id withCompletion:completion];
-        });
+        [self _waitAndRetry:job_id withCompletion:completion];
         return;
     }
 
@@ -81,12 +81,19 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
     __weak __typeof(self) weakSelf = self;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        [self.outstandingJobs addObject:job_id];
-        [weakSelf _requestJobStatus:job_id withCompletion:^(BOOL jobIsFinished, NSError *error) {
-            [weakSelf _jobStatusCallback:job_id finished:jobIsFinished withCompletion:^(NSDictionary *prices, BOOL success) {
-                completion(prices,success);
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        if(strongSelf)
+        {
+            [strongSelf.outstandingJobs addObject:job_id];
+            [strongSelf _requestJobStatus:job_id withCompletion:^(BOOL jobIsFinished, NSError *error) {
+                if(error) {
+                    completion(nil,NO);
+                }
+                else {
+                    [strongSelf _jobStatusCallback:job_id finished:jobIsFinished withCompletion:completion];
+                }
             }];
-        }];
+        }
     });
 }
 
@@ -94,22 +101,27 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
     if (finished) {
         __weak __typeof(self) weakSelf = self;
         [self _downloadJobResults:jobId withCompletion:^(NSDictionary *results, NSError *error) {
-            __strong __typeof(weakSelf) strongSelf = weakSelf;
-            if (strongSelf != nil) {
-                if(!error) {
-                    self.completeJobs[jobId] = results;
-                    [self.outstandingJobs removeObject:jobId];
+            if (!error) {
+                __strong __typeof(weakSelf) strongSelf = weakSelf;
+                if(strongSelf != nil) {
+                    strongSelf.completeJobs[jobId] = results;
+                    [strongSelf.outstandingJobs removeObject:jobId];
                     completion(results,YES);
                 }
             }
         }];
     } else {
         [self.outstandingJobs removeObject:jobId];
-        [self _retryIfNeeded:jobId withCompletion:completion];
+        [self _checkJobStatus:jobId withCompletion:completion];
     }
 }
-- (void)_retryIfNeeded: (NSString *)jobID withCompletion:(void(^)(NSDictionary *prices, BOOL success))completion{
-    [self _checkJobStatus: jobID withCompletion:completion];
+- (void)_waitAndRetry: (NSString *)jobID withCompletion:(void(^)(NSDictionary *prices, BOOL success))completion{
+    __weak __typeof(self) weakSelf = self;
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    const dispatch_time_t timeoutTime = dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
+    dispatch_after(timeoutTime, queue, ^{
+        [weakSelf _checkJobStatus:jobID withCompletion:completion];
+    });
 }
 
 - (void) _submitJob: (NSString *)term withStore: (NSString *) store withCompletion: (void(^)(NSString *job_id, NSError *error))completion {
@@ -155,7 +167,6 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
                 const BOOL success = [dict[@"status"] isEqual:@"finished"];
                 completion(success, nil);
             }
-            
         }
     }];
     [dataTask resume];
