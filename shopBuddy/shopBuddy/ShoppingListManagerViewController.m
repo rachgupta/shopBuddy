@@ -71,9 +71,6 @@
                 if(!error) {
                     [weakSelf _updateListsWithNewList:list];
                 }
-                else {
-                    NSLog(@"%@",error);
-                }
             }];
             
         }]];
@@ -86,6 +83,7 @@
 - (IBAction)didTapAddItem:(id)sender {
     [self performSegueWithIdentifier:@"segueToAddItem" sender:self];
 }
+
 #pragma mark - TableViewDelegate and Data Source methods
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -109,7 +107,6 @@
             completion(YES,nil);
         }
         else {
-            NSLog(@"%@",error);
             completion(NO,error);
         }
     }];

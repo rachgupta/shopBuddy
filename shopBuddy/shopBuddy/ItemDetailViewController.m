@@ -47,8 +47,7 @@
                 [weakSelf _makeMenu];
             }
         }];
-    }
-    else {
+    } else {
         [self _makeMenu];
     }
 }
@@ -70,9 +69,7 @@
 }
 
 - (void) _callPricesAPI: (GlobalManager *)manager{
-    [manager fetchPricesWithItem:self.item fromStore:@"google_shopping" completion:^(NSDictionary * _Nonnull prices, BOOL success) {
-        NSLog(@"%@",prices);
-    }];
+    [manager fetchPricesWithItem:self.item fromStore:@"google_shopping" completion:^(NSDictionary * _Nonnull prices, BOOL success) {}];
 }
 
 - (void)_populateView {

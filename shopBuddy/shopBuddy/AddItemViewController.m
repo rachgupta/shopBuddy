@@ -13,15 +13,12 @@
 #import "SearchResultItemCell.h"
 #import "UIImageView+AFNetworking.h"
 
-@interface AddItemViewController () <UITableViewDataSource, UITableViewDelegate>
-@property UITextField *searchField;
-@property NSMutableArray<Item*> *searchResults;
-@property UITextField *barcodeField;
-@property UITableView *tableView;
-
-@end
-
-@implementation AddItemViewController
+@implementation AddItemViewController {
+    UITextField *_searchField;
+    NSMutableArray<Item*> *_searchResults;
+    UITextField *_barcodeField;
+    UITableView *_tableView;
+}
 
 - (void)viewDidLoad {
     _tableView.dataSource = self;
@@ -38,8 +35,8 @@
     //TODO: Search field validation
     [[BarcodeAPIManager shared] searchItemsWithQuery:_searchField.text completion:^(NSMutableArray<Item*> *items, NSError *error) {
         //TODO: handle error
-        self.searchResults = items;
-        [self.tableView reloadData];
+        self->_searchResults = items;
+        [self->_tableView reloadData];
     }];
     
 }
@@ -47,6 +44,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqual:@"showDetailSegue"]) {
         ItemDetailViewController *const detailVC = [segue destinationViewController];
+        //TODO: move to GlobalManager
         detailVC.delegate = self.delegate;
         detailVC.lists = self.lists;
         detailVC.barcode = _barcodeField.text;
