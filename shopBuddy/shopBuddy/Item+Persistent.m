@@ -13,6 +13,13 @@
 @implementation Item (Persistent)
 
 
+- (NSString *)priceSyncStatus {
+    return objc_getAssociatedObject(self, @selector(priceSyncStatus));
+}
+
+- (void)setPriceSyncStatus:(NSString *)new_priceSync {
+    objc_setAssociatedObject(self, @selector(priceSyncStatus), new_priceSync, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
 
 - (NSString *)objectID {
     return objc_getAssociatedObject(self, @selector(objectID));

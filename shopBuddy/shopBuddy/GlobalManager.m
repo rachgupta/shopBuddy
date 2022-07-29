@@ -132,7 +132,6 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
-            NSLog(@"%@", error);
             completion(nil,error);
         } else {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
@@ -156,19 +155,14 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
-            NSLog(@"%@", error);
             completion(nil, error);
         } else {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
             if([httpResponse statusCode]==200) {
                 NSError *er = nil;
                 NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&er];
-                if([dict[@"status"] isEqual:@"finished"]) {
-                    completion(YES, nil);
-                }
-                else {
-                    completion(NO, nil);
-                }
+                const BOOL success = [dict[@"status"] isEqual:@"finished"];
+                completion(success, nil);
             }
             
         }
@@ -183,7 +177,6 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
-            NSLog(@"%@", error);
             completion(nil,error);
         } else {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
