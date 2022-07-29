@@ -9,6 +9,7 @@
 #import "Parse/Parse.h"
 #import <objc/runtime.h>
 #import "ShoppingList.h"
+#import "Price.h"
 
 @interface Item (Persistent)
 @property (nonatomic,copy) PFObject *itemObject;
@@ -32,11 +33,19 @@
     objc_setAssociatedObject(self, @selector(objectID), new_objectID, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSDictionary *)prices {
+- (NSDate *)lastSynced {
+    return objc_getAssociatedObject(self, @selector(lastSynced));
+}
+
+- (void)setLastSynced:(NSDate *)new_lastSynced {
+    objc_setAssociatedObject(self, @selector(lastSynced), new_lastSynced, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSMutableArray<Price *> *)prices {
     return objc_getAssociatedObject(self, @selector(prices));
 }
 
-- (void)setPrices:(NSDictionary *)new_prices {
+- (void)setPrices:(NSMutableArray<Price *> *)new_prices {
     objc_setAssociatedObject(self, @selector(prices), new_prices, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 

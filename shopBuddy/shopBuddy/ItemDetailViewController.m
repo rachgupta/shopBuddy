@@ -31,13 +31,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     descriptionView.scrollEnabled=YES;
-    GlobalManager *myManager = [GlobalManager sharedManager];
-    [self _callPricesAPI:myManager];
-    if (self.item != nil) {
-        [self _populateView];
-    } else {
-        [self _callBarcodeAPI];
-    }
     __weak __typeof__(self) weakSelf = self;
     if (self.lists==nil) {
         [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
@@ -51,9 +44,19 @@
     else {
         [self _makeMenu];
     }
+    if (self.item != nil) {
+        [self _populateView];
+        GlobalManager *myManager = [GlobalManager sharedManager];
+        [self _callPricesAPI:myManager];
+    } else {
+        [self _callBarcodeAPI:^(BOOL success){
+            GlobalManager *myManager = [GlobalManager sharedManager];
+            [self _callPricesAPI:myManager];
+        }];
+    }
 }
 
-- (void)_callBarcodeAPI {
+- (void)_callBarcodeAPI:(void(^)(BOOL success))completion{
     __weak __typeof__(self) weakSelf = self;
     [[BarcodeAPIManager shared] getItemWithBarcode:self.barcode completion:^(Item *item, NSError *error) {
         if (item) {
@@ -62,6 +65,7 @@
             {
                 strongSelf->_item = item;
                 [weakSelf _populateView];
+                completion(YES);
             }
         } else {
             //TODO: Failure logic
