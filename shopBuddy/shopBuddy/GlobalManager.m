@@ -8,13 +8,18 @@
 #import "GlobalManager.h"
 #import "Item.h"
 
+@interface GlobalManager ()
+{
+    NSString *priceKey;
+}
+
+@end
 @implementation GlobalManager
 
 
 static NSString * const kJob_URL = @"https://api.priceapi.com/v2/jobs?token=%@";
 static NSString * const kJobID_URL = @"https://api.priceapi.com/v2/jobs/%@?token=%@";
 static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@/download?token=%@";
-NSString *priceKey;
 
 + (id)sharedManager {
     static GlobalManager *sharedGlobalManager = nil;
@@ -82,7 +87,7 @@ NSString *priceKey;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         [self.outstandingJobs addObject:job_id];
-        [weakSelf requestJobStatus:job_id withCompletion:^(BOOL jobIsFinished, NSError *error) {
+        [weakSelf _requestJobStatus:job_id withCompletion:^(BOOL jobIsFinished, NSError *error) {
             [weakSelf _jobStatusCallback:job_id finished:jobIsFinished withCompletion:^(NSDictionary *prices, BOOL success) {
                 completion(prices,success);
             }];
@@ -93,7 +98,7 @@ NSString *priceKey;
 - (void)_jobStatusCallback:(NSString *)jobId finished: (BOOL)finished withCompletion:(void(^)(NSDictionary *prices, BOOL success))completion {
     if (finished) {
         __weak __typeof(self) weakSelf = self;
-        [self downloadJobResults:jobId withCompletion:^(NSDictionary *results, NSError *error) {
+        [self _downloadJobResults:jobId withCompletion:^(NSDictionary *results, NSError *error) {
             __strong __typeof(weakSelf) strongSelf = weakSelf;
             if (strongSelf != nil) {
                 if(!error) {
@@ -143,7 +148,7 @@ NSString *priceKey;
 }
 
 
-- (void) requestJobStatus: (NSString *)jobID withCompletion:(void(^)(BOOL jobIsFinished, NSError *error))completion {
+- (void) _requestJobStatus: (NSString *)jobID withCompletion:(void(^)(BOOL jobIsFinished, NSError *error))completion {
     NSDictionary *const headers = @{ @"Accept": @"application/json" };
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:kJobID_URL,jobID,priceKey]] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0];
     [request setHTTPMethod:@"GET"];
@@ -170,7 +175,7 @@ NSString *priceKey;
     }];
     [dataTask resume];
 }
-- (void) downloadJobResults: (NSString *)jobID withCompletion:(void(^)(NSDictionary *results, NSError *error))completion {
+- (void) _downloadJobResults: (NSString *)jobID withCompletion:(void(^)(NSDictionary *results, NSError *error))completion {
     NSDictionary *const headers = @{ @"Accept": @"application/json" };
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:kJobDownload_URL,jobID,priceKey]] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0];
     [request setHTTPMethod:@"GET"];

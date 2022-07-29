@@ -39,6 +39,7 @@
 - (IBAction)didTapSearch:(id)sender {
     //TODO: Search field validation
     [[BarcodeAPIManager shared] searchItemsWithQuery:searchField.text completion:^(NSMutableArray<Item*> *items, NSError *error) {
+        //TODO: handle error
         self->searchResults = items;
         [self->tableView reloadData];
     }];
