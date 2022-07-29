@@ -43,7 +43,7 @@
         [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if(strongSelf) {
-                strongSelf.lists = lists;
+                strongSelf->_lists = lists;
                 [weakSelf _makeMenu];
             }
         }];

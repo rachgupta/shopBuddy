@@ -12,6 +12,9 @@
 {
     NSString *priceKey;
 }
+@property (atomic, strong) NSMutableDictionary<NSString *, NSString *> *itemJobIdMap;
+@property (atomic, strong) NSMutableArray<NSString *> *outstandingJobs; // Job sync in progress
+@property (atomic, strong) NSMutableDictionary<NSString *, NSDictionary *> *completeJobs;
 
 @end
 @implementation GlobalManager
@@ -48,15 +51,11 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
         [self _submitJob:item.name withStore:store withCompletion:^(NSString *job_id, NSError *error) {
             if(!error) {
                 self.itemJobIdMap[item.name] = job_id;
-                [self _checkJobStatus:job_id withCompletion:^(NSDictionary *prices, BOOL success) {
-                    completion(prices,success);
-                }];
+                [self _checkJobStatus:job_id withCompletion:completion];
             }
         }];
     } else {
-        [self _checkJobStatus:jobId withCompletion:^(NSDictionary *prices, BOOL success) {
-            completion(prices,success);
-        }];
+        [self _checkJobStatus:jobId withCompletion:completion];
     }
 }
 
@@ -73,11 +72,7 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         const dispatch_time_t timeoutTime = dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
         dispatch_after(timeoutTime, queue, ^{
-            [weakSelf _checkJobStatus:job_id withCompletion:^(NSDictionary *prices, BOOL success) {
-                if(prices!=nil) {
-                    completion(prices,success);
-                }
-            }];
+            [weakSelf _checkJobStatus:job_id withCompletion:completion];
         });
         return;
     }
@@ -110,15 +105,11 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
         }];
     } else {
         [self.outstandingJobs removeObject:jobId];
-        [self _retryIfNeeded:jobId withCompletion:^(NSDictionary *prices, BOOL success) {
-            completion(prices,success);
-        }];
+        [self _retryIfNeeded:jobId withCompletion:completion];
     }
 }
 - (void)_retryIfNeeded: (NSString *)jobID withCompletion:(void(^)(NSDictionary *prices, BOOL success))completion{
-    [self _checkJobStatus: jobID withCompletion:^(NSDictionary *prices, BOOL success) {
-        completion(prices,success);
-    }];
+    [self _checkJobStatus: jobID withCompletion:completion];
 }
 
 - (void) _submitJob: (NSString *)term withStore: (NSString *) store withCompletion: (void(^)(NSString *job_id, NSError *error))completion {
@@ -137,8 +128,8 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
             if ([httpResponse statusCode]==200) {
                 NSError *er = nil;
-                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&er];
-                NSString *job_id = dict[@"job_id"];
+                NSDictionary *const dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&er];
+                NSString *const job_id = dict[@"job_id"];
                 completion(job_id,nil);
             }
         }
@@ -160,7 +151,7 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
             if([httpResponse statusCode]==200) {
                 NSError *er = nil;
-                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&er];
+                NSDictionary *const dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&er];
                 const BOOL success = [dict[@"status"] isEqual:@"finished"];
                 completion(success, nil);
             }
@@ -182,8 +173,8 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
             if([httpResponse statusCode]==200) {
                 NSError *er = nil;
-                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&er];
-                NSDictionary *results = dict[@"results"];
+                NSDictionary *const dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&er];
+                NSDictionary *const results = dict[@"results"];
                 completion(results,nil);
             }
         }
