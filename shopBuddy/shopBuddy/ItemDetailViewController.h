@@ -7,12 +7,16 @@
 
 #import <UIKit/UIKit.h>
 #import "Item.h"
+#import "ShoppingList.h"
+#import "ShoppingListManagerViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ItemDetailViewController : UIViewController
 @property (strong, nonatomic) NSString *barcode;
 @property Item *item;
+@property (strong, nonatomic) NSArray<ShoppingList *> *lists;
+@property (nonatomic, weak) id<ShoppingListDelegate> delegate;
 
 @end
 

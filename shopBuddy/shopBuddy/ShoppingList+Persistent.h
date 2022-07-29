@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void) createEmptyList:(NSString *)store_name withCompletion:(void(^)(ShoppingList *new_list, NSError *error))completion;
 
-+ (void) createFromList:(ShoppingList *)list withItem:(Item *)item withCompletion:(void(^)(BOOL succeeded, NSError *error))completion;
++ (void) createFromList:(ShoppingList *)list withItem:(Item *)item withCompletion:(void(^)(ShoppingList* updatedList, NSError *error))completion;
 
 - (void) fetchItemsInList: (void(^)(NSArray<Item *> *items, NSError *error))completion;
 

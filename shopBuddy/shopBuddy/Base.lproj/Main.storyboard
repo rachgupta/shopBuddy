@@ -114,7 +114,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="store_name" destination="gmu-Qf-9uv" id="Add-EV-l8z"/>
-                                            <segue destination="RBZ-s6-Fyj" kind="show" id="NMo-dU-iOr"/>
+                                            <segue destination="RBZ-s6-Fyj" kind="show" identifier="segueToList" id="NMo-dU-iOr"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -123,8 +123,14 @@
                                 <rect key="frame" x="100" y="469" width="214" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title="Add a List"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jnW-Xj-Q8s">
+                                <rect key="frame" x="128" y="570" width="135" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Add an Item"/>
                                 <connections>
-                                    <action selector="didTapAddList:" destination="5nf-XL-tEi" eventType="touchUpInside" id="xyv-wh-5jz"/>
+                                    <action selector="didTapAddItem:" destination="5nf-XL-tEi" eventType="touchUpInside" id="kPE-CJ-6gC"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -144,28 +150,14 @@
                     </view>
                     <navigationItem key="navigationItem" id="j0d-c0-FD9"/>
                     <connections>
+                        <outlet property="addListButton" destination="8wP-Ka-CaI" id="Yan-Oj-1MS"/>
                         <outlet property="tableView" destination="Jsa-KI-o7X" id="TMx-6t-xXS"/>
+                        <segue destination="DU9-0J-PMc" kind="show" identifier="segueToAddItem" id="whX-fd-Dbb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JXJ-qU-OSd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1557.9710144927537" y="97.767857142857139"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="HSJ-5J-EfW">
-            <objects>
-                <viewController id="5Ju-pH-1Cn" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="TLo-WJ-Vdg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="hfH-xp-uqY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="HSA-4T-99L"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dZp-Sp-NbL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2256" y="39"/>
         </scene>
         <!--Specific List View Controller-->
         <scene sceneID="93F-nB-mwz">
@@ -224,19 +216,11 @@
                                         <connections>
                                             <outlet property="itemPhoto" destination="SRh-FL-sjX" id="XY7-8q-oYb"/>
                                             <outlet property="itemTitle" destination="9Cy-Id-W1X" id="Fdf-Js-M5a"/>
+                                            <segue destination="aWa-VY-H2a" kind="show" identifier="showListItemDetail" id="bwT-Fe-Inu"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eJw-hz-aTg">
-                                <rect key="frame" x="156" y="631" width="102" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Add an Item"/>
-                                <connections>
-                                    <segue destination="DU9-0J-PMc" kind="show" id="cqv-uj-ddU"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="VcX-hw-xwa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -250,6 +234,74 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fDA-Pu-R43" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1565.217391304348" y="788.83928571428567"/>
+        </scene>
+        <!--List Item Detail View Controller-->
+        <scene sceneID="Xi2-KM-tXr">
+            <objects>
+                <viewController id="aWa-VY-H2a" customClass="ListItemDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0Fo-zV-wNi">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Item Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aj8-Dw-eTv">
+                                <rect key="frame" x="168" y="96" width="236" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="YkO-Kw-Az5"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Brand" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YU4-7Q-fXX">
+                                <rect key="frame" x="168" y="131" width="236" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="hvP-KR-O1j"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QwL-pE-vxu">
+                                <rect key="frame" x="20" y="96" width="128" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="Oxo-oC-p9O"/>
+                                    <constraint firstAttribute="width" constant="128" id="UpS-ov-R4a"/>
+                                </constraints>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VnZ-Wv-9Qf">
+                                <rect key="frame" x="168" y="181" width="236" height="150"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="AsO-I5-o5a"/>
+                                </constraints>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="On ____ List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RXi-xq-VZn">
+                                <rect key="frame" x="160" y="363" width="94" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="hyE-hb-HBu"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="hgC-mh-TTR"/>
+                    <connections>
+                        <outlet property="brandLabel" destination="YU4-7Q-fXX" id="I8s-OL-NrE"/>
+                        <outlet property="descriptionView" destination="VnZ-Wv-9Qf" id="Mme-R4-lwK"/>
+                        <outlet property="itemImage" destination="QwL-pE-vxu" id="mJo-RE-juh"/>
+                        <outlet property="listLabel" destination="RXi-xq-VZn" id="gVU-c1-Djt"/>
+                        <outlet property="titleLabel" destination="Aj8-Dw-eTv" id="RdF-81-Cnw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ssg-Z5-lRS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2350" y="807"/>
         </scene>
         <!--Add Item View Controller-->
         <scene sceneID="gsS-PU-lfF">
@@ -570,7 +622,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jgk-Mb-4ro" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3285.507246376812" y="905.35714285714278"/>
+            <point key="canvasLocation" x="3674" y="836"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="2zb-DL-zmc">
@@ -613,7 +665,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="QU9-bt-dF1"/>
+        <segue reference="hKh-QN-NRU"/>
         <segue reference="Hsz-sw-o2a"/>
     </inferredMetricsTieBreakers>
     <resources>

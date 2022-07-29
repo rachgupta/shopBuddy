@@ -10,9 +10,19 @@
 #import <objc/runtime.h>
 #import "ShoppingList.h"
 
+@interface Item (Persistent)
+@property (nonatomic,copy) PFObject *itemObject;
+@end
 @implementation Item (Persistent)
 
 
+- (NSString *)priceSyncStatus {
+    return objc_getAssociatedObject(self, @selector(priceSyncStatus));
+}
+
+- (void)setPriceSyncStatus:(NSString *)new_priceSync {
+    objc_setAssociatedObject(self, @selector(priceSyncStatus), new_priceSync, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
 
 - (NSString *)objectID {
     return objc_getAssociatedObject(self, @selector(objectID));
@@ -20,6 +30,22 @@
 
 - (void)setObjectID:(NSString *)new_objectID {
     objc_setAssociatedObject(self, @selector(objectID), new_objectID, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSDictionary *)prices {
+    return objc_getAssociatedObject(self, @selector(prices));
+}
+
+- (void)setPrices:(NSDictionary *)new_prices {
+    objc_setAssociatedObject(self, @selector(prices), new_prices, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (NSString *)itemObject {
+    return objc_getAssociatedObject(self, @selector(itemObject));
+}
+
+- (void)setItemObject:(PFObject *)new_itemObject {
+    objc_setAssociatedObject(self, @selector(itemObject), new_itemObject, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void) _syncPrices {
@@ -35,14 +61,16 @@
 //creates a new object from the item in a given list
 - (PFObject *) hydratePFObjectFromItemWithListObject: (PFObject *)list {
     NSDictionary *dict = @{ @"name" : self.name, @"barcode_number" : self.barcode_number, @"images" : self.images, @"brand" : self.brand, @"item_description" : self.item_description, @"list" : list};
+    PFObject *new_object = [PFObject objectWithClassName:@"Item" dictionary:dict];
+    self.itemObject = new_object;
     return [PFObject objectWithClassName:@"Item" dictionary:dict];
 }
 
 //creates an item to house the PFObject
 + (Item *) createItemFromPFObject: (PFObject *)object {
-    NSLog(@"%@",object[@"name"]);
     Item *const new_item = [[Item alloc] initWithBarcode_number:object[@"barcode_number"] name:object[@"name"] images:object[@"images"] brand:object[@"brand"] item_description:object[@"item_description"]];
     new_item.objectID = object.objectId;
+    new_item.itemObject = object;
     return new_item;
 }
 

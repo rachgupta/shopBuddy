@@ -61,7 +61,7 @@
 }
 
 //add items to list
-+ (void) createFromList:(ShoppingList *)list withItem:(Item *)item withCompletion:(void(^)(BOOL succeeded, NSError *error))completion {
++ (void) createFromList:(ShoppingList *)list withItem:(Item *)item withCompletion:(void(^)(ShoppingList* updatedList, NSError *error))completion {
     NSMutableArray *const mutable_items = [NSMutableArray arrayWithArray:list.items];
     [mutable_items addObject:item];
     ShoppingList *const newList = [[ShoppingList alloc] initWithStore_name:list.store_name items:[mutable_items copy]];
@@ -72,15 +72,15 @@
         if(succeeded) {
             [newList _updateSavedListWithNewItem: item_to_save withCompletion:^(BOOL succeeded, NSError *error) {
                     if(succeeded) {
-                        completion(succeeded,nil);
+                        completion(newList,nil);
                     }
                     else {
-                        completion(NO,error);
+                        completion(nil,error);
                     }
             }];
         }
         else {
-            completion(NO,error);
+            completion(nil,error);
         }
     }];
 }
@@ -126,7 +126,6 @@
 
 //makes a list to house a given list object
 + (ShoppingList*)_hydrateShoppingListFromPFObject: (PFObject *)object {
-    NSLog(@"%@",object.objectId);
     NSArray<PFObject *> *item_objects = object[@"items"];
     NSMutableArray<Item *> *items = [NSMutableArray new];
     for (PFObject* item_object in item_objects){
