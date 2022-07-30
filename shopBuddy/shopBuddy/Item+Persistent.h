@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,copy) NSString *objectID;
 @property (nonatomic,copy) NSMutableArray<Price *> *prices;
-@property (nonatomic,copy) NSString *priceSyncStatus;
 @property (nonatomic, copy) NSDate *lastSynced;
 
 + (Item *) createItemWithDictionary:(NSDictionary *)dictionary;
@@ -24,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (Item *) createItemFromPFObject: (PFObject *)object;
 
 - (PFObject *) hydratePFObjectFromItemWithListObject: (PFObject *)list;
+
+- (void) syncPrices: (NSMutableArray<Price *> *)prices;
 
 @end
 

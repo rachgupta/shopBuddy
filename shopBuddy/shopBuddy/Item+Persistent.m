@@ -16,15 +16,6 @@
 @end
 @implementation Item (Persistent)
 
-
-- (NSString *)priceSyncStatus {
-    return objc_getAssociatedObject(self, @selector(priceSyncStatus));
-}
-
-- (void)setPriceSyncStatus:(NSString *)new_priceSync {
-    objc_setAssociatedObject(self, @selector(priceSyncStatus), new_priceSync, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
 - (NSString *)objectID {
     return objc_getAssociatedObject(self, @selector(objectID));
 }
@@ -57,8 +48,25 @@
     objc_setAssociatedObject(self, @selector(itemObject), new_itemObject, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void) _syncPrices {
-    //TODO: prices
+- (void) syncPrices: (NSMutableArray<Price *> *)prices {
+    self.prices = prices;
+    self.lastSynced = [NSDate now];
+    if(self.itemObject) {
+        [self _updateSavedItemWithPrices:self.itemObject];
+    }
+}
+
+- (void) _updateSavedItemWithPrices: (PFObject *)item{
+    NSMutableDictionary *priceDict = [NSMutableDictionary new];
+    for (Price *price in self.prices) {
+        priceDict[price.store] = price.price;
+    }
+    self.itemObject[@"prices"] = priceDict;
+    [self.itemObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        if(error) {
+            NSLog(@"%@",error);
+        }
+    }];
 }
 
 //creates an item from dictionary from api
@@ -69,7 +77,11 @@
 
 //creates a new object from the item in a given list
 - (PFObject *) hydratePFObjectFromItemWithListObject: (PFObject *)list {
-    NSDictionary *dict = @{ @"name" : self.name, @"barcode_number" : self.barcode_number, @"images" : self.images, @"brand" : self.brand, @"item_description" : self.item_description, @"list" : list};
+    NSMutableDictionary *priceDict = [NSMutableDictionary new];
+    for (Price *price in self.prices) {
+        priceDict[price.store] = price.price;
+    }
+    NSDictionary *dict = @{ @"name" : self.name, @"barcode_number" : self.barcode_number, @"images" : self.images, @"brand" : self.brand, @"item_description" : self.item_description, @"list" : list, @"prices": priceDict};
     PFObject *new_object = [PFObject objectWithClassName:@"Item" dictionary:dict];
     self.itemObject = new_object;
     return [PFObject objectWithClassName:@"Item" dictionary:dict];
@@ -80,8 +92,13 @@
     Item *const new_item = [[Item alloc] initWithBarcode_number:object[@"barcode_number"] name:object[@"name"] images:object[@"images"] brand:object[@"brand"] item_description:object[@"item_description"]];
     new_item.objectID = object.objectId;
     new_item.itemObject = object;
+    NSMutableArray *prices = [NSMutableArray new];
+    NSMutableDictionary *givenPrices = object[@"prices"];
+    for (NSString *store in [givenPrices allKeys]) {
+        [prices addObject:[[Price alloc] initWithStore:store price:givenPrices[store]]];
+    }
+    new_item.prices = prices;
     return new_item;
 }
-
 
 @end

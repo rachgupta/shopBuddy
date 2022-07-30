@@ -13,14 +13,19 @@
 #import "ShoppingList+Persistent.h"
 #import "Parse/Parse.h"
 #import "GlobalManager.h"
+#import "Item+Persistent.h"
+#import "Price.h"
+#import "PriceCell.h"
 
-@interface ItemDetailViewController ()
+@interface ItemDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
     __weak IBOutlet UITextView *descriptionView;
     __weak IBOutlet UILabel *titleLabel;
     __weak IBOutlet UILabel *brandLabel;
     __weak IBOutlet UIImageView *itemImage;
     __weak IBOutlet UIButton *addItemToListButton;
+    __weak IBOutlet UICollectionView *collectionView;
+    __weak IBOutlet UIActivityIndicatorView *activityIndicator;
     
 }
 
@@ -31,6 +36,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     descriptionView.scrollEnabled=YES;
+    collectionView.delegate = self;
+    collectionView.dataSource = self;
     __weak __typeof__(self) weakSelf = self;
     if (self.lists==nil) {
         [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
@@ -40,18 +47,16 @@
                 [weakSelf _makeMenu];
             }
         }];
-    }
-    else {
+    } else {
         [self _makeMenu];
     }
+    GlobalManager *myManager = [GlobalManager sharedManager];
     if (self.item != nil) {
         [self _populateView];
-        GlobalManager *myManager = [GlobalManager sharedManager];
         [self _callPricesAPI:myManager];
     } else {
         [self _callBarcodeAPI:^(BOOL success){
-            GlobalManager *myManager = [GlobalManager sharedManager];
-            [self _callPricesAPI:myManager];
+            [weakSelf _callPricesAPI:myManager];
         }];
     }
 }
@@ -64,7 +69,7 @@
             if(strongSelf)
             {
                 strongSelf->_item = item;
-                [weakSelf _populateView];
+                [strongSelf _populateView];
                 completion(YES);
             }
         } else {
@@ -74,8 +79,18 @@
 }
 
 - (void) _callPricesAPI: (GlobalManager *)manager{
-    [manager fetchPricesWithItem:self.item fromStore:@"google_shopping" completion:^(NSDictionary * _Nonnull prices, BOOL success) {
-        NSLog(@"%@",prices);
+    __weak __typeof__(self) weakSelf = self;
+    [activityIndicator startAnimating];
+    [manager fetchPricesWithItem:self.item fromStore:@"google_shopping" completion:^(NSMutableArray<Price *> * _Nonnull prices, BOOL success) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if(strongSelf) {
+            [strongSelf.item syncPrices:prices];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self->activityIndicator stopAnimating];
+                [self->collectionView reloadData];
+                
+            });
+        }
     }];
 }
 
@@ -103,6 +118,56 @@
     }
     addItemToListButton.menu = [UIMenu menuWithTitle:@"" children:actions];
     addItemToListButton.showsMenuAsPrimaryAction = YES;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.item.prices.count;
+}
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    PriceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PriceCell" forIndexPath:indexPath];
+    Price *price = self.item.prices[indexPath.item];
+    cell.storeLabel.text = price.store;
+    cell.priceLabel.text = price.price;
+    
+    return cell;
+}
+
+- (void) priceSelected: (Price *)selected withCompletion:(void(^)(BOOL succeeded))completion{
+    BOOL listExists = NO;
+    for(ShoppingList *list in _lists) {
+        if(list.store_name==selected.store) {
+            listExists = YES;
+            [self.delegate addItemToList:list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
+                if(succeeded) {
+                    completion(YES);
+                }
+            }];
+        }
+    }
+    if (!listExists) {
+        __weak __typeof__(self) weakSelf = self;
+        [ShoppingList createEmptyList:selected.store withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            if(strongSelf) {
+                [strongSelf.delegate addItemToList:new_list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
+                    if(succeeded) {
+                        completion(YES);
+                    }
+                }];
+            }
+        }];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([segue.identifier isEqual:@"segueFromPriceToList"]) {
+        NSIndexPath *const myPath = [collectionView indexPathForCell:sender];
+        Price *const selected = self.item.prices[myPath.item];
+        [self priceSelected:selected withCompletion:^(BOOL succeeded) {
+            //Will this trigger the segue? or how can I delay the segue until the list is created/item is added?
+            ShoppingListManagerViewController *const listManagerVC = [segue destinationViewController];
+        }];
+    }
 }
 
 @end
