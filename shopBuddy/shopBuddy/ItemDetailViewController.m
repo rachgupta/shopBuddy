@@ -69,7 +69,7 @@
             if(strongSelf)
             {
                 strongSelf->_item = item;
-                [strongSelf _populateView];
+                [weakSelf _populateView];
                 completion(YES);
             }
         } else {
@@ -81,13 +81,13 @@
 - (void) _callPricesAPI: (GlobalManager *)manager{
     __weak __typeof__(self) weakSelf = self;
     [activityIndicator startAnimating];
-    [manager fetchPricesWithItem:self.item fromStore:@"google_shopping" completion:^(NSMutableArray<Price *> * _Nonnull prices, BOOL success) {
+    [manager fetchPricesWithItem:self.item fromStore:@"google_shopping" completion:^(NSArray<Price *> * _Nonnull prices, BOOL success) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if(strongSelf) {
             [strongSelf.item syncPrices:prices];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self->activityIndicator stopAnimating];
-                [self->collectionView reloadData];
+                [strongSelf->activityIndicator stopAnimating];
+                [strongSelf->collectionView reloadData];
                 
             });
         }
@@ -123,9 +123,10 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.item.prices.count;
 }
+
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PriceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PriceCell" forIndexPath:indexPath];
-    Price *price = self.item.prices[indexPath.item];
+    Price *const price = self.item.prices[indexPath.item];
     cell.storeLabel.text = price.store;
     cell.priceLabel.text = price.price;
     
@@ -149,7 +150,7 @@
         [ShoppingList createEmptyList:selected.store withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if(strongSelf) {
-                [strongSelf.delegate addItemToList:new_list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
+                [strongSelf.delegate addItemToList:new_list withItem:strongSelf.item withCompletion:^(BOOL succeeded, NSError *error) {
                     if(succeeded) {
                         completion(YES);
                     }

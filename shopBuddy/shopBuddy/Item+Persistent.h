@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Item (Persistent)
 
 @property (nonatomic,copy) NSString *objectID;
-@property (nonatomic,copy) NSMutableArray<Price *> *prices;
+@property (nonatomic,copy) NSArray<Price *> *prices;
 @property (nonatomic, copy) NSDate *lastSynced;
 
 + (Item *) createItemWithDictionary:(NSDictionary *)dictionary;
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (PFObject *) hydratePFObjectFromItemWithListObject: (PFObject *)list;
 
-- (void) syncPrices: (NSMutableArray<Price *> *)prices;
+- (void) syncPrices: (NSArray<Price *> *)prices;
 
 @end
 
