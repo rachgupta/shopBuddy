@@ -89,8 +89,7 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
             [strongSelf _requestJobStatus:job_id withCompletion:^(BOOL jobIsFinished, NSError *error) {
                 if(error) {
                     completion(nil,NO);
-                }
-                else {
+                } else {
                     [strongSelf _jobStatusCallback:job_id finished:jobIsFinished withCompletion:completion];
                 }
             }];
@@ -116,7 +115,12 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
         [self _checkJobStatus:jobId withCompletion:completion];
     }
 }
+<<<<<<< HEAD
 - (void)_waitAndRetry: (NSString *)jobID withCompletion:(void(^)(NSArray<Price *> *prices, BOOL success))completion{
+=======
+
+- (void)_waitAndRetry: (NSString *)jobID withCompletion:(void(^)(NSMutableArray<Price *> *prices, BOOL success))completion{
+>>>>>>> f68f2b9b6dcf5b4862102d4330dbccc1001a43a4
     __weak __typeof(self) weakSelf = self;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     const dispatch_time_t timeoutTime = dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);

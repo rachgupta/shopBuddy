@@ -47,6 +47,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqual:@"showDetailSegue"]) {
         ItemDetailViewController *const detailVC = [segue destinationViewController];
+        //TODO: move to GlobalManager
         detailVC.delegate = self.delegate;
         detailVC.lists = self.lists;
         detailVC.barcode = _barcodeField.text;
