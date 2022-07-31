@@ -7,14 +7,16 @@
 
 #import <Foundation/Foundation.h>
 #import "Item.h"
+#import "Price.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GlobalManager : NSObject
 
+
 + (id)sharedManager;
 
-- (void)fetchPricesWithItem:(Item *)item fromStore: (NSString *)store completion:(void(^)(NSDictionary *prices, BOOL success))completion;
+- (void)fetchPricesWithItem:(Item *)item fromStore: (NSString *)store completion:(void(^)(NSMutableArray<Price *> *prices, BOOL success))completion;
 
 @end
 

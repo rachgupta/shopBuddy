@@ -13,6 +13,9 @@
 #import "SearchResultItemCell.h"
 #import "UIImageView+AFNetworking.h"
 
+@interface AddItemViewController () <UITableViewDataSource, UITableViewDelegate>
+@end
+
 @implementation AddItemViewController {
     UITextField *_searchField;
     NSMutableArray<Item*> *_searchResults;

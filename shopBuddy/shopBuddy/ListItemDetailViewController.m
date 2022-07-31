@@ -37,6 +37,7 @@
     NSURL *const url = [NSURL URLWithString:URLString];
     [itemImage setImageWithURL:url];
 }
+//TODO: Add prices
 
 /*
 #pragma mark - Navigation
