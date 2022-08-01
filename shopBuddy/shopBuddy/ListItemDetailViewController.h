@@ -7,11 +7,13 @@
 
 #import <UIKit/UIKit.h>
 #import "Item.h"
+#import "ShoppingList+Persistent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ListItemDetailViewController : UIViewController
 @property Item *item;
+@property ShoppingList *list;
 
 @end
 

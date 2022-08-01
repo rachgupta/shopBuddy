@@ -7,14 +7,20 @@
 
 #import "ListItemDetailViewController.h"
 #import "UIImageView+AFNetworking.h"
-
-@interface ListItemDetailViewController () {
+#import "Price.h"
+#import "Item+Persistent.h"
+#import "PriceCell.h"
+@interface ListItemDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+{
     
     __weak IBOutlet UIImageView *itemImage;
     __weak IBOutlet UILabel *titleLabel;
     __weak IBOutlet UILabel *brandLabel;
     __weak IBOutlet UITextView *descriptionView;
     __weak IBOutlet UILabel *listLabel;
+    __weak IBOutlet UICollectionView *collectionView;
+    __weak IBOutlet UIActivityIndicatorView *activityIndicator;
+    
     
 }
 
@@ -25,6 +31,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self _populateView];
+    descriptionView.scrollEnabled=YES;
+    collectionView.delegate = self;
+    collectionView.dataSource = self;
     // Do any additional setup after loading the view.
 }
 
@@ -36,6 +45,20 @@
     NSString *const URLString = self.item.images[0];
     NSURL *const url = [NSURL URLWithString:URLString];
     [itemImage setImageWithURL:url];
+    listLabel.text = [NSString stringWithFormat:@"In %@ List",self.list.store_name];
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.item.prices.count;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    PriceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PriceCell" forIndexPath:indexPath];
+    Price *const price = self.item.prices[indexPath.item];
+    cell.storeLabel.text = price.store;
+    cell.priceLabel.text = [price.price stringValue];
+    
+    return cell;
 }
 //TODO: Add prices
 

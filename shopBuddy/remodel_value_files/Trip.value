@@ -1,7 +1,6 @@
 Trip {
   NSDate *date
-  NSString *name
   NSArray<Item*> *items
-  double *price
-  double *money_saved
+  NSNumber *price
+  NSNumber *money_saved
 }

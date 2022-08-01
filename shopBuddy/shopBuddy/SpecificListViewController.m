@@ -70,6 +70,7 @@
         Item *const selected_item = items[myPath.row];
         ListItemDetailViewController *const itemdetailVC = [segue destinationViewController];
         itemdetailVC.item = selected_item;
+        itemdetailVC.list = self.list;
     }
 }
 
