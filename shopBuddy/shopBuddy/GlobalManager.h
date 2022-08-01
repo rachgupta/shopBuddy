@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (id)sharedManager;
 
-- (void)fetchPricesWithItem:(Item *)item fromStore: (NSString *)store completion:(void(^)(NSMutableArray<Price *> *prices, BOOL success))completion;
+- (void)fetchPricesWithItem:(Item *)item fromStore: (NSString *)store completion:(void(^)(NSArray<Price *> *prices, BOOL success))completion;
 
 @end
 

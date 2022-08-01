@@ -8,9 +8,9 @@
 @interface Price : NSObject <NSCopying>
 
 @property (nonatomic, readonly, copy) NSString *store;
-@property (nonatomic, readonly, copy) NSString *price;
+@property (nonatomic, readonly, copy) NSNumber *price;
 
-- (instancetype)initWithStore:(NSString *)store price:(NSString *)price;
+- (instancetype)initWithStore:(NSString *)store price:(NSNumber *)price;
 
 @end
 

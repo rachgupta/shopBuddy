@@ -1,4 +1,4 @@
 Price {
   NSString *store
-  NSString *price
+  NSNumber *price
 }

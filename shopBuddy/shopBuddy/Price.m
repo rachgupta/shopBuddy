@@ -11,7 +11,7 @@
 
 @implementation Price
 
-- (instancetype)initWithStore:(NSString *)store price:(NSString *)price
+- (instancetype)initWithStore:(NSString *)store price:(NSNumber *)price
 {
   if ((self = [super init])) {
     _store = [store copy];

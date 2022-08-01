@@ -68,6 +68,7 @@
     newList.objectID = list.objectID;
     newList.listObject = list.listObject;
     PFObject *item_to_save = [item hydratePFObjectFromItemWithListObject:newList.listObject];
+    NSLog(@"%@",item_to_save);
     [item_to_save saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if(succeeded) {
             [newList _updateSavedListWithNewItem: item_to_save withCompletion:^(BOOL succeeded, NSError *error) {

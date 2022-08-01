@@ -128,9 +128,18 @@
     PriceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PriceCell" forIndexPath:indexPath];
     Price *const price = self.item.prices[indexPath.item];
     cell.storeLabel.text = price.store;
-    cell.priceLabel.text = price.price;
+    cell.priceLabel.text = [price.price stringValue];
     
     return cell;
+}
+
+- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    Price *const price = self.item.prices[indexPath.item];
+    __weak __typeof__(self) weakSelf = self;
+    [self priceSelected:price withCompletion:^(BOOL succeeded) {
+        [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
+    }];
+    
 }
 
 - (void) priceSelected: (Price *)selected withCompletion:(void(^)(BOOL succeeded))completion{
@@ -162,12 +171,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqual:@"segueFromPriceToList"]) {
-        NSIndexPath *const myPath = [collectionView indexPathForCell:sender];
-        Price *const selected = self.item.prices[myPath.item];
-        [self priceSelected:selected withCompletion:^(BOOL succeeded) {
-            //Will this trigger the segue? or how can I delay the segue until the list is created/item is added?
-            ShoppingListManagerViewController *const listManagerVC = [segue destinationViewController];
-        }];
+        ShoppingListManagerViewController *const listManagerVC = [segue destinationViewController];
     }
 }
 
