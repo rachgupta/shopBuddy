@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -471,12 +472,75 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bcl-VM-YHQ">
-                                <rect key="frame" x="84" y="584" width="247" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="tinted" title="Add Item to Shopping List"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bcl-VM-YHQ">
+                                <rect key="frame" x="80" y="580" width="254" height="31"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Add Item to Shopping List"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Add Item to Shopping List"/>
                             </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3s3-zF-WAw">
+                                <rect key="frame" x="0.0" y="400" width="414" height="150"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="k9X-5U-3c1"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="dQN-6F-rRy">
+                                    <size key="itemSize" width="88" height="72"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <activityIndicatorView key="backgroundView" hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" id="80r-7P-Vtc">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.82211130285487488" green="0.81494477827863765" blue="0.96611279249191284" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </activityIndicatorView>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PriceCell" id="J39-7a-7Hx" customClass="PriceCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="88" height="72"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="BiV-Hg-bKy">
+                                            <rect key="frame" x="0.0" y="0.0" width="88" height="72"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Store" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPF-hQ-2F5">
+                                                    <rect key="frame" x="25" y="8" width="38" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="ss8-ui-omV"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="42n-ka-hmW">
+                                                    <rect key="frame" x="27.5" y="34" width="33" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="cPF-hQ-2F5" firstAttribute="leading" secondItem="BiV-Hg-bKy" secondAttribute="leading" constant="25" id="9jr-m8-sFM"/>
+                                                <constraint firstItem="42n-ka-hmW" firstAttribute="centerX" secondItem="cPF-hQ-2F5" secondAttribute="centerX" id="NBA-UT-1JF"/>
+                                                <constraint firstItem="42n-ka-hmW" firstAttribute="top" secondItem="cPF-hQ-2F5" secondAttribute="bottom" constant="5" id="RbD-uv-WK1"/>
+                                                <constraint firstAttribute="trailing" secondItem="cPF-hQ-2F5" secondAttribute="trailing" constant="25" id="Wyc-Mv-WPR"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <size key="customSize" width="88" height="72"/>
+                                        <connections>
+                                            <outlet property="priceLabel" destination="42n-ka-hmW" id="d3U-ZK-2ji"/>
+                                            <outlet property="storeLabel" destination="cPF-hQ-2F5" id="oG9-Pl-p6L"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click a Price to Add to List" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JyW-fo-Hx2">
+                                <rect key="frame" x="90" y="349" width="234" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fGT-Iw-t8m"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -487,21 +551,33 @@
                             <constraint firstItem="D5h-Sv-3zT" firstAttribute="leading" secondItem="rD6-qL-EmS" secondAttribute="leading" id="Clv-uz-4Sq"/>
                             <constraint firstItem="rD6-qL-EmS" firstAttribute="leading" secondItem="1nA-O7-BHv" secondAttribute="trailing" constant="20" id="Gli-5U-1Uf"/>
                             <constraint firstItem="Qf0-3I-xWT" firstAttribute="trailing" secondItem="D5h-Sv-3zT" secondAttribute="trailing" id="I4O-Vm-n1g"/>
+                            <constraint firstItem="3s3-zF-WAw" firstAttribute="trailing" secondItem="fGT-Iw-t8m" secondAttribute="trailing" id="IUi-9t-n7A"/>
+                            <constraint firstItem="fGT-Iw-t8m" firstAttribute="trailing" secondItem="bcl-VM-YHQ" secondAttribute="trailing" constant="80" id="OdM-nQ-OGv"/>
                             <constraint firstItem="Qf0-3I-xWT" firstAttribute="leading" secondItem="D5h-Sv-3zT" secondAttribute="leading" id="R3q-Ft-6uE"/>
                             <constraint firstItem="1nA-O7-BHv" firstAttribute="top" secondItem="fGT-Iw-t8m" secondAttribute="top" constant="50" id="Rep-Wi-7Cm"/>
+                            <constraint firstItem="JyW-fo-Hx2" firstAttribute="leading" secondItem="fGT-Iw-t8m" secondAttribute="leading" constant="90" id="XDd-Ab-Sr2"/>
                             <constraint firstItem="D5h-Sv-3zT" firstAttribute="trailing" secondItem="rD6-qL-EmS" secondAttribute="trailing" id="XyB-qK-pqV"/>
                             <constraint firstItem="D5h-Sv-3zT" firstAttribute="top" secondItem="rD6-qL-EmS" secondAttribute="bottom" constant="10" id="a8J-xL-m1t"/>
+                            <constraint firstItem="3s3-zF-WAw" firstAttribute="leading" secondItem="fGT-Iw-t8m" secondAttribute="leading" id="aWA-et-SLk"/>
+                            <constraint firstItem="bcl-VM-YHQ" firstAttribute="top" secondItem="3s3-zF-WAw" secondAttribute="bottom" constant="30" id="hHZ-zK-yCO"/>
                             <constraint firstItem="rD6-qL-EmS" firstAttribute="top" secondItem="1nA-O7-BHv" secondAttribute="top" id="lxV-IN-hY4"/>
+                            <constraint firstItem="JyW-fo-Hx2" firstAttribute="top" secondItem="Qf0-3I-xWT" secondAttribute="bottom" constant="20" id="qVy-gT-kZ7"/>
+                            <constraint firstItem="3s3-zF-WAw" firstAttribute="top" secondItem="JyW-fo-Hx2" secondAttribute="bottom" constant="30" id="qmi-Jb-Gwb"/>
+                            <constraint firstItem="bcl-VM-YHQ" firstAttribute="leading" secondItem="fGT-Iw-t8m" secondAttribute="leading" constant="80" id="sTf-OA-Adz"/>
+                            <constraint firstItem="fGT-Iw-t8m" firstAttribute="trailing" secondItem="JyW-fo-Hx2" secondAttribute="trailing" constant="90" id="w9h-5E-g4b"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Use-FM-N0j"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="80r-7P-Vtc" id="qrR-R7-Dyr"/>
                         <outlet property="addItemToListButton" destination="bcl-VM-YHQ" id="Beh-wu-twq"/>
                         <outlet property="brandLabel" destination="D5h-Sv-3zT" id="89z-9U-oun"/>
+                        <outlet property="collectionView" destination="3s3-zF-WAw" id="tom-bx-eco"/>
                         <outlet property="descriptionView" destination="Qf0-3I-xWT" id="Kib-aD-m2z"/>
                         <outlet property="itemImage" destination="1nA-O7-BHv" id="eqA-2y-xTs"/>
                         <outlet property="titleLabel" destination="rD6-qL-EmS" id="jUe-Lw-cZX"/>
                         <segue destination="5nf-XL-tEi" kind="show" identifier="segueBackToLists" id="Hsz-sw-o2a"/>
+                        <segue destination="5nf-XL-tEi" kind="show" identifier="segueFromPriceToList" id="Z2u-XZ-10M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OOa-yq-6xg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -584,8 +660,17 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="labelColor"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uaD-oR-vX1">
+                                <rect key="frame" x="0.0" y="89" width="414" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Lookup"/>
+                                <connections>
+                                    <action selector="didTapLookup:" destination="CGZ-BZ-W37" eventType="touchUpInside" id="CLW-Ti-NPH"/>
+                                </connections>
+                            </button>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="10r-L6-BoQ">
-                                <rect key="frame" x="0.0" y="748" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="694" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem width="141" style="plain" systemItem="fixedSpace" id="vr2-Yt-i26"/>
@@ -597,15 +682,6 @@
                                     <barButtonItem style="plain" systemItem="fixedSpace" id="POP-uT-1EC"/>
                                 </items>
                             </toolbar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uaD-oR-vX1">
-                                <rect key="frame" x="0.0" y="89" width="414" height="39"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Lookup"/>
-                                <connections>
-                                    <action selector="didTapLookup:" destination="CGZ-BZ-W37" eventType="touchUpInside" id="CLW-Ti-NPH"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6wz-tm-CMP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -666,7 +742,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="hKh-QN-NRU"/>
-        <segue reference="Hsz-sw-o2a"/>
+        <segue reference="Z2u-XZ-10M"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>

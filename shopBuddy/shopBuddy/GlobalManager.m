@@ -7,6 +7,7 @@
 
 #import "GlobalManager.h"
 #import "Item.h"
+#import "Price.h"
 
 @interface GlobalManager ()
 {
@@ -14,7 +15,7 @@
 }
 @property (atomic, strong) NSMutableDictionary<NSString *, NSString *> *itemJobIdMap;
 @property (atomic, strong) NSMutableArray<NSString *> *outstandingJobs; // Job sync in progress
-@property (atomic, strong) NSMutableDictionary<NSString *, NSDictionary *> *completeJobs;
+@property (atomic, strong) NSMutableDictionary<NSString *, NSArray<Price *> *> *completeJobs;
 
 @end
 @implementation GlobalManager
@@ -44,7 +45,7 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
     return self;
 }
 
-- (void)fetchPricesWithItem:(Item *)item fromStore: (NSString *)store completion:(void(^)(NSDictionary *prices, BOOL success))completion {
+- (void)fetchPricesWithItem:(Item *)item fromStore: (NSString *)store completion:(void(^)(NSArray<Price *> *prices, BOOL success))completion {
     //TODO: Parse Dictionary and return Array of NSObject Price
     NSString *const jobId = self.itemJobIdMap[item.name];
     
@@ -64,7 +65,7 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
     }
 }
 
-- (void)_checkJobStatus: (NSString *)job_id withCompletion:(void(^)(NSDictionary *prices, BOOL success))completion {
+- (void)_checkJobStatus: (NSString *)job_id withCompletion:(void(^)(NSArray<Price *> *prices, BOOL success))completion {
     if (self.completeJobs[job_id]!=nil) {
         completion(self.completeJobs[job_id],YES);
         //TODO: check if stale
@@ -96,10 +97,10 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
     });
 }
 
-- (void)_jobStatusCallback:(NSString *)jobId finished: (BOOL)finished withCompletion:(void(^)(NSDictionary *prices, BOOL success))completion {
+- (void)_jobStatusCallback:(NSString *)jobId finished: (BOOL)finished withCompletion:(void(^)(NSArray<Price *> *prices, BOOL success))completion {
     if (finished) {
         __weak __typeof(self) weakSelf = self;
-        [self _downloadJobResults:jobId withCompletion:^(NSDictionary *results, NSError *error) {
+        [self _downloadJobResults:jobId withCompletion:^(NSArray<Price *> *results, NSError *error) {
             if (!error) {
                 __strong __typeof(weakSelf) strongSelf = weakSelf;
                 if(strongSelf != nil) {
@@ -115,7 +116,7 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
     }
 }
 
-- (void)_waitAndRetry: (NSString *)jobID withCompletion:(void(^)(NSDictionary *prices, BOOL success))completion{
+- (void)_waitAndRetry: (NSString *)jobID withCompletion:(void(^)(NSArray<Price *> *prices, BOOL success))completion{
     __weak __typeof(self) weakSelf = self;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     const dispatch_time_t timeoutTime = dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
@@ -171,7 +172,7 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
     }];
     [dataTask resume];
 }
-- (void) _downloadJobResults: (NSString *)jobID withCompletion:(void(^)(NSDictionary *results, NSError *error))completion {
+- (void) _downloadJobResults: (NSString *)jobID withCompletion:(void(^)(NSArray<Price *> *results, NSError *error))completion {
     NSDictionary *const headers = @{ @"Accept": @"application/json" };
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:kJobDownload_URL,jobID,priceKey]] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0];
     [request setHTTPMethod:@"GET"];
@@ -185,8 +186,17 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
             if([httpResponse statusCode]==200) {
                 NSError *er = nil;
                 NSDictionary *const dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&er];
-                NSDictionary *const results = dict[@"results"];
-                completion(results,nil);
+                NSMutableArray *const results = dict[@"results"];
+                NSDictionary *const firstResult = results[0];
+                NSDictionary *const content = firstResult[@"content"];
+                NSMutableArray *const offers = content[@"offers"];
+                NSMutableArray<Price *> *const prices = [NSMutableArray new];
+                for (NSDictionary *offer in offers) {
+                    NSString *shop_name = [offer[@"shop_name"] stringByReplacingOccurrencesOfString:@"." withString:@""];
+                    NSNumber *const newPrice = @([offer[@"price"] floatValue]);
+                    [prices addObject:[[Price alloc] initWithStore:shop_name price:newPrice]];
+                }
+                completion([NSArray arrayWithArray:prices],nil);
             }
         }
     }];
