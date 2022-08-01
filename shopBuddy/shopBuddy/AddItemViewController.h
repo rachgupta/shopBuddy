@@ -12,8 +12,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AddItemViewController : UIViewController
-@property (strong, nonatomic) NSArray<ShoppingList *> *lists;
-@property (nonatomic, weak) id<ShoppingListDelegate> delegate;
 
 @end
 

@@ -16,6 +16,7 @@
 #import "Item+Persistent.h"
 #import "Price.h"
 #import "PriceCell.h"
+#import "AppState.h"
 
 @interface ItemDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
@@ -38,19 +39,11 @@
     descriptionView.scrollEnabled=YES;
     collectionView.delegate = self;
     collectionView.dataSource = self;
-    __weak __typeof__(self) weakSelf = self;
-    if (self.lists==nil) {
-        [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray *lists, NSError *error) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            if(strongSelf) {
-                strongSelf->_lists = lists;
-                [weakSelf _makeMenu];
-            }
-        }];
-    } else {
-        [self _makeMenu];
-    }
+    AppState *myAppState = [AppState sharedManager];
+    self.lists = myAppState.lists;
+    [self _makeMenu];
     GlobalManager *myManager = [GlobalManager sharedManager];
+    __weak __typeof__(self) weakSelf = self;
     if (self.item != nil) {
         [self _populateView];
         [self _callPricesAPI:myManager];
@@ -109,7 +102,7 @@
     for (ShoppingList *list in self.lists) {
         NSString *const actionTitle = [NSString stringWithFormat:@"Add Item to '%@' list", list.store_name];
         [actions addObject:[UIAction actionWithTitle:actionTitle image:nil identifier:nil handler:^(__kindof UIAction* _Nonnull action) {
-            [self.delegate addItemToList:list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
+            [[AppState sharedManager] addItemToList:list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
                 if(succeeded) {
                     [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
                 }
@@ -147,7 +140,7 @@
     for(ShoppingList *list in _lists) {
         if(list.store_name==selected.store) {
             listExists = YES;
-            [self.delegate addItemToList:list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
+            [[AppState sharedManager] addItemToList:list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
                 if(succeeded) {
                     completion(YES);
                 }
@@ -159,7 +152,7 @@
         [ShoppingList createEmptyList:selected.store withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if(strongSelf) {
-                [strongSelf.delegate addItemToList:new_list withItem:strongSelf.item withCompletion:^(BOOL succeeded, NSError *error) {
+                [[AppState sharedManager] addItemToList:new_list withItem:strongSelf.item withCompletion:^(BOOL succeeded, NSError *error) {
                     if(succeeded) {
                         completion(YES);
                     }

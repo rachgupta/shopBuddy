@@ -33,7 +33,7 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
     });
     return sharedGlobalManager;
 }
-//TODO: Parse
+
 - (id)init {
     if (self = [super init]) {
         self.itemJobIdMap = [NSMutableDictionary dictionary];
@@ -46,7 +46,6 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
 }
 
 - (void)fetchPricesWithItem:(Item *)item fromStore: (NSString *)store completion:(void(^)(NSArray<Price *> *prices, BOOL success))completion {
-    //TODO: Parse Dictionary and return Array of NSObject Price
     NSString *const jobId = self.itemJobIdMap[item.name];
     
     if (jobId == nil) {

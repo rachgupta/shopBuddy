@@ -11,6 +11,7 @@
 #import "Parse/Parse.h"
 #import "Item+Persistent.h"
 #import <objc/runtime.h>
+#import "AppState.h"
 
 @implementation ShoppingList (Persistent)
 
@@ -68,7 +69,6 @@
     newList.objectID = list.objectID;
     newList.listObject = list.listObject;
     PFObject *item_to_save = [item hydratePFObjectFromItemWithListObject:newList.listObject];
-    NSLog(@"%@",item_to_save);
     [item_to_save saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if(succeeded) {
             [newList _updateSavedListWithNewItem: item_to_save withCompletion:^(BOOL succeeded, NSError *error) {
@@ -121,6 +121,8 @@
             ShoppingList *const list_to_add = [ShoppingList _hydrateShoppingListFromPFObject:object];
             [new_lists addObject:list_to_add];
         }
+        AppState *myAppState = [AppState sharedManager];
+        myAppState.lists = new_lists;
         completion([NSArray arrayWithArray:new_lists],nil);
     }];
 }

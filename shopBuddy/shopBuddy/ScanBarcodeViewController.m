@@ -94,8 +94,6 @@
     if([segue.identifier isEqual:@"showItemDetailView"]) {
         ItemDetailViewController *detailVC = [segue destinationViewController];
         detailVC.barcode = barcode;
-        detailVC.delegate = self.delegate;
-        detailVC.lists = self.lists;
     }
 }
 
