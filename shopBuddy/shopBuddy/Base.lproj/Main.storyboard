@@ -203,6 +203,13 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="$0.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5C4-yM-QpD">
+                                                    <rect key="frame" x="262" y="51" width="74" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="9Cy-Id-W1X" firstAttribute="top" secondItem="SRh-FL-sjX" secondAttribute="top" id="02Z-r8-w8k"/>
@@ -217,6 +224,7 @@
                                         <connections>
                                             <outlet property="itemPhoto" destination="SRh-FL-sjX" id="XY7-8q-oYb"/>
                                             <outlet property="itemTitle" destination="9Cy-Id-W1X" id="Fdf-Js-M5a"/>
+                                            <outlet property="priceLabel" destination="5C4-yM-QpD" id="sHb-UQ-9Sm"/>
                                             <segue destination="aWa-VY-H2a" kind="show" identifier="showListItemDetail" id="bwT-Fe-Inu"/>
                                         </connections>
                                     </tableViewCell>

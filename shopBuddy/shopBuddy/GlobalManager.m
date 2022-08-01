@@ -193,7 +193,7 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
                 NSMutableArray<Price *> *const prices = [NSMutableArray new];
                 for (NSDictionary *offer in offers) {
                     NSString *shop_name = [offer[@"shop_name"] stringByReplacingOccurrencesOfString:@"." withString:@""];
-                    NSNumber *const newPrice = @([offer[@"price"] floatValue]);
+                    NSNumber *const newPrice = @([offer[@"price"] doubleValue]);
                     [prices addObject:[[Price alloc] initWithStore:shop_name price:newPrice]];
                 }
                 completion([NSArray arrayWithArray:prices],nil);

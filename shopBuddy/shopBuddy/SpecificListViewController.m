@@ -12,6 +12,7 @@
 #import "ShoppingList+Persistent.h"
 #import "Item+Persistent.h"
 #import "ListItemDetailViewController.h"
+#import "Price.h"
 
 @interface SpecificListViewController () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -51,6 +52,14 @@
     NSString *const URLString = item.images[0];
     NSURL *const url = [NSURL URLWithString:URLString];
     [cell.itemPhoto setImageWithURL:url];
+    NSArray<Price *> *prices = item.prices;
+    NSString *label = @"Not Found";
+    for (Price *price in prices) {
+        if(price.store == self.list.store_name) {
+            label = [NSString stringWithFormat:@"$%@", [price.price stringValue]];
+        }
+    }
+    cell.priceLabel.text = label;
     return cell;
 }
 
