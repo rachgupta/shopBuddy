@@ -22,16 +22,12 @@
 + (void) fetchCurrentCart:(void(^)(Cart *cart,NSError *error))completion{
     PFQuery *query = [PFQuery queryWithClassName:@"Cart"];
     [query whereKey:@"user" equalTo:[PFUser currentUser]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray <Cart *> *fetched_objects, NSError *error) {
-        NSMutableArray<Cart *> *carts = [NSMutableArray new];
-        for (PFObject *object in fetched_objects)
-        {
-            Cart *const cart = [Cart _hydrateCartFromPFObject:object];
-            [carts addObject:cart];
-        }
-        AppState *myAppState = [AppState sharedManager];
-        myAppState.cart = carts[0];
-        completion(carts[0],nil);
+    [query findObjectsInBackgroundWithBlock:^(NSArray <PFObject *> *fetched_objects, NSError *error) {
+        [Cart _hydrateCartFromPFObject:fetched_objects[0] withCompletion:^(Cart *cart) {
+            AppState *myAppState = [AppState sharedManager];
+            myAppState.cart = cart;
+            completion(cart,nil);
+        }];
     }];
     
 }
@@ -42,8 +38,9 @@
     PFObject *new_object = [PFObject objectWithClassName:@"Cart" dictionary:dict];
     [new_object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if(succeeded) {
-            Cart *const newCart = [Cart _hydrateCartFromPFObject:new_object];
-            completion(newCart,nil);
+            [Cart _hydrateCartFromPFObject:new_object withCompletion:^(Cart *cart) {
+                completion(cart,nil);
+            }];
         }
         else {
             NSLog(@"Error: %@",error);
@@ -53,21 +50,31 @@
 }
 
 //makes a list to house a given cart object
-+ (Cart*)_hydrateCartFromPFObject: (PFObject *)object {
++ (void)_hydrateCartFromPFObject: (PFObject *)object withCompletion:(void(^)(Cart* cart))completion{
     NSArray<PFObject *> *item_objects = object[@"items"];
     NSMutableArray<Item *> *items = [NSMutableArray new];
+    dispatch_group_t group = dispatch_group_create();
     for (PFObject* item_object in item_objects){
+        dispatch_group_enter(group);
+        NSLog(@"enter");
         PFQuery *query = [PFQuery queryWithClassName:@"Item"];
         [query getObjectInBackgroundWithId:item_object.objectId block:^(PFObject *full_item_object, NSError *error){
             if(!error) {
                 Item *new_item = [Item createItemFromPFObject:full_item_object];
                 [items addObject:new_item];
+                NSLog(@"leave");
+                dispatch_group_leave(group);
+            }
+            else{
+                NSLog(@"%@",error);
             }
         }];
     }
-    Cart *const newCart = [[Cart alloc] initWithItems:items];
-    newCart.cartObject = object;
-    return newCart;
+    dispatch_group_notify(group,dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
+        Cart *const newCart = [[Cart alloc] initWithItems:items];
+        newCart.cartObject = object;
+        completion(newCart);
+    });
 }
 
 //add items to cart
@@ -77,6 +84,7 @@
     Cart *const newCart = [[Cart alloc] initWithItems:[mutable_items copy]];
     newCart.cartObject = cart.cartObject;
     completion(newCart,nil);
+    /*
     NSMutableArray *previous_items = [NSMutableArray arrayWithArray:newCart.cartObject[@"items"]];
     [previous_items addObject:item.itemObject];
     newCart.cartObject[@"items"] = [NSArray arrayWithArray:previous_items];
@@ -88,5 +96,6 @@
             completion(nil, error);
         }
     }];
+    */
 }
 @end

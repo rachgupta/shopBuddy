@@ -98,8 +98,14 @@
     PFObject *new_object = [PFObject objectWithClassName:@"ShoppingList" dictionary:dict];
     [new_object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if(succeeded) {
-            ShoppingList *const newList = [ShoppingList _hydrateShoppingListFromPFObject:new_object];
-            completion(newList,nil);
+            [ShoppingList _hydrateShoppingListFromPFObject:new_object withCompletion:^(ShoppingList *list, NSError *error) {
+                if(!error) {
+                    completion(list,nil);
+                }
+                else {
+                    completion(nil,error);
+                }
+            }];
         }
         else {
             NSLog(@"Error: %@",error);
@@ -161,39 +167,56 @@
     PFQuery *query = [PFQuery queryWithClassName:@"ShoppingList"];
     [query orderByDescending:@"createdAt"];
     [query whereKey:@"user" equalTo:[PFUser currentUser]];
+    dispatch_group_t fetchGroup = dispatch_group_create();
     [query findObjectsInBackgroundWithBlock:^(NSArray <ShoppingList *> *fetched_objects, NSError *error) {
         NSMutableArray<ShoppingList *> *new_lists = [NSMutableArray new];
         for (PFObject *object in fetched_objects)
         {
-            ShoppingList *const list_to_add = [ShoppingList _hydrateShoppingListFromPFObject:object];
-            [new_lists addObject:list_to_add];
+            dispatch_group_enter(fetchGroup);
+            [ShoppingList _hydrateShoppingListFromPFObject:object withCompletion:^(ShoppingList *list, NSError *error) {
+                if(!error) {
+                    [new_lists addObject:list];
+                    dispatch_group_leave(fetchGroup);
+                }
+                else {
+                    completion(nil,error);
+                }
+            }];
         }
-        AppState *myAppState = [AppState sharedManager];
-        myAppState.lists = new_lists;
-        completion([NSArray arrayWithArray:new_lists],nil);
+        dispatch_group_notify(fetchGroup,dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
+            AppState *myAppState = [AppState sharedManager];
+            myAppState.lists = new_lists;
+            completion([NSArray arrayWithArray:new_lists],nil);
+        });
     }];
 }
 
 //makes a list to house a given list object
-+ (ShoppingList*)_hydrateShoppingListFromPFObject: (PFObject *)object {
++ (void)_hydrateShoppingListFromPFObject: (PFObject *)object withCompletion:(void(^)(ShoppingList * list, NSError *error))completion {
     NSArray<PFObject *> *item_objects = object[@"items"];
     NSMutableArray<Item *> *items = [NSMutableArray new];
+    dispatch_group_t group = dispatch_group_create();
     for (PFObject* item_object in item_objects){
+        dispatch_group_enter(group);
         PFQuery *query = [PFQuery queryWithClassName:@"Item"];
         [query getObjectInBackgroundWithId:item_object.objectId block:^(PFObject *full_item_object, NSError *error){
             if(!error) {
                 Item *new_item = [Item createItemFromPFObject:full_item_object];
                 [items addObject:new_item];
+                dispatch_group_leave(group);
             }
             else {
                 NSLog(@"%@",error);
+                completion(nil,error);
             }
         }];
     }
-    ShoppingList *const newList = [[ShoppingList alloc] initWithStore_name:object[@"store_name"] items:[NSArray arrayWithArray:items]];
-    newList.listObject = object;
-    newList.objectID = object.objectId;
-    return newList;
+    dispatch_group_notify(group,dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
+        ShoppingList *const newList = [[ShoppingList alloc] initWithStore_name:object[@"store_name"] items:[NSArray arrayWithArray:items]];
+        newList.listObject = object;
+        newList.objectID = object.objectId;
+        completion(newList,nil);
+    });
 }
 
 

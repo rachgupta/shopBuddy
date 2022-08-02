@@ -60,10 +60,12 @@
 
 - (IBAction)didPressAddToList:(id)sender {
     AppState *state = [AppState sharedManager];
+    __weak __typeof__(self) weakSelf = self;
     [Cart addItemToCart:state.cart withItem:self.item withCompletion:^(Cart * _Nonnull updatedCart, NSError * _Nonnull error) {
         if(updatedCart) {
             state.cart = updatedCart;
             NSLog(@"success");
+            [weakSelf performSegueWithIdentifier:@"segueToCart" sender:self];
         }
     }];
     
@@ -111,13 +113,13 @@
     for(ShoppingList *list in state.lists) {
         if(list.store_name==selected.store) {
             listExists = YES;
-            //remove existing item from existing list
-            //add existing item to existing list
+            //TODO: remove existing item from existing list
+            //TODO: add existing item to existing list
         }
     }
     if (!listExists) {
-        //remove existing item from existing list
-        //add existing item to new list
+        //TODO: remove existing item from existing list
+        //TODO: add existing item to new list
         
     }
 }
