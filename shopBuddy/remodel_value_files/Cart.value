@@ -1,3 +1,5 @@
 Cart {
   NSArray<Item*> *items
+  NSDictionary<NSString *,NSNumber *> *item_prices
+  NSDictionary<NSString *,NSString *> *item_store
 }

@@ -57,18 +57,19 @@
         
     }];
 }
-
-- (IBAction)didPressAddToList:(id)sender {
+- (IBAction)didPressAddToCart:(id)sender {
     AppState *state = [AppState sharedManager];
     __weak __typeof__(self) weakSelf = self;
-    [Cart addItemToCart:state.cart withItem:self.item withCompletion:^(Cart * _Nonnull updatedCart, NSError * _Nonnull error) {
+    [Cart addItemToCart:state.cart withItem:self.item fromList:self.list withCompletion:^(Cart * _Nonnull updatedCart, NSError * _Nonnull error) {
         if(updatedCart) {
             state.cart = updatedCart;
-            NSLog(@"success");
-            [weakSelf performSegueWithIdentifier:@"segueToCart" sender:self];
+            [ShoppingList removeItemFromList:weakSelf.list withItem:weakSelf.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
+                if(!error) {
+                    [weakSelf performSegueWithIdentifier:@"segueToCart" sender:self];
+                }
+            }];
         }
     }];
-    
 }
 
 - (void)_populateView {

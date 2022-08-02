@@ -382,19 +382,22 @@
                                     <action selector="didPressSync:" destination="aWa-VY-H2a" eventType="touchUpInside" id="C01-bM-wAB"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gPb-Td-Fy4">
-                                <rect key="frame" x="136" y="734" width="131" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gPb-Td-Fy4">
+                                <rect key="frame" x="20" y="262" width="128" height="27.5"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Add Item to Cart"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Add Item to Cart">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="11"/>
+                                </buttonConfiguration>
                                 <connections>
-                                    <action selector="didPressAddToList:" destination="aWa-VY-H2a" eventType="touchUpInside" id="s17-ic-goA"/>
+                                    <action selector="didPressAddToCart:" destination="aWa-VY-H2a" eventType="touchUpInside" id="tLk-iY-TBj"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hyE-hb-HBu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="gPb-Td-Fy4" firstAttribute="top" secondItem="QwL-pE-vxu" secondAttribute="bottom" constant="40" id="4b6-HA-kyN"/>
+                            <constraint firstItem="gPb-Td-Fy4" firstAttribute="leading" secondItem="QwL-pE-vxu" secondAttribute="leading" id="6q2-LB-d6m"/>
                             <constraint firstItem="QwL-pE-vxu" firstAttribute="leading" secondItem="hyE-hb-HBu" secondAttribute="leading" constant="20" id="Apl-df-uRX"/>
                             <constraint firstItem="VnZ-Wv-9Qf" firstAttribute="leading" secondItem="YU4-7Q-fXX" secondAttribute="leading" id="Exf-H8-hXK"/>
                             <constraint firstItem="hyE-hb-HBu" firstAttribute="trailing" secondItem="RXi-xq-VZn" secondAttribute="trailing" constant="100" id="F5t-gT-s2S"/>
@@ -411,10 +414,10 @@
                             <constraint firstItem="Aj8-Dw-eTv" firstAttribute="leading" secondItem="QwL-pE-vxu" secondAttribute="trailing" constant="20" id="ct9-5F-YWU"/>
                             <constraint firstItem="QwL-pE-vxu" firstAttribute="top" secondItem="hyE-hb-HBu" secondAttribute="top" constant="50" id="eKU-9N-JsL"/>
                             <constraint firstItem="YU4-7Q-fXX" firstAttribute="leading" secondItem="Aj8-Dw-eTv" secondAttribute="leading" id="i7T-b7-d9O"/>
-                            <constraint firstItem="RXi-xq-VZn" firstAttribute="centerX" secondItem="0Fo-zV-wNi" secondAttribute="centerX" id="jJp-Us-1ht"/>
                             <constraint firstItem="ohx-K6-4VY" firstAttribute="leading" secondItem="hyE-hb-HBu" secondAttribute="leading" constant="60" id="kqO-Dz-hyf"/>
                             <constraint firstItem="Aj8-Dw-eTv" firstAttribute="top" secondItem="QwL-pE-vxu" secondAttribute="top" id="mIf-iN-ZUH"/>
                             <constraint firstItem="azQ-pd-nZC" firstAttribute="trailing" secondItem="hyE-hb-HBu" secondAttribute="trailing" id="mWZ-pA-GIr"/>
+                            <constraint firstItem="gPb-Td-Fy4" firstAttribute="trailing" secondItem="QwL-pE-vxu" secondAttribute="trailing" id="qUF-nW-CLW"/>
                             <constraint firstItem="hyE-hb-HBu" firstAttribute="trailing" secondItem="Aj8-Dw-eTv" secondAttribute="trailing" constant="10" id="vhc-xa-o9E"/>
                         </constraints>
                     </view>
@@ -433,7 +436,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ssg-Z5-lRS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2350" y="807"/>
+            <point key="canvasLocation" x="2349.275362318841" y="806.91964285714278"/>
         </scene>
         <!--Add Item View Controller-->
         <scene sceneID="gsS-PU-lfF">

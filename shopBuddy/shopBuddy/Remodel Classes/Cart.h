@@ -9,8 +9,10 @@
 @interface Cart : NSObject <NSCopying>
 
 @property (nonatomic, readonly, copy) NSArray<Item*> *items;
+@property (nonatomic, readonly, copy) NSDictionary<NSString *,NSNumber *> *item_prices;
+@property (nonatomic, readonly, copy) NSDictionary<NSString *,NSString *> *item_store;
 
-- (instancetype)initWithItems:(NSArray<Item*> *)items;
+- (instancetype)initWithItems:(NSArray<Item*> *)items item_prices:(NSDictionary<NSString *,NSNumber *> *)item_prices item_store:(NSDictionary<NSString *,NSString *> *)item_store;
 
 @end
 

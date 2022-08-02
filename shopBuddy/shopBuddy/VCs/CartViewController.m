@@ -15,7 +15,7 @@
 {
     __weak IBOutlet UITableView *tableView;
     NSArray<Item *> *items;
-
+    AppState *manager;
 }
 
 @end
@@ -27,6 +27,7 @@
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
+    manager = [AppState sharedManager];
     [self _fetchItems];
     // Do any additional setup after loading the view.
 }
@@ -35,12 +36,27 @@
     [self _fetchItems];
 }
 
+-(void)ShowInputAlertWithMsg:(NSString *)msg
+{
+  UIAlertController *alertVC=[UIAlertController alertControllerWithTitle:@"How much was the item?" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    [alertVC addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+      {
+        textField.placeholder=@"UserName";
+        textField.textColor=[UIColor redColor];
+        textField.clearButtonMode=UITextFieldViewModeWhileEditing;
+      }
+    }];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"Price" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+      NSString *price = alertVC.textFields[0].text;
+      NSLog(@"%@",price);
+    }];
+}
+
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return items.count;
 }
 
 - (void) _fetchItems {
-    AppState *manager = [AppState sharedManager];
     items = manager.cart.items;
     [tableView reloadData];
 }
@@ -53,16 +69,7 @@
     NSString *const URLString = item.images[0];
     NSURL *const url = [NSURL URLWithString:URLString];
     [cell.itemPhoto setImageWithURL:url];
-    NSArray<Price *> *prices = item.prices;
-    NSString *label = @"Not Found";
-    /*
-    for (Price *price in prices) {
-        if(price.store == self.list.store_name) {
-            label = [NSString stringWithFormat:@"$%@", [price.price stringValue]];
-        }
-    }
-     */
-    cell.itemPrice.text = label;
+    cell.itemPrice.text = [manager.cart.item_prices[item.objectID] stringValue];
     return cell;
 }
 /*

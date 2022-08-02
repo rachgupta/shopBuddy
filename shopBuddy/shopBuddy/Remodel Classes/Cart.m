@@ -12,10 +12,12 @@
 
 @implementation Cart
 
-- (instancetype)initWithItems:(NSArray<Item*> *)items
+- (instancetype)initWithItems:(NSArray<Item*> *)items item_prices:(NSDictionary<NSString *,NSNumber *> *)item_prices item_store:(NSDictionary<NSString *,NSString *> *)item_store
 {
   if ((self = [super init])) {
     _items = [items copy];
+    _item_prices = [item_prices copy];
+    _item_store = [item_store copy];
   }
 
   return self;
@@ -28,14 +30,14 @@
 
 - (NSString *)description
 {
-  return [NSString stringWithFormat:@"%@ - \n\t items: %@; \n", [super description], _items];
+  return [NSString stringWithFormat:@"%@ - \n\t items: %@; \n\t item_prices: %@; \n\t item_store: %@; \n", [super description], _items, _item_prices, _item_store];
 }
 
 - (NSUInteger)hash
 {
-  NSUInteger subhashes[] = {[_items hash]};
+  NSUInteger subhashes[] = {[_items hash], [_item_prices hash], [_item_store hash]};
   NSUInteger result = subhashes[0];
-  for (int ii = 1; ii < 1; ++ii) {
+  for (int ii = 1; ii < 3; ++ii) {
     unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
     base = (~base) + (base << 18);
     base ^= (base >> 31);
@@ -56,7 +58,9 @@
     return NO;
   }
   return
-    (_items == object->_items ? YES : [_items isEqual:object->_items]);
+    (_items == object->_items ? YES : [_items isEqual:object->_items]) &&
+    (_item_prices == object->_item_prices ? YES : [_item_prices isEqual:object->_item_prices]) &&
+    (_item_store == object->_item_store ? YES : [_item_store isEqual:object->_item_store]);
 }
 
 @end

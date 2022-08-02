@@ -41,7 +41,9 @@
                             if(!error) {
                                 AppState *state = [AppState sharedManager];
                                 state.cart = new_cart;
-                                [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+                                });
                             }
                         }];
                     }

@@ -34,7 +34,7 @@
 
 //Used to create new carts
 + (void) createEmptyCart:(void(^)(Cart *new_cart,NSError *error))completion{
-    NSDictionary *const dict = @{ @"user" : [PFUser currentUser], @"items" : [NSArray new] };
+    NSDictionary *const dict = @{ @"user" : [PFUser currentUser], @"items" : [NSArray new], @"item_prices" : [NSDictionary new], @"item_store" : [NSDictionary new]};
     PFObject *new_object = [PFObject objectWithClassName:@"Cart" dictionary:dict];
     [new_object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if(succeeded) {
@@ -49,9 +49,11 @@
     }];
 }
 
-//makes a list to house a given cart object
+//makes a cart to house a given cart object
 + (void)_hydrateCartFromPFObject: (PFObject *)object withCompletion:(void(^)(Cart* cart))completion{
     NSArray<PFObject *> *item_objects = object[@"items"];
+    NSDictionary<NSString *, NSNumber *>  *item_prices = object[@"item_prices"];
+    NSDictionary<NSString *, NSString *>  *item_store = object[@"item_store"];
     NSMutableArray<Item *> *items = [NSMutableArray new];
     dispatch_group_t group = dispatch_group_create();
     for (PFObject* item_object in item_objects){
@@ -71,23 +73,36 @@
         }];
     }
     dispatch_group_notify(group,dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
-        Cart *const newCart = [[Cart alloc] initWithItems:items];
+        
+        Cart *const newCart = [[Cart alloc] initWithItems:items item_prices:item_prices item_store:item_store];
         newCart.cartObject = object;
         completion(newCart);
     });
 }
 
 //add items to cart
-+ (void) addItemToCart:(Cart *)cart withItem:(Item *)item withCompletion:(void(^)(Cart* updatedCart, NSError *error))completion {
++ (void) addItemToCart:(Cart *)cart withItem:(Item *)item fromList:(ShoppingList *)list withCompletion:(void(^)(Cart* updatedCart, NSError *error))completion {
     NSMutableArray *const mutable_items = [NSMutableArray arrayWithArray:cart.items];
     [mutable_items addObject:item];
-    Cart *const newCart = [[Cart alloc] initWithItems:[mutable_items copy]];
+    NSMutableDictionary *const item_prices = [NSMutableDictionary dictionaryWithDictionary: cart.item_prices];
+    NSMutableDictionary *const item_store = [NSMutableDictionary dictionaryWithDictionary: cart.item_store];
+    NSNumber *def = [NSNumber numberWithFloat:0.0];
+    for (Price *price in item.prices) {
+        if([price.store isEqual:list.store_name]) {
+            def = price.price;
+        }
+    }
+    item_prices[item.objectID] = def;
+    item_store[item.objectID] = list.store_name;
+    Cart *const newCart = [[Cart alloc] initWithItems:[mutable_items copy] item_prices:item_prices item_store:item_store];
     newCart.cartObject = cart.cartObject;
-    completion(newCart,nil);
-    /*
     NSMutableArray *previous_items = [NSMutableArray arrayWithArray:newCart.cartObject[@"items"]];
-    [previous_items addObject:item.itemObject];
-    newCart.cartObject[@"items"] = [NSArray arrayWithArray:previous_items];
+    PFObject *itemObject = [item hydratePFObjectFromItemWithListObject:list.listObject];
+    itemObject.objectId = item.objectID;
+    [previous_items addObject:itemObject];
+    newCart.cartObject[@"items"] = previous_items;
+    newCart.cartObject[@"item_prices"] = newCart.item_prices;
+    newCart.cartObject[@"item_store"] = newCart.item_store;
     [newCart.cartObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if(succeeded) {
             completion(newCart, nil);
@@ -96,6 +111,5 @@
             completion(nil, error);
         }
     }];
-    */
 }
 @end

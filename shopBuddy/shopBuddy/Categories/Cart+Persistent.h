@@ -7,6 +7,7 @@
 
 #import "Cart.h"
 #import "Parse/Parse.h"
+#import "ShoppingList+Persistent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void) createEmptyCart:(void(^)(Cart *new_cart,NSError *error))completion;
 
-+ (void) addItemToCart:(Cart *)cart withItem:(Item *)item withCompletion:(void(^)(Cart* updatedCart, NSError *error))completion;
++ (void) addItemToCart:(Cart *)cart withItem:(Item *)item fromList:(ShoppingList *)list withCompletion:(void(^)(Cart* updatedCart, NSError *error))completion;
 
 + (void) fetchCurrentCart:(void(^)(Cart *cart,NSError *error))completion;
 
