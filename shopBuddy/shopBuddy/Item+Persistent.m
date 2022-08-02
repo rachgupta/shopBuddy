@@ -11,9 +11,6 @@
 #import "ShoppingList.h"
 #import "Price.h"
 
-@interface Item (Persistent)
-@property (nonatomic,copy) PFObject *itemObject;
-@end
 @implementation Item (Persistent)
 
 - (NSString *)objectID {

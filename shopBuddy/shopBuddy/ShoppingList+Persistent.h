@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void) fetchListsByUser: (PFUser *) user withCompletion:(void(^)(NSArray<ShoppingList *> *lists, NSError *error))completion;
 
++ (void) removeItemFromList: (ShoppingList *)list withItem: (Item *)item withCompletion:(void(^)(ShoppingList *new_list,NSError *error))completion;
 @end
 
 

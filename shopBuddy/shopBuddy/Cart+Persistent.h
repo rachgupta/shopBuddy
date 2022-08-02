@@ -14,6 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,copy) PFObject *cartObject;
 
++ (void) createEmptyCart:(void(^)(Cart *new_cart,NSError *error))completion;
+
++ (void) addItemToCart:(Cart *)cart withItem:(Item *)item withCompletion:(void(^)(Cart* updatedCart, NSError *error))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END

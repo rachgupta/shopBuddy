@@ -39,11 +39,58 @@
             completion(succeeded, nil);
         }
         else {
-            NSLog(@"Error Updating List: %@",error);
             completion(NO, error);
         }
     }];
 }
+
+- (void) _updateSavedListWithoutItem: (PFObject *)item withCompletion:(void(^)(BOOL succeeded, NSError *error))completion {
+    NSMutableArray *previous_items = [NSMutableArray arrayWithArray:self.listObject[@"items"]];
+    PFObject *item_to_delete = nil;
+    for (PFObject *itemObject in previous_items) {
+        NSLog(@"%@",item.objectId);
+        NSLog(@"%@",itemObject.objectId);
+        //NSLog(@"%@",itemObject[@"name"]);
+        if([itemObject.objectId isEqual:item.objectId]) {
+            item_to_delete = itemObject;
+        }
+    }
+    [previous_items removeObject:item_to_delete];
+    self.listObject[@"items"] = [NSArray arrayWithArray:previous_items];
+    [self.listObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        if(succeeded) {
+            completion(succeeded, nil);
+        }
+        else {
+            completion(NO, error);
+        }
+    }];
+}
+
+
+//remove existing item from list
++ (void) removeItemFromList: (ShoppingList *)list withItem: (Item *)item withCompletion:(void(^)(ShoppingList *new_list,NSError *error))completion {
+    [list fetchItemsInList:^(NSArray<Item *> * _Nonnull items, NSError * _Nonnull error) {
+        NSMutableArray *const mutable_items = [NSMutableArray arrayWithArray:items];
+        [mutable_items removeObject:item];
+        ShoppingList *const newList = [[ShoppingList alloc] initWithStore_name:list.store_name items:[mutable_items copy]];
+        newList.objectID = list.objectID;
+        newList.listObject = list.listObject;
+        [newList _updateSavedListWithoutItem:item.itemObject withCompletion:^(BOOL succeeded, NSError *error) {
+                if(succeeded) {
+                    completion(newList,nil);
+                }
+                else {
+                    completion(nil,error);
+                }
+        }];
+    }];
+}
+
+
+//add existing item to list
+
+
 
 //Used to create new lists
 + (void) createEmptyList:(NSString *)store_name withCompletion:(void(^)(ShoppingList *new_list,NSError *error))completion {

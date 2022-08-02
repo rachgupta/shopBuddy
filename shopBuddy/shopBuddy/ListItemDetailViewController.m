@@ -10,6 +10,10 @@
 #import "Price.h"
 #import "Item+Persistent.h"
 #import "PriceCell.h"
+#import "GlobalManager.h"
+#import "AppState.h"
+#import "ShoppingListManagerViewController.h"
+
 @interface ListItemDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
     
@@ -36,6 +40,22 @@
     collectionView.dataSource = self;
     // Do any additional setup after loading the view.
 }
+- (IBAction)didPressSync:(id)sender {
+    [activityIndicator startAnimating];
+    GlobalManager *myManager = [GlobalManager sharedManager];
+    __weak __typeof__(self) weakSelf = self;
+    [myManager refreshPricesForItem:self.item fromStore:@"google_shopping" completion:^(NSArray<Price *> * _Nonnull prices, BOOL success) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if(strongSelf) {
+            [strongSelf.item syncPrices:prices];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [strongSelf->activityIndicator stopAnimating];
+                [strongSelf->collectionView reloadData];
+            });
+        }
+        
+    }];
+}
 
 - (void)_populateView {
     //TODO: add Show More button and shortened description
@@ -60,16 +80,42 @@
     
     return cell;
 }
-//TODO: Add prices
 
-/*
+- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    Price *const price = self.item.prices[indexPath.item];
+    __weak __typeof__(self) weakSelf = self;
+    [self priceSelected:price withCompletion:^(BOOL succeeded) {
+        [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
+    }];
+    
+}
+
+- (void) priceSelected: (Price *)selected withCompletion:(void(^)(BOOL succeeded))completion{
+    BOOL listExists = NO;
+    [ShoppingList removeItemFromList:self.list withItem:self.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
+        //test
+    }];
+    AppState *state = [AppState sharedManager];
+    for(ShoppingList *list in state.lists) {
+        if(list.store_name==selected.store) {
+            listExists = YES;
+            //remove existing item from existing list
+            //add existing item to existing list
+        }
+    }
+    if (!listExists) {
+        //remove existing item from existing list
+        //add existing item to new list
+        
+    }
+}
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if([segue.identifier isEqual:@"segueFromPriceToList"]) {
+        ShoppingListManagerViewController *const listManagerVC = [segue destinationViewController];
+    }
 }
-*/
 
 @end

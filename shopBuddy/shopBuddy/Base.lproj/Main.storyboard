@@ -357,6 +357,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNR-XG-3k8">
+                                <rect key="frame" x="157" y="651" width="100" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Sync Prices"/>
+                                <connections>
+                                    <action selector="didPressSync:" destination="aWa-VY-H2a" eventType="touchUpInside" id="C01-bM-wAB"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hyE-hb-HBu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -393,6 +402,7 @@
                         <outlet property="itemImage" destination="QwL-pE-vxu" id="mJo-RE-juh"/>
                         <outlet property="listLabel" destination="RXi-xq-VZn" id="gVU-c1-Djt"/>
                         <outlet property="titleLabel" destination="Aj8-Dw-eTv" id="RdF-81-Cnw"/>
+                        <segue destination="5nf-XL-tEi" kind="show" identifier="segueFromPriceToList" id="q6h-y1-Rwj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ssg-Z5-lRS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -819,7 +829,7 @@
         <!--Cart-->
         <scene sceneID="BXe-E5-M9B">
             <objects>
-                <viewController id="JeX-eL-rGe" sceneMemberID="viewController">
+                <viewController id="JeX-eL-rGe" customClass="CartViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ALi-oB-dY7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -868,7 +878,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="hKh-QN-NRU"/>
-        <segue reference="Z2u-XZ-10M"/>
+        <segue reference="q6h-y1-Rwj"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="cart.fill" catalog="system" width="128" height="102"/>

@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)fetchPricesWithItem:(Item *)item fromStore: (NSString *)store completion:(void(^)(NSArray<Price *> *prices, BOOL success))completion;
 
+- (void)refreshPricesForItem:(Item *)item fromStore: (NSString *)store completion:(void(^)(NSArray<Price *> *prices, BOOL success))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END

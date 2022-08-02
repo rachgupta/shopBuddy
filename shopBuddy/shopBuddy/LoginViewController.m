@@ -9,6 +9,8 @@
 #import "Parse/Parse.h"
 #import "ShoppingList.h"
 #import "ShoppingList+Persistent.h"
+#import "Cart+Persistent.h"
+#import "AppState.h"
 
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
@@ -31,16 +33,17 @@
         newUser.password = self.passwordField.text;
         // call sign up function on the object
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
-            if (error != nil) {
-                NSLog(@"Error: %@", error.localizedDescription);
-            } else {
+            if (!error) {
                 NSLog(@"User registered successfully");
                 [ShoppingList createEmptyList: @"Unspecified" withCompletion:^(ShoppingList *shoppingList,NSError *error) {
                     if(!error) {
-                        [self performSegueWithIdentifier:@"loginSegue" sender:nil];
-                    }
-                    else {
-                        NSLog(@"%@",error);
+                        [Cart createEmptyCart:^(Cart * _Nonnull new_cart, NSError * _Nonnull error) {
+                            if(!error) {
+                                AppState *state = [AppState sharedManager];
+                                state.cart = new_cart;
+                                [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+                            }
+                        }];
                     }
                 }];
                 // manually segue to logged in view
