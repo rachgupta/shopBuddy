@@ -8,6 +8,7 @@
 #import "Cart+Persistent.h"
 #import <objc/runtime.h>
 #import "Item+Persistent.h"
+#import "AppState.h"
 @implementation Cart (Persistent)
 
 - (NSString *)cartObject {
@@ -16,6 +17,23 @@
 
 - (void)setCartObject:(NSString *)new_cartObject {
     objc_setAssociatedObject(self, @selector(cartObject), new_cartObject, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
++ (void) fetchCurrentCart:(void(^)(Cart *cart,NSError *error))completion{
+    PFQuery *query = [PFQuery queryWithClassName:@"Cart"];
+    [query whereKey:@"user" equalTo:[PFUser currentUser]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray <Cart *> *fetched_objects, NSError *error) {
+        NSMutableArray<Cart *> *carts = [NSMutableArray new];
+        for (PFObject *object in fetched_objects)
+        {
+            Cart *const cart = [Cart _hydrateCartFromPFObject:object];
+            [carts addObject:cart];
+        }
+        AppState *myAppState = [AppState sharedManager];
+        myAppState.cart = carts[0];
+        completion(carts[0],nil);
+    }];
+    
 }
 
 //Used to create new carts
@@ -59,6 +77,16 @@
     Cart *const newCart = [[Cart alloc] initWithItems:[mutable_items copy]];
     newCart.cartObject = cart.cartObject;
     completion(newCart,nil);
-    //TODO: add functionality
+    NSMutableArray *previous_items = [NSMutableArray arrayWithArray:newCart.cartObject[@"items"]];
+    [previous_items addObject:item.itemObject];
+    newCart.cartObject[@"items"] = [NSArray arrayWithArray:previous_items];
+    [newCart.cartObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        if(succeeded) {
+            completion(newCart, nil);
+        }
+        else {
+            completion(nil, error);
+        }
+    }];
 }
 @end

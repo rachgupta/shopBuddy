@@ -13,6 +13,7 @@
 #import "Parse/Parse.h"
 #import "AddItemViewController.h"
 #import "AppState.h"
+#import "Cart+Persistent.h"
 
 @interface ShoppingListManagerViewController () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -32,9 +33,9 @@
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
-    __weak __typeof__(self) weakSelf = self;
     stores = @[@"Walmart",@"Target",@"Amazon"];
-    [weakSelf _fetchLists];
+    [self _fetchLists];
+    [Cart fetchCurrentCart:^(Cart * _Nonnull cart, NSError * _Nonnull error) {}];
     [self _makeMenu];
 }
 

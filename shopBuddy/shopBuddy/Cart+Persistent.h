@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void) addItemToCart:(Cart *)cart withItem:(Item *)item withCompletion:(void(^)(Cart* updatedCart, NSError *error))completion;
 
++ (void) fetchCurrentCart:(void(^)(Cart *cart,NSError *error))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END

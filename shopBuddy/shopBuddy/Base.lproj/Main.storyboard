@@ -366,6 +366,15 @@
                                     <action selector="didPressSync:" destination="aWa-VY-H2a" eventType="touchUpInside" id="C01-bM-wAB"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gPb-Td-Fy4">
+                                <rect key="frame" x="136" y="734" width="131" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Add Item to Cart"/>
+                                <connections>
+                                    <action selector="didPressAddToList:" destination="aWa-VY-H2a" eventType="touchUpInside" id="s17-ic-goA"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hyE-hb-HBu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

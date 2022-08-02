@@ -13,6 +13,7 @@
 #import "GlobalManager.h"
 #import "AppState.h"
 #import "ShoppingListManagerViewController.h"
+#import "Cart+Persistent.h"
 
 @interface ListItemDetailViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
@@ -55,6 +56,17 @@
         }
         
     }];
+}
+
+- (IBAction)didPressAddToList:(id)sender {
+    AppState *state = [AppState sharedManager];
+    [Cart addItemToCart:state.cart withItem:self.item withCompletion:^(Cart * _Nonnull updatedCart, NSError * _Nonnull error) {
+        if(updatedCart) {
+            state.cart = updatedCart;
+            NSLog(@"success");
+        }
+    }];
+    
 }
 
 - (void)_populateView {
