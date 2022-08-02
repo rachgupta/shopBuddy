@@ -99,29 +99,53 @@
     Price *const price = self.item.prices[indexPath.item];
     __weak __typeof__(self) weakSelf = self;
     [self priceSelected:price withCompletion:^(BOOL succeeded) {
-        [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
+        if(YES) {
+            [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
+        }
     }];
     
 }
 
 - (void) priceSelected: (Price *)selected withCompletion:(void(^)(BOOL succeeded))completion{
-    BOOL listExists = NO;
+    __weak __typeof__(self) weakSelf = self;
     [ShoppingList removeItemFromList:self.list withItem:self.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
+        if(!error) {
+            BOOL listExists = NO;
+            AppState *state = [AppState sharedManager];
+            for(ShoppingList *list in state.lists) {
+                if([list.store_name isEqual:selected.store]) {
+                    listExists = YES;
+                    __strong __typeof(weakSelf)strongSelf = weakSelf;
+                    if(strongSelf) {
+                        [ShoppingList addExistingItem:strongSelf.item toList:list withCompletion:^(Item * _Nonnull item, NSError * _Nonnull error) {
+                            if(!error) {
+                                completion(YES);
+                            }
+                            else {
+                                completion(NO);
+                            }
+                        }];
+                    }
+                }
+            }
+            if (!listExists) {
+                [ShoppingList createEmptyList:selected.store withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
+                    __strong __typeof(weakSelf)strongSelf = weakSelf;
+                    if(strongSelf) {
+                        [ShoppingList addExistingItem:strongSelf.item toList:new_list withCompletion:^(Item * _Nonnull item, NSError * _Nonnull error) {
+                            if(item) {
+                                completion(YES);
+                            }
+                            else {
+                                completion(NO);
+                            }
+                        }];
+                    }
+                }];
+            }
+        }
         //test
     }];
-    AppState *state = [AppState sharedManager];
-    for(ShoppingList *list in state.lists) {
-        if(list.store_name==selected.store) {
-            listExists = YES;
-            //TODO: remove existing item from existing list
-            //TODO: add existing item to existing list
-        }
-    }
-    if (!listExists) {
-        //TODO: remove existing item from existing list
-        //TODO: add existing item to new list
-        
-    }
 }
 
 #pragma mark - Navigation

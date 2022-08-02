@@ -40,6 +40,11 @@
     [self _makeMenu];
 }
 
+- (void)viewWillAppear {
+    __weak __typeof__(self) weakSelf = self;
+    [weakSelf _fetchLists];
+}
+
 - (void)_fetchLists {
     [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray<ShoppingList *> *lists, NSError *error) {
         self->lists = lists;

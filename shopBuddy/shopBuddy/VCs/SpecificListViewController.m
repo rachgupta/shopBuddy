@@ -32,10 +32,8 @@
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
     _list_label.text = [NSString stringWithFormat:@"%@ Shopping List", self.list.store_name];
-    [self.list fetchItemsInList:^(NSArray<Item *> *items, NSError *error) {
-        self->items = items;
-        [self->tableView reloadData];
-    }];
+    items = self.list.items;
+    [tableView reloadData];
 }
 
 #pragma mark - TableViewDelegate and Data Source methods
@@ -55,7 +53,7 @@
     NSArray<Price *> *prices = item.prices;
     NSString *label = @"Not Found";
     for (Price *price in prices) {
-        if(price.store == self.list.store_name) {
+        if([price.store isEqual:self.list.store_name]) {
             label = [NSString stringWithFormat:@"$%@", [price.price stringValue]];
         }
     }

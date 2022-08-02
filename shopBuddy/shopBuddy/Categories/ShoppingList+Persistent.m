@@ -30,7 +30,7 @@
     objc_setAssociatedObject(self, @selector(listObject), new_listObject, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void) _updateSavedListWithNewItem: (PFObject *)item withCompletion:(void(^)(BOOL succeeded, NSError *error))completion {
+- (void) _updateSavedListWithItem: (PFObject *)item withCompletion:(void(^)(BOOL succeeded, NSError *error))completion {
     NSMutableArray *previous_items = [NSMutableArray arrayWithArray:self.listObject[@"items"]];
     [previous_items addObject:item];
     self.listObject[@"items"] = [NSArray arrayWithArray:previous_items];
@@ -67,28 +67,48 @@
     }];
 }
 
-
 //remove existing item from list
 + (void) removeItemFromList: (ShoppingList *)list withItem: (Item *)item withCompletion:(void(^)(ShoppingList *new_list,NSError *error))completion {
-    [list fetchItemsInList:^(NSArray<Item *> * _Nonnull items, NSError * _Nonnull error) {
-        NSMutableArray *const mutable_items = [NSMutableArray arrayWithArray:items];
-        [mutable_items removeObject:item];
-        ShoppingList *const newList = [[ShoppingList alloc] initWithStore_name:list.store_name items:[mutable_items copy]];
-        newList.objectID = list.objectID;
-        newList.listObject = list.listObject;
-        [newList _updateSavedListWithoutItem:item.itemObject withCompletion:^(BOOL succeeded, NSError *error) {
-                if(succeeded) {
-                    completion(newList,nil);
-                }
-                else {
-                    completion(nil,error);
-                }
-        }];
+    NSMutableArray<Item *> *const mutable_items = [NSMutableArray arrayWithArray:list.items];
+    [mutable_items removeObject:item];
+    ShoppingList *const newList = [[ShoppingList alloc] initWithStore_name:list.store_name items:[mutable_items copy]];
+    newList.objectID = list.objectID;
+    newList.listObject = list.listObject;
+    [newList _updateSavedListWithoutItem:item.itemObject withCompletion:^(BOOL succeeded, NSError *error) {
+        if(succeeded) {
+            completion(newList,nil);
+        }
+        else {
+            completion(nil,error);
+        }
     }];
 }
 
 
 //add existing item to list
++ (void) addExistingItem:(Item *)item toList:(ShoppingList *)list withCompletion:(void(^)(Item *item, NSError *error))completion {
+    item.itemObject[@"list"] = list.listObject;
+    [item.itemObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if(succeeded) {
+            NSMutableArray *const mutable_items = [NSMutableArray arrayWithArray:list.items];
+            [mutable_items addObject:item];
+            ShoppingList *const newList = [[ShoppingList alloc] initWithStore_name:list.store_name items:[mutable_items copy]];
+            newList.objectID = list.objectID;
+            newList.listObject = list.listObject;
+            [newList _updateSavedListWithItem:item.itemObject withCompletion:^(BOOL succeeded, NSError *error) {
+                if(!error) {
+                    completion(item,nil);
+                }
+                else {
+                    completion(nil,error);
+                }
+            }];
+        }
+        else {
+            completion(nil,error);
+        }
+    }];
+}
 
 
 
@@ -108,7 +128,6 @@
             }];
         }
         else {
-            NSLog(@"Error: %@",error);
             completion(nil,error);
         }
     }];
@@ -124,7 +143,7 @@
     PFObject *item_to_save = [item hydratePFObjectFromItemWithListObject:newList.listObject];
     [item_to_save saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if(succeeded) {
-            [newList _updateSavedListWithNewItem: item_to_save withCompletion:^(BOOL succeeded, NSError *error) {
+            [newList _updateSavedListWithItem: item_to_save withCompletion:^(BOOL succeeded, NSError *error) {
                     if(succeeded) {
                         completion(newList,nil);
                     }
