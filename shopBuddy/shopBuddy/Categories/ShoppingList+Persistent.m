@@ -45,7 +45,7 @@
 }
 
 - (void) _updateSavedListWithoutItem: (PFObject *)item withCompletion:(void(^)(BOOL succeeded, NSError *error))completion {
-    NSMutableArray *previous_items = [NSMutableArray arrayWithArray:self.listObject[@"items"]];
+    NSMutableArray *const previous_items = [NSMutableArray arrayWithArray:self.listObject[@"items"]];
     PFObject *item_to_delete = nil;
     for (PFObject *itemObject in previous_items) {
         if([itemObject.objectId isEqual:item.objectId]) {
@@ -159,7 +159,7 @@
 
 //gets all lists by current user
 + (void)fetchListsByUser: (PFUser *) user withCompletion:(void(^)(NSArray<ShoppingList *> *lists, NSError *error))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"ShoppingList"];
+    PFQuery *const query = [PFQuery queryWithClassName:@"ShoppingList"];
     [query orderByDescending:@"createdAt"];
     [query whereKey:@"user" equalTo:[PFUser currentUser]];
     dispatch_group_t fetchGroup = dispatch_group_create();
@@ -188,8 +188,8 @@
 
 //makes a list to house a given list object
 + (void)_hydrateShoppingListFromPFObject: (PFObject *)object withCompletion:(void(^)(ShoppingList * list, NSError *error))completion {
-    NSArray<PFObject *> *item_objects = object[@"items"];
-    NSMutableArray<Item *> *items = [NSMutableArray new];
+    NSArray<PFObject *> * const item_objects = object[@"items"];
+    NSMutableArray<Item *> *const items = [NSMutableArray new];
     dispatch_group_t group = dispatch_group_create();
     for (PFObject* item_object in item_objects){
         dispatch_group_enter(group);

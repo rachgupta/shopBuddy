@@ -68,14 +68,14 @@
 
 //makes a cart to house a given cart object
 + (void)_hydrateCartFromPFObject: (PFObject *)object withCompletion:(void(^)(Cart* cart))completion{
-    NSArray<PFObject *> *item_objects = object[@"items"];
-    NSDictionary<NSString *, NSNumber *>  *item_prices = object[@"item_prices"];
+    NSArray<PFObject *> *const item_objects = object[@"items"];
+    NSDictionary<NSString *, NSNumber *>  *const item_prices = object[@"item_prices"];
     NSDictionary<NSString *, NSString *>  *item_store = object[@"item_store"];
-    NSMutableArray<Item *> *items = [NSMutableArray new];
+    NSMutableArray<Item *> *const items = [NSMutableArray new];
     dispatch_group_t group = dispatch_group_create();
     for (PFObject* item_object in item_objects){
         dispatch_group_enter(group);
-        PFQuery *query = [PFQuery queryWithClassName:@"Item"];
+        PFQuery *const query = [PFQuery queryWithClassName:@"Item"];
         [query getObjectInBackgroundWithId:item_object.objectId block:^(PFObject *full_item_object, NSError *error){
             if(!error) {
                 Item *new_item = [Item createItemFromPFObject:full_item_object];
