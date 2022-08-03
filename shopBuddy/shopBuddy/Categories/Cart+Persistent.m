@@ -43,7 +43,6 @@
             }];
         }
         else {
-            NSLog(@"Error: %@",error);
             completion(nil,error);
         }
     }];
@@ -76,17 +75,12 @@
     dispatch_group_t group = dispatch_group_create();
     for (PFObject* item_object in item_objects){
         dispatch_group_enter(group);
-        NSLog(@"enter");
         PFQuery *query = [PFQuery queryWithClassName:@"Item"];
         [query getObjectInBackgroundWithId:item_object.objectId block:^(PFObject *full_item_object, NSError *error){
             if(!error) {
                 Item *new_item = [Item createItemFromPFObject:full_item_object];
                 [items addObject:new_item];
-                NSLog(@"leave");
                 dispatch_group_leave(group);
-            }
-            else{
-                NSLog(@"%@",error);
             }
         }];
     }

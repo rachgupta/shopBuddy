@@ -899,7 +899,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZ5-g8-Aac">
-                                                    <rect key="frame" x="322.5" y="26" width="45" height="21"/>
+                                                    <rect key="frame" x="323" y="26" width="44.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -948,6 +948,13 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total: $0.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mnG-dW-sZX">
+                                <rect key="frame" x="300" y="749" width="94" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ihw-mc-FRa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -956,6 +963,7 @@
                     <navigationItem key="navigationItem" id="Uae-oC-d1w"/>
                     <connections>
                         <outlet property="tableView" destination="yPU-KC-UkJ" id="AL1-gq-jOs"/>
+                        <outlet property="totalLabel" destination="mnG-dW-sZX" id="Chz-HK-EgS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0DA-P9-SZc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

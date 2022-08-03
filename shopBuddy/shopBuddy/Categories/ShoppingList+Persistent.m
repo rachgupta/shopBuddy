@@ -48,9 +48,6 @@
     NSMutableArray *previous_items = [NSMutableArray arrayWithArray:self.listObject[@"items"]];
     PFObject *item_to_delete = nil;
     for (PFObject *itemObject in previous_items) {
-        NSLog(@"%@",item.objectId);
-        NSLog(@"%@",itemObject.objectId);
-        //NSLog(@"%@",itemObject[@"name"]);
         if([itemObject.objectId isEqual:item.objectId]) {
             item_to_delete = itemObject;
         }
@@ -95,6 +92,7 @@
             ShoppingList *const newList = [[ShoppingList alloc] initWithStore_name:list.store_name items:[mutable_items copy]];
             newList.objectID = list.objectID;
             newList.listObject = list.listObject;
+            item.itemObject.objectId = item.objectID;
             [newList _updateSavedListWithItem:item.itemObject withCompletion:^(BOOL succeeded, NSError *error) {
                 if(!error) {
                     completion(item,nil);
@@ -143,6 +141,7 @@
     PFObject *item_to_save = [item hydratePFObjectFromItemWithListObject:newList.listObject];
     [item_to_save saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if(succeeded) {
+            item.itemObject = item_to_save;
             [newList _updateSavedListWithItem: item_to_save withCompletion:^(BOOL succeeded, NSError *error) {
                     if(succeeded) {
                         completion(newList,nil);
@@ -155,29 +154,6 @@
         else {
             completion(nil,error);
         }
-    }];
-}
-
-//gets all items in this list
-- (void) fetchItemsInList:(void(^)(NSArray<Item *> *items, NSError *error))completion {
-    PFQuery *query = [PFQuery queryWithClassName:@"Item"];
-    [query orderByDescending:@"createdAt"];
-    [query whereKey:@"list" equalTo:self.listObject];
-    [query findObjectsInBackgroundWithBlock:^(NSArray<PFObject *> *fetched_objects, NSError *error) {
-        if(!error)
-        {
-            NSMutableArray<Item *> *new_items = [NSMutableArray new];
-            for (PFObject *object in fetched_objects)
-            {
-                Item *const item_to_add = [Item createItemFromPFObject:object];
-                [new_items addObject:item_to_add];
-            }
-            completion([NSArray arrayWithArray:new_items],nil);
-        }
-        else {
-            completion(nil,error);
-        }
-        
     }];
 }
 
@@ -225,7 +201,6 @@
                 dispatch_group_leave(group);
             }
             else {
-                NSLog(@"%@",error);
                 completion(nil,error);
             }
         }];

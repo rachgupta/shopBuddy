@@ -113,29 +113,8 @@
     addItemToListButton.showsMenuAsPrimaryAction = YES;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.item.prices.count;
-}
-
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    PriceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PriceCell" forIndexPath:indexPath];
-    Price *const price = self.item.prices[indexPath.item];
-    cell.storeLabel.text = price.store;
-    cell.priceLabel.text = [price.price stringValue];
-    
-    return cell;
-}
-
-- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    Price *const price = self.item.prices[indexPath.item];
-    __weak __typeof__(self) weakSelf = self;
-    [self priceSelected:price withCompletion:^(BOOL succeeded) {
-        [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
-    }];
-    
-}
-
-- (void) priceSelected: (Price *)selected withCompletion:(void(^)(BOOL succeeded))completion{
+//adds item to list if price selected
+- (void) _priceSelected: (Price *)selected withCompletion:(void(^)(BOOL succeeded))completion{
     BOOL listExists = NO;
     for(ShoppingList *list in _lists) {
         if(list.store_name==selected.store) {
@@ -161,7 +140,30 @@
         }];
     }
 }
+#pragma mark - CollectionView
 
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.item.prices.count;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    PriceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PriceCell" forIndexPath:indexPath];
+    Price *const price = self.item.prices[indexPath.item];
+    cell.storeLabel.text = price.store;
+    cell.priceLabel.text = [price.price stringValue];
+    
+    return cell;
+}
+
+- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    Price *const price = self.item.prices[indexPath.item];
+    __weak __typeof__(self) weakSelf = self;
+    [self _priceSelected:price withCompletion:^(BOOL succeeded) {
+        [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
+    }];
+}
+
+#pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqual:@"segueFromPriceToList"]) {
         ShoppingListManagerViewController *const listManagerVC = [segue destinationViewController];

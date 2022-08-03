@@ -17,6 +17,7 @@
     NSArray<Item *> *items;
     AppState *manager;
     NSDictionary<NSString *, NSMutableArray<Item *> *> *organizedData;
+    __weak IBOutlet UILabel *totalLabel;
 }
 
 @end
@@ -29,8 +30,12 @@
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
     manager = [AppState sharedManager];
-    [self _fetchItems];
+    [self _updateView];
     // Do any additional setup after loading the view.
+}
+
+- (void) viewWillAppear {
+    [self _updateView];
 }
 
 - (void) _organizeData {
@@ -48,16 +53,19 @@
     organizedData = [NSDictionary dictionaryWithDictionary:output];
 }
 
-- (void) viewWillAppear {
-    [self _fetchItems];
-}
-
-- (void) _fetchItems {
+- (void) _updateView {
     items = manager.cart.items;
     [self _organizeData];
     [tableView reloadData];
+    double sum = 0;
+    for (NSNumber *num in [manager.cart.item_prices allValues]) {
+        sum = sum + [num doubleValue];
+    }
+    totalLabel.text = [NSString stringWithFormat:@"Total: $%@",[[NSNumber numberWithDouble:sum] stringValue]];
+    
 }
 
+#pragma mark - TableView
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:
     (NSIndexPath *)indexPath {
     CartItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CartItemCell"];
@@ -67,7 +75,7 @@
     NSString *const URLString = item.images[0];
     NSURL *const url = [NSURL URLWithString:URLString];
     [cell.itemPhoto setImageWithURL:url];
-    cell.itemPrice.text = [manager.cart.item_prices[item.objectID] stringValue];
+    cell.itemPrice.text = [NSString stringWithFormat:@"$%@",[manager.cart.item_prices[item.objectID] stringValue]];
     return cell;
 }
 

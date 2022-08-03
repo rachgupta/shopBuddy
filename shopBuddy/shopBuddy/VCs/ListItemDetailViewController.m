@@ -44,6 +44,8 @@
     // Do any additional setup after loading the view.
 }
 
+
+
 - (void)_showInputAlert {
   UIAlertController *alertVC=[UIAlertController alertControllerWithTitle:@"How much was the item?" message:@"Please input the price of the item" preferredStyle:UIAlertControllerStyleAlert];
     [alertVC addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
@@ -70,39 +72,6 @@
     [self presentViewController:alertVC animated:true completion:nil];
 }
 
-- (IBAction)didPressSync:(id)sender {
-    [activityIndicator startAnimating];
-    GlobalManager *myManager = [GlobalManager sharedManager];
-    __weak __typeof__(self) weakSelf = self;
-    [myManager refreshPricesForItem:self.item fromStore:@"google_shopping" completion:^(NSArray<Price *> * _Nonnull prices, BOOL success) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        if(strongSelf) {
-            [strongSelf.item syncPrices:prices];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [strongSelf->activityIndicator stopAnimating];
-                [strongSelf->collectionView reloadData];
-            });
-        }
-        
-    }];
-}
-- (IBAction)didPressAddToCart:(id)sender {
-    __weak __typeof__(self) weakSelf = self;
-    [Cart addItemToCart:state.cart withItem:self.item fromList:self.list withCompletion:^(Cart * _Nonnull updatedCart, NSError * _Nonnull error) {
-        if(updatedCart) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            if(strongSelf) {
-                strongSelf->state.cart = updatedCart;
-                [ShoppingList removeItemFromList:weakSelf.list withItem:weakSelf.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
-                    if(!error) {
-                        [weakSelf _showInputAlert];
-                    }
-                }];
-            }
-        }
-    }];
-}
-
 - (void)_populateView {
     //TODO: add Show More button and shortened description
     titleLabel.text = self.item.name;
@@ -114,31 +83,7 @@
     listLabel.text = [NSString stringWithFormat:@"In %@ List",self.list.store_name];
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.item.prices.count;
-}
-
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    PriceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PriceCell" forIndexPath:indexPath];
-    Price *const price = self.item.prices[indexPath.item];
-    cell.storeLabel.text = price.store;
-    cell.priceLabel.text = [price.price stringValue];
-    
-    return cell;
-}
-
-- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    Price *const price = self.item.prices[indexPath.item];
-    __weak __typeof__(self) weakSelf = self;
-    [self priceSelected:price withCompletion:^(BOOL succeeded) {
-        if(YES) {
-            [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
-        }
-    }];
-    
-}
-
-- (void) priceSelected: (Price *)selected withCompletion:(void(^)(BOOL succeeded))completion{
+- (void) _priceSelected: (Price *)selected withCompletion:(void(^)(BOOL succeeded))completion{
     __weak __typeof__(self) weakSelf = self;
     [ShoppingList removeItemFromList:self.list withItem:self.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
         if(!error) {
@@ -176,10 +121,67 @@
                 }];
             }
         }
-        //test
     }];
 }
 
+#pragma mark - Actions
+- (IBAction)didPressSync:(id)sender {
+    [activityIndicator startAnimating];
+    GlobalManager *myManager = [GlobalManager sharedManager];
+    __weak __typeof__(self) weakSelf = self;
+    [myManager refreshPricesForItem:self.item fromStore:@"google_shopping" completion:^(NSArray<Price *> * _Nonnull prices, BOOL success) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if(strongSelf) {
+            [strongSelf.item syncPrices:prices];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [strongSelf->activityIndicator stopAnimating];
+                [strongSelf->collectionView reloadData];
+            });
+        }
+        
+    }];
+}
+- (IBAction)didPressAddToCart:(id)sender {
+    __weak __typeof__(self) weakSelf = self;
+    [Cart addItemToCart:state.cart withItem:self.item fromList:self.list withCompletion:^(Cart * _Nonnull updatedCart, NSError * _Nonnull error) {
+        if(updatedCart) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            if(strongSelf) {
+                strongSelf->state.cart = updatedCart;
+                [ShoppingList removeItemFromList:weakSelf.list withItem:weakSelf.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
+                    if(!error) {
+                        [weakSelf _showInputAlert];
+                    }
+                }];
+            }
+        }
+    }];
+}
+
+#pragma mark - Collection View
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.item.prices.count;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    PriceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PriceCell" forIndexPath:indexPath];
+    Price *const price = self.item.prices[indexPath.item];
+    cell.storeLabel.text = price.store;
+    cell.priceLabel.text = [price.price stringValue];
+    
+    return cell;
+}
+
+- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    Price *const price = self.item.prices[indexPath.item];
+    __weak __typeof__(self) weakSelf = self;
+    [self _priceSelected:price withCompletion:^(BOOL succeeded) {
+        if(YES) {
+            [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
+        }
+    }];
+    
+}
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
