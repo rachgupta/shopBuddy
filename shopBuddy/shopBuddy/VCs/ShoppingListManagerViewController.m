@@ -12,8 +12,10 @@
 #import "ShoppingList+Persistent.h"
 #import "Parse/Parse.h"
 #import "AddItemViewController.h"
+#import "AppState.h"
+#import "Cart+Persistent.h"
 
-@interface ShoppingListManagerViewController () <UITableViewDataSource, UITableViewDelegate,ShoppingListDelegate>
+@interface ShoppingListManagerViewController () <UITableViewDataSource, UITableViewDelegate>
 {
     __weak IBOutlet UITableView *tableView;
     NSArray<ShoppingList*> *lists;
@@ -31,36 +33,27 @@
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
-    __weak __typeof__(self) weakSelf = self;
     stores = @[@"Walmart",@"Target",@"Amazon"];
+    __weak __typeof__(self) weakSelf = self;
     [weakSelf _fetchLists];
+    [Cart fetchCurrentCart:^(Cart * _Nonnull cart, NSError * _Nonnull error) {}];
     [self _makeMenu];
+}
+
+- (void)viewWillAppear {
+    __weak __typeof__(self) weakSelf = self;
+    [weakSelf _fetchLists];
 }
 
 - (void)_fetchLists {
     [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray<ShoppingList *> *lists, NSError *error) {
         self->lists = lists;
-        [self->tableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->tableView reloadData];
+        });
     }];
 }
 
-- (void) _updateListsWithNewList: (ShoppingList *)list {
-    BOOL updatingList = NO;
-    ShoppingList *list_to_update = nil;
-    NSMutableArray *const mutable_lists = [NSMutableArray arrayWithArray:lists];
-    for (ShoppingList *old_list in mutable_lists) {
-        if(old_list.objectID==list.objectID) {
-            updatingList = YES;
-            list_to_update = old_list;
-        }
-    }
-    if(list_to_update!=nil) {
-        [mutable_lists removeObject:list_to_update];
-    }
-    [mutable_lists addObject:list];
-    lists = mutable_lists;
-    [tableView reloadData];
-}
 - (void) _makeMenu {
     NSMutableArray* actions = [[NSMutableArray alloc] init];
     for (NSString *store in stores) {
@@ -69,7 +62,7 @@
         [actions addObject:[UIAction actionWithTitle:actionTitle image:nil identifier:nil handler:^(__kindof UIAction* _Nonnull action) {
             [ShoppingList createEmptyList:store withCompletion:^(ShoppingList *list,NSError *error) {
                 if(!error) {
-                    [weakSelf _updateListsWithNewList:list];
+                    [weakSelf _fetchLists];
                 }
             }];
             
@@ -98,19 +91,6 @@
     return cell;
 }
 
-#pragma mark - Delegate
-- (void)addItemToList:(ShoppingList *)list withItem: (Item *)item withCompletion:(void(^)(BOOL succeeded, NSError *error))completion{
-    __weak __typeof__(self) weakSelf = self;
-    [ShoppingList createFromList:list withItem:item withCompletion:^(ShoppingList* updatedList, NSError *error) {
-        if(!error) {
-            [weakSelf _updateListsWithNewList:list];
-            completion(YES,nil);
-        }
-        else {
-            completion(NO,error);
-        }
-    }];
-}
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -122,8 +102,6 @@
         specificVC.list = selected_list;
     } else if([segue.identifier isEqual:@"segueToAddItem"]) {
         AddItemViewController *const addVC = [segue destinationViewController];
-        addVC.lists = lists;
-        addVC.delegate = self;
     }
 }
 

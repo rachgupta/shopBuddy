@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *barcode;
 @property Item *item;
 @property (strong, nonatomic) NSArray<ShoppingList *> *lists;
-@property (nonatomic, weak) id<ShoppingListDelegate> delegate;
 
 @end
 

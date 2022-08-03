@@ -48,20 +48,14 @@
     if([segue.identifier isEqual:@"showDetailSegue"]) {
         ItemDetailViewController *const detailVC = [segue destinationViewController];
         //TODO: move to GlobalManager
-        detailVC.delegate = self.delegate;
-        detailVC.lists = self.lists;
         detailVC.barcode = _barcodeField.text;
     } else if([segue.identifier isEqual:@"showBarcodeSegue"]) {
         ScanBarcodeViewController *const barcodeVC = [segue destinationViewController];
-        barcodeVC.delegate = self.delegate;
-        barcodeVC.lists = self.lists;
     } else if([segue.identifier isEqual:@"showResultDetailSegue"]) {
         NSIndexPath *const myPath = [_tableView indexPathForCell:sender];
         Item *const selected_item = _searchResults[myPath.row];
         ItemDetailViewController *const detailVC = [segue destinationViewController];
         detailVC.item = selected_item;
-        detailVC.delegate = self.delegate;
-        detailVC.lists = self.lists;
     }
 }
 #pragma mark - TableViewDelegate and Data Source methods

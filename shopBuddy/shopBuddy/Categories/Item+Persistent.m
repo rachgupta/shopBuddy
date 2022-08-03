@@ -11,9 +11,6 @@
 #import "ShoppingList.h"
 #import "Price.h"
 
-@interface Item (Persistent)
-@property (nonatomic,copy) PFObject *itemObject;
-@end
 @implementation Item (Persistent)
 
 - (NSString *)objectID {
@@ -79,8 +76,6 @@
     }
     NSDictionary *const dict = @{ @"name" : self.name, @"barcode_number" : self.barcode_number, @"images" : self.images, @"brand" : self.brand, @"item_description" : self.item_description, @"list" : list, @"prices": priceDict};
     PFObject *const new_object = [PFObject objectWithClassName:@"Item" dictionary:dict];
-    NSLog(@"%@",dict);
-    NSLog(@"%@",new_object);
     self.itemObject = new_object;
     return [PFObject objectWithClassName:@"Item" dictionary:dict];
 }

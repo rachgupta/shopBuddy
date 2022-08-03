@@ -12,12 +12,10 @@
 
 @implementation Trip
 
-- (instancetype)initWithTrip_id:(NSNumber *)trip_id date:(NSDate *)date name:(NSArray<NSString*> *)store_names items:(NSArray<Item*> *)items price:(NSNumber *)price money_saved:(NSNumber *)money_saved
+- (instancetype)initWithDate:(NSDate *)date items:(NSArray<Item*> *)items price:(NSNumber *)price money_saved:(NSNumber *)money_saved
 {
   if ((self = [super init])) {
-    _trip_id = [trip_id copy];
     _date = [date copy];
-    _store_names = [store_names copy];
     _items = [items copy];
     _price = [price copy];
     _money_saved = [money_saved copy];
@@ -31,6 +29,27 @@
   return self;
 }
 
+- (NSString *)description
+{
+  return [NSString stringWithFormat:@"%@ - \n\t date: %@; \n\t items: %@; \n\t price: %@; \n\t money_saved: %@; \n", [super description], _date, _items, _price, _money_saved];
+}
+
+- (NSUInteger)hash
+{
+  NSUInteger subhashes[] = {[_date hash], [_items hash], [_price hash], [_money_saved hash]};
+  NSUInteger result = subhashes[0];
+  for (int ii = 1; ii < 4; ++ii) {
+    unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
+    base = (~base) + (base << 18);
+    base ^= (base >> 31);
+    base *=  21;
+    base ^= (base >> 11);
+    base += (base << 6);
+    base ^= (base >> 22);
+    result = base;
+  }
+  return result;
+}
 
 - (BOOL)isEqual:(Trip *)object
 {
@@ -40,9 +59,7 @@
     return NO;
   }
   return
-    (_trip_id == object->_trip_id ? YES : [_trip_id isEqual:object->_trip_id]) &&
     (_date == object->_date ? YES : [_date isEqual:object->_date]) &&
-    (_store_names == object->_store_names ? YES : [_store_names isEqual:object->_store_names]) &&
     (_items == object->_items ? YES : [_items isEqual:object->_items]) &&
     (_price == object->_price ? YES : [_price isEqual:object->_price]) &&
     (_money_saved == object->_money_saved ? YES : [_money_saved isEqual:object->_money_saved]);

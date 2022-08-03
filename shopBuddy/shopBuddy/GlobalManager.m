@@ -33,7 +33,7 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
     });
     return sharedGlobalManager;
 }
-//TODO: Parse
+
 - (id)init {
     if (self = [super init]) {
         self.itemJobIdMap = [NSMutableDictionary dictionary];
@@ -46,9 +46,7 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
 }
 
 - (void)fetchPricesWithItem:(Item *)item fromStore: (NSString *)store completion:(void(^)(NSArray<Price *> *prices, BOOL success))completion {
-    //TODO: Parse Dictionary and return Array of NSObject Price
     NSString *const jobId = self.itemJobIdMap[item.name];
-    
     if (jobId == nil) {
         __weak __typeof(self) weakSelf = self;
         [self _submitJob:item.name withStore:store withCompletion:^(NSString *job_id, NSError *error) {
@@ -64,11 +62,24 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
         [self _checkJobStatus:jobId withCompletion:completion];
     }
 }
+- (void)refreshPricesForItem:(Item *)item fromStore: (NSString *)store completion:(void(^)(NSArray<Price *> *prices, BOOL success))completion {
+    [self.itemJobIdMap removeObjectForKey:item.name];
+    __weak __typeof(self) weakSelf = self;
+    [self _submitJob:item.name withStore:store withCompletion:^(NSString *job_id, NSError *error) {
+        if(!error) {
+            weakSelf.itemJobIdMap[item.name] = job_id;
+            [weakSelf _checkJobStatus:job_id withCompletion:completion];
+        }
+        else {
+            completion(nil, NO);
+        }
+    }];
+    
+}
 
 - (void)_checkJobStatus: (NSString *)job_id withCompletion:(void(^)(NSArray<Price *> *prices, BOOL success))completion {
     if (self.completeJobs[job_id]!=nil) {
         completion(self.completeJobs[job_id],YES);
-        //TODO: check if stale
         return;
     }
 
@@ -193,7 +204,7 @@ static NSString * const kJobDownload_URL = @"https://api.priceapi.com/v2/jobs/%@
                 NSMutableArray<Price *> *const prices = [NSMutableArray new];
                 for (NSDictionary *offer in offers) {
                     NSString *shop_name = [offer[@"shop_name"] stringByReplacingOccurrencesOfString:@"." withString:@""];
-                    NSNumber *const newPrice = @([offer[@"price"] floatValue]);
+                    NSNumber *const newPrice = @([offer[@"price"] doubleValue]);
                     [prices addObject:[[Price alloc] initWithStore:shop_name price:newPrice]];
                 }
                 completion([NSArray arrayWithArray:prices],nil);

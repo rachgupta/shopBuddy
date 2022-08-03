@@ -12,6 +12,7 @@
 #import "ShoppingList+Persistent.h"
 #import "Item+Persistent.h"
 #import "ListItemDetailViewController.h"
+#import "Price.h"
 
 @interface SpecificListViewController () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -31,10 +32,8 @@
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
     _list_label.text = [NSString stringWithFormat:@"%@ Shopping List", self.list.store_name];
-    [self.list fetchItemsInList:^(NSArray<Item *> *items, NSError *error) {
-        self->items = items;
-        [self->tableView reloadData];
-    }];
+    items = self.list.items;
+    [tableView reloadData];
 }
 
 #pragma mark - TableViewDelegate and Data Source methods
@@ -51,6 +50,14 @@
     NSString *const URLString = item.images[0];
     NSURL *const url = [NSURL URLWithString:URLString];
     [cell.itemPhoto setImageWithURL:url];
+    NSArray<Price *> *prices = item.prices;
+    NSString *label = @"Not Found";
+    for (Price *price in prices) {
+        if([price.store isEqual:self.list.store_name]) {
+            label = [NSString stringWithFormat:@"$%@", [price.price stringValue]];
+        }
+    }
+    cell.priceLabel.text = label;
     return cell;
 }
 
@@ -61,6 +68,7 @@
         Item *const selected_item = items[myPath.row];
         ListItemDetailViewController *const itemdetailVC = [segue destinationViewController];
         itemdetailVC.item = selected_item;
+        itemdetailVC.list = self.list;
     }
 }
 
