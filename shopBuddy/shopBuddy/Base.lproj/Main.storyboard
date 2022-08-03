@@ -923,6 +923,29 @@
                                             <outlet property="itemTitle" destination="kcQ-Ay-fkl" id="M53-s7-Fw2"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewHeaderView" id="wAd-W8-Pza">
+                                        <rect key="frame" x="0.0" y="167.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wAd-W8-Pza" id="NqV-UL-nzh">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="123" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qI3-45-gyN">
+                                                    <rect key="frame" x="30" y="11" width="354" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="qI3-45-gyN" firstAttribute="leading" secondItem="NqV-UL-nzh" secondAttribute="leadingMargin" constant="10" id="Bk7-gz-HDb"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="qI3-45-gyN" secondAttribute="bottom" constant="0.5" id="eyr-Gf-Pci"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="qI3-45-gyN" secondAttribute="trailing" constant="10" id="m08-Us-SZ5"/>
+                                                <constraint firstItem="qI3-45-gyN" firstAttribute="top" secondItem="NqV-UL-nzh" secondAttribute="topMargin" id="oIc-dx-XHP"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.90703478709999996" green="0.96004860520000002" blue="0.96611279250000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
