@@ -33,7 +33,7 @@
 }
 
 //Used to create new carts
-+ (void) createEmptyCart:(void(^)(Cart *new_cart,NSError *error))completion{
++ (void)createEmptyCart:(void(^)(Cart *new_cart,NSError *error))completion{
     NSDictionary *const dict = @{ @"user" : [PFUser currentUser], @"items" : [NSArray new], @"item_prices" : [NSDictionary new], @"item_store" : [NSDictionary new]};
     PFObject *new_object = [PFObject objectWithClassName:@"Cart" dictionary:dict];
     [new_object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
@@ -45,6 +45,24 @@
         else {
             NSLog(@"Error: %@",error);
             completion(nil,error);
+        }
+    }];
+}
+
++ (void)updatePrice:(NSNumber *)price forItem:(Item *)item withCart:(Cart *)cart withCompletion:(void(^)(Cart* cart))completion{
+    NSMutableDictionary *const item_prices = [NSMutableDictionary dictionaryWithDictionary: cart.item_prices];
+    item_prices[item.objectID] = price;
+    Cart *const newCart = [[Cart alloc] initWithItems:cart.items item_prices:item_prices item_store:cart.item_store];
+    newCart.cartObject = cart.cartObject;
+    newCart.cartObject[@"item_prices"] = newCart.item_prices;
+    newCart.cartObject[@"item_store"] = cart.cartObject[@"item_store"];
+    newCart.cartObject[@"items"] = cart.cartObject[@"items"];
+    [newCart.cartObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        if(succeeded) {
+            completion(newCart);
+        }
+        else {
+            completion(nil);
         }
     }];
 }

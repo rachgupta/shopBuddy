@@ -25,6 +25,7 @@
     __weak IBOutlet UILabel *listLabel;
     __weak IBOutlet UICollectionView *collectionView;
     __weak IBOutlet UIActivityIndicatorView *activityIndicator;
+    AppState *state;
     
     
 }
@@ -35,12 +36,40 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    state = [AppState sharedManager];
     [self _populateView];
     descriptionView.scrollEnabled=YES;
     collectionView.delegate = self;
     collectionView.dataSource = self;
     // Do any additional setup after loading the view.
 }
+
+- (void)_showInputAlert {
+  UIAlertController *alertVC=[UIAlertController alertControllerWithTitle:@"How much was the item?" message:@"Please input the price of the item" preferredStyle:UIAlertControllerStyleAlert];
+    [alertVC addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+      {
+        textField.placeholder=@"ex. 0.00";
+        textField.textColor=[UIColor redColor];
+        textField.clearButtonMode=UITextFieldViewModeWhileEditing;
+      }
+    }];
+    __weak __typeof__(self) weakSelf = self;
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"Price" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSNumber *const newPrice = @([alertVC.textFields[0].text doubleValue]);
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if(strongSelf) {
+            [Cart updatePrice:newPrice forItem:strongSelf.item withCart:strongSelf->state.cart withCompletion:^(Cart * _Nonnull cart) {
+                if(cart) {
+                    strongSelf->state.cart = cart;
+                    [weakSelf performSegueWithIdentifier:@"segueToCart" sender:self];
+                }
+            }];
+        }
+    }];
+    [alertVC addAction:action];
+    [self presentViewController:alertVC animated:true completion:nil];
+}
+
 - (IBAction)didPressSync:(id)sender {
     [activityIndicator startAnimating];
     GlobalManager *myManager = [GlobalManager sharedManager];
@@ -58,16 +87,18 @@
     }];
 }
 - (IBAction)didPressAddToCart:(id)sender {
-    AppState *state = [AppState sharedManager];
     __weak __typeof__(self) weakSelf = self;
     [Cart addItemToCart:state.cart withItem:self.item fromList:self.list withCompletion:^(Cart * _Nonnull updatedCart, NSError * _Nonnull error) {
         if(updatedCart) {
-            state.cart = updatedCart;
-            [ShoppingList removeItemFromList:weakSelf.list withItem:weakSelf.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
-                if(!error) {
-                    [weakSelf performSegueWithIdentifier:@"segueToCart" sender:self];
-                }
-            }];
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            if(strongSelf) {
+                strongSelf->state.cart = updatedCart;
+                [ShoppingList removeItemFromList:weakSelf.list withItem:weakSelf.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
+                    if(!error) {
+                        [weakSelf _showInputAlert];
+                    }
+                }];
+            }
         }
     }];
 }

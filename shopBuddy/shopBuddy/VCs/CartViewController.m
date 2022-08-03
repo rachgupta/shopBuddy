@@ -36,22 +36,6 @@
     [self _fetchItems];
 }
 
--(void)ShowInputAlertWithMsg:(NSString *)msg
-{
-  UIAlertController *alertVC=[UIAlertController alertControllerWithTitle:@"How much was the item?" message:msg preferredStyle:UIAlertControllerStyleAlert];
-    [alertVC addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-      {
-        textField.placeholder=@"UserName";
-        textField.textColor=[UIColor redColor];
-        textField.clearButtonMode=UITextFieldViewModeWhileEditing;
-      }
-    }];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"Price" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-      NSString *price = alertVC.textFields[0].text;
-      NSLog(@"%@",price);
-    }];
-}
-
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return items.count;
 }
