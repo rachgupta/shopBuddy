@@ -10,6 +10,7 @@
 #import "CartItemCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "AppState.h"
+#import "Trip+Persistent.h"
 
 @interface CartViewController () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -63,6 +64,22 @@
     }
     totalLabel.text = [NSString stringWithFormat:@"Total: $%@",[[NSNumber numberWithDouble:sum] stringValue]];
     
+}
+- (IBAction)didCheckout:(id)sender {
+    __weak __typeof__(self) weakSelf = self;
+    [Trip createTripFromCart:manager.cart withCompletion:^(Trip * _Nonnull new_trip, NSError * _Nonnull error) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if(strongSelf) {
+            NSArray<Trip *> *const old_trips = strongSelf->manager.trips;
+            NSMutableArray<Trip *> *const new_trips = [NSMutableArray arrayWithArray:old_trips];
+            [new_trips addObject:new_trip];
+            strongSelf->manager.trips = new_trips;
+            NSLog(@"%@",strongSelf->manager.trips);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf performSegueWithIdentifier:@"showHistory" sender:nil];
+            });
+        }
+    }];
 }
 
 #pragma mark - TableView

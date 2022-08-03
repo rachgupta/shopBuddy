@@ -41,6 +41,7 @@
                             if(!error) {
                                 AppState *state = [AppState sharedManager];
                                 state.cart = new_cart;
+                                state.trips = [NSArray new];
                                 dispatch_async(dispatch_get_main_queue(), ^{
                                     [self performSegueWithIdentifier:@"loginSegue" sender:nil];
                                 });
