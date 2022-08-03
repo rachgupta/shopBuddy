@@ -14,6 +14,8 @@
     __weak IBOutlet UITableView *tableView;
     AppState *manager;
     NSDictionary<NSString *, NSMutableArray<Trip *> *> *organizedData;
+    __weak IBOutlet UILabel *totalLabel;
+    __weak IBOutlet UILabel *budgetLabel;
 }
 
 @end
@@ -27,7 +29,7 @@
     tableView.rowHeight = UITableViewAutomaticDimension;
     manager = [AppState sharedManager];
     [self _organizeData:manager.trips];
-    
+    [self _calculateTotalStatus];
     // Do any additional setup after loading the view.
 }
 - (void) _organizeData: (NSArray<Trip *> *)trips {
@@ -45,6 +47,26 @@
     [tableView reloadData];
 }
 
+- (void) _calculateTotalStatus {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"MM"];
+    NSString *current_month = [dateFormatter stringFromDate:[NSDate now]];
+    double sum = 0;
+    for (NSString *date in [organizedData allKeys]) {
+        if([[date substringToIndex:3] isEqualToString:current_month]) {
+            for (Trip *trip in organizedData[date]) {
+                for (NSNumber *num in [trip.item_prices allValues]) {
+                    sum = sum + [num doubleValue];
+                }
+            }
+        }
+    }
+    totalLabel.text = [NSString stringWithFormat:@"Total This Month: $ %.2f",sum];
+    double budget = [[PFUser currentUser][@"budget"] doubleValue];
+    double difference = budget - sum;
+    budgetLabel.text =[NSString stringWithFormat:@"You;re $ %.2f under budget.",difference];
+}
+
 #pragma mark - TableView
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:
     (NSIndexPath *)indexPath {
@@ -52,8 +74,8 @@
     NSArray *keys = [organizedData allKeys];
     Trip *const trip = organizedData[keys[indexPath.section]][indexPath.row];
     UILabel *storeLabel = (UILabel *)[cell viewWithTag:1];
-    NSArray *stores = [[NSSet setWithArray:[manager.cart.item_store allValues]] allObjects];
-    [storeLabel setText:[NSString stringWithFormat:@"Purchased from ",[stores componentsJoinedByString: @","]]];
+    NSArray *stores = [[NSSet setWithArray:[trip.item_store allValues]] allObjects];
+    [storeLabel setText:[NSString stringWithFormat:@"Purchased from %@",[stores componentsJoinedByString: @","]]];
     UILabel *itemLabel = (UILabel *)[cell viewWithTag:2];
     [itemLabel setText:[NSString stringWithFormat:@"%lu items",(unsigned long)trip.items.count]];
     UILabel *priceLabel = (UILabel *)[cell viewWithTag:3];
@@ -61,7 +83,7 @@
     for (NSNumber *num in [trip.item_prices allValues]) {
         sum = sum + [num doubleValue];
     }
-    [priceLabel setText:[NSString stringWithFormat:@"Total: $%@",[[NSNumber numberWithDouble:sum] stringValue]]];
+    [priceLabel setText:[NSString stringWithFormat:@"Total: $ %.2f",sum]];
     
     return cell;
 }

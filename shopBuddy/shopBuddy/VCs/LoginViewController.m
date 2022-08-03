@@ -33,6 +33,8 @@
         newUser.password = self.passwordField.text;
         // call sign up function on the object
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
+            newUser[@"budget"] = [NSNumber numberWithDouble:50.00];
+            [newUser saveInBackground];
             if (!error) {
                 NSLog(@"User registered successfully");
                 [ShoppingList createEmptyList: @"Unspecified" withCompletion:^(ShoppingList *shoppingList,NSError *error) {

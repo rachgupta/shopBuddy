@@ -62,7 +62,7 @@
     for (NSNumber *num in [manager.cart.item_prices allValues]) {
         sum = sum + [num doubleValue];
     }
-    totalLabel.text = [NSString stringWithFormat:@"Total: $%@",[[NSNumber numberWithDouble:sum] stringValue]];
+    totalLabel.text = [NSString stringWithFormat:@"Total: $ %.2f",sum];
     
 }
 - (IBAction)didCheckout:(id)sender {
@@ -94,7 +94,7 @@
     NSString *const URLString = item.images[0];
     NSURL *const url = [NSURL URLWithString:URLString];
     [cell.itemPhoto setImageWithURL:url];
-    cell.itemPrice.text = [NSString stringWithFormat:@"$%@",[manager.cart.item_prices[item.objectID] stringValue]];
+    cell.itemPrice.text = [NSString stringWithFormat:@"$ %.2f",[manager.cart.item_prices[item.objectID] doubleValue]];
     return cell;
 }
 
