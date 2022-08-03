@@ -23,7 +23,7 @@
 }
 
 //gets all trips by current user
-+ (void)fetchTripsByUser: (PFUser *) user withCompletion:(void(^)(NSArray<Trip *> *trips, NSError *error))completion {
++ (void)fetchTrips:(void(^)(NSArray<Trip *> *trips, NSError *error))completion {
     PFQuery *const query = [PFQuery queryWithClassName:@"Trip"];
     [query orderByDescending:@"createdAt"];
     [query whereKey:@"user" equalTo:[PFUser currentUser]];

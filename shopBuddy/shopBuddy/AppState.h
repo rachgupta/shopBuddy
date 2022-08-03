@@ -19,7 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSArray<Trip *> *trips;
 
 + (id)sharedManager;
+
 - (void)addItemToList:(ShoppingList *)list withItem: (Item *)item withCompletion:(void(^)(BOOL succeeded, NSError *error))completion;
+
+- (void)updateAppState:(void(^)(BOOL succeeded))completion;
 
 @end
 

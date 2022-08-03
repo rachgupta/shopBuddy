@@ -158,7 +158,7 @@
 }
 
 //gets all lists by current user
-+ (void)fetchListsByUser: (PFUser *) user withCompletion:(void(^)(NSArray<ShoppingList *> *lists, NSError *error))completion {
++ (void)fetchLists:(void(^)(NSArray<ShoppingList *> *lists, NSError *error))completion {
     PFQuery *const query = [PFQuery queryWithClassName:@"ShoppingList"];
     [query orderByDescending:@"createdAt"];
     [query whereKey:@"user" equalTo:[PFUser currentUser]];

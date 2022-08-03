@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,copy) PFObject *tripObject;
 
-+ (void)fetchTripsByUser: (PFUser *) user withCompletion:(void(^)(NSArray<Trip *> *trips, NSError *error))completion;
++ (void)fetchTrips:(void(^)(NSArray<Trip *> *trips, NSError *error))completion;
 
 + (void)createTripFromCart:(Cart *)cart withCompletion:(void(^)(Trip *new_trip,NSError *error))completion;
 

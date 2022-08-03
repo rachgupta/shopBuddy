@@ -28,12 +28,23 @@
 - (void)addItemToList:(ShoppingList *)list withItem: (Item *)item withCompletion:(void(^)(BOOL succeeded, NSError *error))completion{
     [ShoppingList createFromList:list withItem:item withCompletion:^(ShoppingList* updatedList, NSError *error) {
         if(!error) {
-            [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray<ShoppingList *> *lists, NSError *error) {}];
-            completion(YES,nil);
+            [ShoppingList fetchLists:^(NSArray<ShoppingList *> *lists, NSError *error) {
+                completion(YES,nil);
+            }];
         }
         else {
             completion(NO,error);
         }
+    }];
+}
+
+- (void)updateAppState:(void(^)(BOOL succeeded))completion {
+    [ShoppingList fetchLists:^(NSArray<ShoppingList *> *lists, NSError *error) {
+        [Cart fetchCurrentCart:^(Cart * _Nonnull cart, NSError * _Nonnull error) {
+            [Trip fetchTrips:^(NSArray<Trip *> * _Nonnull trips, NSError * _Nonnull error) {
+                completion(YES);
+            }];
+        }];
     }];
 }
 @end

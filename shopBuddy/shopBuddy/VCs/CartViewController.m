@@ -74,10 +74,12 @@
             NSMutableArray<Trip *> *const new_trips = [NSMutableArray arrayWithArray:old_trips];
             [new_trips addObject:new_trip];
             strongSelf->manager.trips = new_trips;
-            NSLog(@"%@",strongSelf->manager.trips);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf performSegueWithIdentifier:@"showHistory" sender:nil];
-            });
+            [Cart emptyCart:strongSelf->manager.cart withCompletion:^(Cart * _Nonnull new_cart, NSError * _Nonnull error) {
+                strongSelf->manager.cart = new_cart;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf performSegueWithIdentifier:@"showHistory" sender:nil];
+                });
+            }];
         }
     }];
 }

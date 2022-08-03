@@ -32,6 +32,22 @@
     
 }
 
++ (void)emptyCart:(Cart *)cart withCompletion:(void(^)(Cart *new_cart,NSError *error))completion {
+    cart.cartObject[@"items"] = [NSArray new];
+    cart.cartObject[@"item_prices"] = [NSDictionary new];
+    cart.cartObject[@"item_store"] = [NSDictionary new];
+    [cart.cartObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        if(succeeded) {
+            [Cart _hydrateCartFromPFObject:cart.cartObject withCompletion:^(Cart *cart) {
+                completion(cart,nil);
+            }];
+        }
+        else {
+            completion(nil,error);
+        }
+    }];
+}
+
 //Used to create new carts
 + (void)createEmptyCart:(void(^)(Cart *new_cart,NSError *error))completion{
     NSDictionary *const dict = @{ @"user" : [PFUser currentUser], @"items" : [NSArray new], @"item_prices" : [NSDictionary new], @"item_store" : [NSDictionary new]};
