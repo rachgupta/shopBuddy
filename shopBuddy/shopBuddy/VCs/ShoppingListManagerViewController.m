@@ -14,6 +14,7 @@
 #import "AddItemViewController.h"
 #import "AppState.h"
 #import "Cart+Persistent.h"
+#import "MBProgressHUD/MBProgressHUD.h"
 
 @interface ShoppingListManagerViewController () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -34,6 +35,8 @@
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
     stores = @[@"Walmart",@"Target",@"Amazon"];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.label.text = @"Loading";
     AppState *manager = [AppState sharedManager];
     __weak __typeof__(self) weakSelf = self;
     [manager updateAppState:^(BOOL succeeded) {
@@ -43,6 +46,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf _makeMenu];
                 [strongSelf->tableView reloadData];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
             });
         }
     }];
