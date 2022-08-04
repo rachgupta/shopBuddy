@@ -34,19 +34,22 @@
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
     stores = @[@"Walmart",@"Target",@"Amazon"];
+    AppState *manager = [AppState sharedManager];
     __weak __typeof__(self) weakSelf = self;
-    [weakSelf _fetchLists];
-    [Cart fetchCurrentCart:^(Cart * _Nonnull cart, NSError * _Nonnull error) {}];
-    [self _makeMenu];
-}
-
-- (void)viewWillAppear {
-    __weak __typeof__(self) weakSelf = self;
-    [weakSelf _fetchLists];
+    [manager updateAppState:^(BOOL succeeded) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if(strongSelf) {
+            strongSelf->lists = manager.lists;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf _makeMenu];
+                [strongSelf->tableView reloadData];
+            });
+        }
+    }];
 }
 
 - (void)_fetchLists {
-    [ShoppingList fetchListsByUser:[PFUser currentUser] withCompletion:^(NSArray<ShoppingList *> *lists, NSError *error) {
+    [ShoppingList fetchLists:^(NSArray<ShoppingList *> *lists, NSError *error) {
         self->lists = lists;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->tableView reloadData];

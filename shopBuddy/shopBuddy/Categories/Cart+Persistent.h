@@ -22,6 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (void) fetchCurrentCart:(void(^)(Cart *cart,NSError *error))completion;
 
 + (void)updatePrice:(NSNumber *)price forItem:(Item *)item withCart:(Cart *)cart withCompletion:(void(^)(Cart* cart))completion;
+
++ (void)emptyCart:(Cart *)cart withCompletion:(void(^)(Cart *new_cart,NSError *error))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END

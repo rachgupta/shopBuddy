@@ -158,12 +158,12 @@
 }
 
 //gets all lists by current user
-+ (void)fetchListsByUser: (PFUser *) user withCompletion:(void(^)(NSArray<ShoppingList *> *lists, NSError *error))completion {
++ (void)fetchLists:(void(^)(NSArray<ShoppingList *> *lists, NSError *error))completion {
     PFQuery *const query = [PFQuery queryWithClassName:@"ShoppingList"];
     [query orderByDescending:@"createdAt"];
     [query whereKey:@"user" equalTo:[PFUser currentUser]];
     dispatch_group_t fetchGroup = dispatch_group_create();
-    [query findObjectsInBackgroundWithBlock:^(NSArray <ShoppingList *> *fetched_objects, NSError *error) {
+    [query findObjectsInBackgroundWithBlock:^(NSArray <PFObject *> *fetched_objects, NSError *error) {
         NSMutableArray<ShoppingList *> *new_lists = [NSMutableArray new];
         for (PFObject *object in fetched_objects)
         {

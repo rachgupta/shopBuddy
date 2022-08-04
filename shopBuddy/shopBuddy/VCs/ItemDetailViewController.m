@@ -99,6 +99,7 @@
 
 - (void) _makeMenu {
     NSMutableArray* actions = [[NSMutableArray alloc] init];
+    __weak __typeof__(self) weakSelf = self;
     for (ShoppingList *list in self.lists) {
         NSString *const actionTitle = [NSString stringWithFormat:@"Add Item to '%@' list", list.store_name];
         [actions addObject:[UIAction actionWithTitle:actionTitle image:nil identifier:nil handler:^(__kindof UIAction* _Nonnull action) {
@@ -112,6 +113,7 @@
     addItemToListButton.menu = [UIMenu menuWithTitle:@"" children:actions];
     addItemToListButton.showsMenuAsPrimaryAction = YES;
 }
+
 
 //adds item to list if price selected
 - (void) _priceSelected: (Price *)selected withCompletion:(void(^)(BOOL succeeded))completion{
@@ -159,15 +161,10 @@
     Price *const price = self.item.prices[indexPath.item];
     __weak __typeof__(self) weakSelf = self;
     [self _priceSelected:price withCompletion:^(BOOL succeeded) {
-        [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
+        });
     }];
-}
-
-#pragma mark - Navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqual:@"segueFromPriceToList"]) {
-        ShoppingListManagerViewController *const listManagerVC = [segue destinationViewController];
-    }
 }
 
 @end

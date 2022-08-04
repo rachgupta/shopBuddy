@@ -12,13 +12,13 @@
 
 @implementation Trip
 
-- (instancetype)initWithDate:(NSDate *)date items:(NSArray<Item*> *)items price:(NSNumber *)price money_saved:(NSNumber *)money_saved
+- (instancetype)initWithItems:(NSArray<Item*> *)items item_prices:(NSDictionary<NSString *,NSNumber *> *)item_prices item_store:(NSDictionary<NSString *,NSString *> *)item_store purchase_date:(NSDate *)purchase_date
 {
   if ((self = [super init])) {
-    _date = [date copy];
     _items = [items copy];
-    _price = [price copy];
-    _money_saved = [money_saved copy];
+    _item_prices = [item_prices copy];
+    _item_store = [item_store copy];
+    _purchase_date = [purchase_date copy];
   }
 
   return self;
@@ -31,12 +31,12 @@
 
 - (NSString *)description
 {
-  return [NSString stringWithFormat:@"%@ - \n\t date: %@; \n\t items: %@; \n\t price: %@; \n\t money_saved: %@; \n", [super description], _date, _items, _price, _money_saved];
+  return [NSString stringWithFormat:@"%@ - \n\t items: %@; \n\t item_prices: %@; \n\t item_store: %@; \n\t purchase_date: %@; \n", [super description], _items, _item_prices, _item_store, _purchase_date];
 }
 
 - (NSUInteger)hash
 {
-  NSUInteger subhashes[] = {[_date hash], [_items hash], [_price hash], [_money_saved hash]};
+  NSUInteger subhashes[] = {[_items hash], [_item_prices hash], [_item_store hash], [_purchase_date hash]};
   NSUInteger result = subhashes[0];
   for (int ii = 1; ii < 4; ++ii) {
     unsigned long long base = (((unsigned long long)result) << 32 | subhashes[ii]);
@@ -59,10 +59,10 @@
     return NO;
   }
   return
-    (_date == object->_date ? YES : [_date isEqual:object->_date]) &&
     (_items == object->_items ? YES : [_items isEqual:object->_items]) &&
-    (_price == object->_price ? YES : [_price isEqual:object->_price]) &&
-    (_money_saved == object->_money_saved ? YES : [_money_saved isEqual:object->_money_saved]);
+    (_item_prices == object->_item_prices ? YES : [_item_prices isEqual:object->_item_prices]) &&
+    (_item_store == object->_item_store ? YES : [_item_store isEqual:object->_item_store]) &&
+    (_purchase_date == object->_purchase_date ? YES : [_purchase_date isEqual:object->_purchase_date]);
 }
 
 @end

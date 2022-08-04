@@ -11,11 +11,11 @@
 #import "AppState.h"
 @implementation Cart (Persistent)
 
-- (NSString *)cartObject {
+- (PFObject *)cartObject {
     return objc_getAssociatedObject(self, @selector(cartObject));
 }
 
-- (void)setCartObject:(NSString *)new_cartObject {
+- (void)setCartObject:(PFObject *)new_cartObject {
     objc_setAssociatedObject(self, @selector(cartObject), new_cartObject, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -30,6 +30,22 @@
         }];
     }];
     
+}
+
++ (void)emptyCart:(Cart *)cart withCompletion:(void(^)(Cart *new_cart,NSError *error))completion {
+    cart.cartObject[@"items"] = [NSArray new];
+    cart.cartObject[@"item_prices"] = [NSDictionary new];
+    cart.cartObject[@"item_store"] = [NSDictionary new];
+    [cart.cartObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        if(succeeded) {
+            [Cart _hydrateCartFromPFObject:cart.cartObject withCompletion:^(Cart *cart) {
+                completion(cart,nil);
+            }];
+        }
+        else {
+            completion(nil,error);
+        }
+    }];
 }
 
 //Used to create new carts
@@ -70,7 +86,7 @@
 + (void)_hydrateCartFromPFObject: (PFObject *)object withCompletion:(void(^)(Cart* cart))completion{
     NSArray<PFObject *> *const item_objects = object[@"items"];
     NSDictionary<NSString *, NSNumber *>  *const item_prices = object[@"item_prices"];
-    NSDictionary<NSString *, NSString *>  *item_store = object[@"item_store"];
+    NSDictionary<NSString *, NSString *>  *const item_store = object[@"item_store"];
     NSMutableArray<Item *> *const items = [NSMutableArray new];
     dispatch_group_t group = dispatch_group_create();
     for (PFObject* item_object in item_objects){

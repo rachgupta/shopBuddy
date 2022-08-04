@@ -10,6 +10,7 @@
 #import "CartItemCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "AppState.h"
+#import "Trip+Persistent.h"
 
 @interface CartViewController () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -61,8 +62,27 @@
     for (NSNumber *num in [manager.cart.item_prices allValues]) {
         sum = sum + [num doubleValue];
     }
-    totalLabel.text = [NSString stringWithFormat:@"Total: $%@",[[NSNumber numberWithDouble:sum] stringValue]];
+    totalLabel.text = [NSString stringWithFormat:@"Total: $ %.2f",sum];
     
+}
+- (IBAction)didCheckout:(id)sender {
+    __weak __typeof__(self) weakSelf = self;
+    [Trip createTripFromCart:manager.cart withCompletion:^(Trip * _Nonnull new_trip, NSError * _Nonnull error) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if(strongSelf) {
+            NSArray<Trip *> *const old_trips = strongSelf->manager.trips;
+            NSMutableArray<Trip *> *const new_trips = [NSMutableArray arrayWithArray:old_trips];
+            [new_trips addObject:new_trip];
+            strongSelf->manager.trips = new_trips;
+            [Cart emptyCart:strongSelf->manager.cart withCompletion:^(Cart * _Nonnull new_cart, NSError * _Nonnull error) {
+                strongSelf->manager.cart = new_cart;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tabBarController setSelectedIndex:3];
+                    [weakSelf performSegueWithIdentifier:@"showHistory" sender:self];
+                });
+            }];
+        }
+    }];
 }
 
 #pragma mark - TableView
@@ -75,7 +95,7 @@
     NSString *const URLString = item.images[0];
     NSURL *const url = [NSURL URLWithString:URLString];
     [cell.itemPhoto setImageWithURL:url];
-    cell.itemPrice.text = [NSString stringWithFormat:@"$%@",[manager.cart.item_prices[item.objectID] stringValue]];
+    cell.itemPrice.text = [NSString stringWithFormat:@"$ %.2f",[manager.cart.item_prices[item.objectID] doubleValue]];
     return cell;
 }
 

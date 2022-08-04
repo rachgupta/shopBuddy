@@ -63,6 +63,7 @@
             [Cart updatePrice:newPrice forItem:strongSelf.item withCart:strongSelf->state.cart withCompletion:^(Cart * _Nonnull cart) {
                 if(cart) {
                     strongSelf->state.cart = cart;
+                    [self.tabBarController setSelectedIndex:2];
                     [weakSelf performSegueWithIdentifier:@"segueToCart" sender:self];
                 }
             }];

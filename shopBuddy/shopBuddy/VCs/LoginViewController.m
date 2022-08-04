@@ -33,6 +33,8 @@
         newUser.password = self.passwordField.text;
         // call sign up function on the object
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
+            newUser[@"budget"] = [NSNumber numberWithDouble:50.00];
+            [newUser saveInBackground];
             if (!error) {
                 NSLog(@"User registered successfully");
                 [ShoppingList createEmptyList: @"Unspecified" withCompletion:^(ShoppingList *shoppingList,NSError *error) {
@@ -41,6 +43,7 @@
                             if(!error) {
                                 AppState *state = [AppState sharedManager];
                                 state.cart = new_cart;
+                                state.trips = [NSArray new];
                                 dispatch_async(dispatch_get_main_queue(), ^{
                                     [self performSegueWithIdentifier:@"loginSegue" sender:nil];
                                 });
