@@ -77,7 +77,8 @@
             [Cart emptyCart:strongSelf->manager.cart withCompletion:^(Cart * _Nonnull new_cart, NSError * _Nonnull error) {
                 strongSelf->manager.cart = new_cart;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf performSegueWithIdentifier:@"showHistory" sender:nil];
+                    [self.tabBarController setSelectedIndex:3];
+                    [weakSelf performSegueWithIdentifier:@"showHistory" sender:self];
                 });
             }];
         }

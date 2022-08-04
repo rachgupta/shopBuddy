@@ -22,6 +22,7 @@
 - (id)init {
     if (self = [super init]) {
         self.lists = [NSArray new];
+        self.trips = [NSArray new];
     }
     return self;
 }

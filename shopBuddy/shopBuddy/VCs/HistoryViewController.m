@@ -53,7 +53,8 @@
     NSString *current_month = [dateFormatter stringFromDate:[NSDate now]];
     double sum = 0;
     for (NSString *date in [organizedData allKeys]) {
-        if([[date substringToIndex:3] isEqualToString:current_month]) {
+        NSLog(@"%@",[date substringToIndex:2]);
+        if([[date substringToIndex:2] isEqualToString:current_month]) {
             for (Trip *trip in organizedData[date]) {
                 for (NSNumber *num in [trip.item_prices allValues]) {
                     sum = sum + [num doubleValue];
@@ -75,9 +76,7 @@
     Trip *const trip = organizedData[keys[indexPath.section]][indexPath.row];
     UILabel *storeLabel = (UILabel *)[cell viewWithTag:1];
     NSArray *stores = [[NSSet setWithArray:[trip.item_store allValues]] allObjects];
-    [storeLabel setText:[NSString stringWithFormat:@"Purchased from %@",[stores componentsJoinedByString: @","]]];
-    UILabel *itemLabel = (UILabel *)[cell viewWithTag:2];
-    [itemLabel setText:[NSString stringWithFormat:@"%lu items",(unsigned long)trip.items.count]];
+    [storeLabel setText:[NSString stringWithFormat:@"Purchased %lu items from %@",(unsigned long)trip.items.count, [stores componentsJoinedByString: @","]]];
     UILabel *priceLabel = (UILabel *)[cell viewWithTag:3];
     double sum = 0;
     for (NSNumber *num in [trip.item_prices allValues]) {
