@@ -105,7 +105,9 @@
         [actions addObject:[UIAction actionWithTitle:actionTitle image:nil identifier:nil handler:^(__kindof UIAction* _Nonnull action) {
             [[AppState sharedManager] addItemToList:list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
                 if(succeeded) {
-                    [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.navigationController popToRootViewControllerAnimated:YES];
+                    });
                 }
             }];
         }]];
@@ -162,7 +164,7 @@
     __weak __typeof__(self) weakSelf = self;
     [self _priceSelected:price withCompletion:^(BOOL succeeded) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
+            [self.navigationController popToRootViewControllerAnimated:YES];
         });
     }];
 }

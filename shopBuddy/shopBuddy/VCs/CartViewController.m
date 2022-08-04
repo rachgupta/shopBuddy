@@ -50,7 +50,6 @@
 
 - (void) closeCartAnimation:(void(^)(BOOL succeeded))completion{
     CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenWidth = screenRect.size.width;
     [UIView animateWithDuration:0.2 animations:^{
         self->animationView.frame = CGRectMake(screenRect.size.width+50, animationView.frame.origin.y, -animationView.frame.size.width, animationView.frame.size.height);
     } completion:completion];
@@ -96,7 +95,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self closeCartAnimation:^(BOOL succeeded) {
                         [self.tabBarController setSelectedIndex:3];
-                        [weakSelf performSegueWithIdentifier:@"showHistory" sender:self];
+                        //[weakSelf performSegueWithIdentifier:@"showHistory" sender:self];
                     }];
                 });
             }];

@@ -227,7 +227,7 @@
                                             <outlet property="itemPhoto" destination="SRh-FL-sjX" id="XY7-8q-oYb"/>
                                             <outlet property="itemTitle" destination="9Cy-Id-W1X" id="Fdf-Js-M5a"/>
                                             <outlet property="priceLabel" destination="5C4-yM-QpD" id="sHb-UQ-9Sm"/>
-                                            <segue destination="aWa-VY-H2a" kind="showDetail" identifier="showListItemDetail" id="bwT-Fe-Inu"/>
+                                            <segue destination="aWa-VY-H2a" kind="show" identifier="showListItemDetail" id="bwT-Fe-Inu"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -440,7 +440,7 @@
                         <outlet property="listLabel" destination="RXi-xq-VZn" id="gVU-c1-Djt"/>
                         <outlet property="titleLabel" destination="Aj8-Dw-eTv" id="RdF-81-Cnw"/>
                         <segue destination="5nf-XL-tEi" kind="show" identifier="segueFromPriceToList" id="q6h-y1-Rwj"/>
-                        <segue destination="rdS-7z-jw6" kind="show" identifier="segueToCart" id="Gzc-Ko-gqu"/>
+                        <segue destination="rdS-7z-jw6" kind="presentation" identifier="segueToCart" id="Gzc-Ko-gqu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ssg-Z5-lRS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -946,14 +946,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewHeaderView" id="wAd-W8-Pza">
-                                        <rect key="frame" x="0.0" y="167.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="167.5" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wAd-W8-Pza" id="NqV-UL-nzh">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="123" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qI3-45-gyN">
-                                                    <rect key="frame" x="30" y="11" width="354" height="21"/>
+                                                    <rect key="frame" x="30" y="11" width="354" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1102,14 +1102,14 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewHeaderView" id="Xtu-tb-EqB">
-                                        <rect key="frame" x="0.0" y="161.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="161.5" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Xtu-tb-EqB" id="9dZ-8W-YcH">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="123" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FD4-Qt-gop">
-                                                    <rect key="frame" x="30" y="11" width="354" height="21"/>
+                                                    <rect key="frame" x="30" y="11" width="354" height="21.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1228,10 +1228,11 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="bwT-Fe-Inu"/>
         <segue reference="Gzc-Ko-gqu"/>
         <segue reference="pIM-hk-hZG"/>
         <segue reference="QU9-bt-dF1"/>
-        <segue reference="Hsz-sw-o2a"/>
+        <segue reference="q6h-y1-Rwj"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="cart" catalog="system" width="128" height="102"/>

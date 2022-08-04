@@ -81,8 +81,9 @@
             [Cart updatePrice:newPrice forItem:strongSelf.item withCart:strongSelf->state.cart withCompletion:^(Cart * _Nonnull cart) {
                 if(cart) {
                     strongSelf->state.cart = cart;
+                    [self.navigationController popToRootViewControllerAnimated:YES];
                     [self.tabBarController setSelectedIndex:2];
-                    [weakSelf performSegueWithIdentifier:@"segueToCart" sender:self];
+                    //[weakSelf performSegueWithIdentifier:@"segueToCart" sender:self];
                 }
             }];
         }
@@ -153,8 +154,8 @@
         if(strongSelf) {
             [strongSelf.item syncPrices:prices];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [strongSelf->activityIndicator stopAnimating];
-                [strongSelf->collectionView reloadData];
+                [self->activityIndicator stopAnimating];
+                [self->collectionView reloadData];
             });
         }
         
@@ -180,20 +181,14 @@
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     Price *const price = self.item.prices[indexPath.item];
-    __weak __typeof__(self) weakSelf = self;
     [self _priceSelected:price withCompletion:^(BOOL succeeded) {
         if(YES) {
-            [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            });
         }
     }];
     
-}
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqual:@"segueFromPriceToList"]) {
-        ShoppingListManagerViewController *const listManagerVC = [segue destinationViewController];
-    }
 }
 
 @end
