@@ -392,6 +392,12 @@
                                     <action selector="didPressAddToCart:" destination="aWa-VY-H2a" eventType="touchUpInside" id="tLk-iY-TBj"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or double tap to add" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vm4-EW-Byw">
+                                <rect key="frame" x="20" y="297" width="128" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hyE-hb-HBu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -403,6 +409,7 @@
                             <constraint firstItem="hyE-hb-HBu" firstAttribute="trailing" secondItem="RXi-xq-VZn" secondAttribute="trailing" constant="100" id="F5t-gT-s2S"/>
                             <constraint firstItem="RXi-xq-VZn" firstAttribute="leading" secondItem="hyE-hb-HBu" secondAttribute="leading" constant="100" id="GGf-Lo-ar2"/>
                             <constraint firstItem="hyE-hb-HBu" firstAttribute="trailing" secondItem="ohx-K6-4VY" secondAttribute="trailing" constant="60" id="Gp5-vV-xVh"/>
+                            <constraint firstItem="Vm4-EW-Byw" firstAttribute="trailing" secondItem="gPb-Td-Fy4" secondAttribute="trailing" id="Gsg-GI-99r"/>
                             <constraint firstItem="ohx-K6-4VY" firstAttribute="top" secondItem="RXi-xq-VZn" secondAttribute="bottom" constant="30" id="Jfa-3K-D9j"/>
                             <constraint firstItem="YU4-7Q-fXX" firstAttribute="trailing" secondItem="Aj8-Dw-eTv" secondAttribute="trailing" id="Mm3-2n-7D7"/>
                             <constraint firstItem="YU4-7Q-fXX" firstAttribute="top" secondItem="Aj8-Dw-eTv" secondAttribute="bottom" constant="10" id="NOG-Ks-uTQ"/>
@@ -411,6 +418,8 @@
                             <constraint firstItem="azQ-pd-nZC" firstAttribute="leading" secondItem="hyE-hb-HBu" secondAttribute="leading" id="UgW-Dg-lFJ"/>
                             <constraint firstItem="VnZ-Wv-9Qf" firstAttribute="trailing" secondItem="YU4-7Q-fXX" secondAttribute="trailing" id="XAd-Hr-nk4"/>
                             <constraint firstItem="VnZ-Wv-9Qf" firstAttribute="top" secondItem="YU4-7Q-fXX" secondAttribute="bottom" constant="25" id="bZl-qh-HC6"/>
+                            <constraint firstItem="Vm4-EW-Byw" firstAttribute="top" secondItem="gPb-Td-Fy4" secondAttribute="bottom" constant="7.5" id="bma-sg-Fva"/>
+                            <constraint firstItem="Vm4-EW-Byw" firstAttribute="leading" secondItem="gPb-Td-Fy4" secondAttribute="leading" id="cIy-Ka-oRu"/>
                             <constraint firstItem="Aj8-Dw-eTv" firstAttribute="leading" secondItem="QwL-pE-vxu" secondAttribute="trailing" constant="20" id="ct9-5F-YWU"/>
                             <constraint firstItem="QwL-pE-vxu" firstAttribute="top" secondItem="hyE-hb-HBu" secondAttribute="top" constant="50" id="eKU-9N-JsL"/>
                             <constraint firstItem="YU4-7Q-fXX" firstAttribute="leading" secondItem="Aj8-Dw-eTv" secondAttribute="leading" id="i7T-b7-d9O"/>
@@ -1197,7 +1206,7 @@
         <segue reference="Gzc-Ko-gqu"/>
         <segue reference="pIM-hk-hZG"/>
         <segue reference="hKh-QN-NRU"/>
-        <segue reference="Z2u-XZ-10M"/>
+        <segue reference="q6h-y1-Rwj"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="cart.fill" catalog="system" width="128" height="102"/>

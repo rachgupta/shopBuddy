@@ -41,10 +41,28 @@
     descriptionView.scrollEnabled=YES;
     collectionView.delegate = self;
     collectionView.dataSource = self;
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action: @selector (_addToCart:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [self.view addGestureRecognizer:doubleTap];
     // Do any additional setup after loading the view.
 }
 
-
+- (void) _addToCart:(id)sender {
+    __weak __typeof__(self) weakSelf = self;
+    [Cart addItemToCart:state.cart withItem:self.item fromList:self.list withCompletion:^(Cart * _Nonnull updatedCart, NSError * _Nonnull error) {
+        if(updatedCart) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            if(strongSelf) {
+                strongSelf->state.cart = updatedCart;
+                [ShoppingList removeItemFromList:weakSelf.list withItem:weakSelf.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
+                    if(!error) {
+                        [weakSelf _showInputAlert];
+                    }
+                }];
+            }
+        }
+    }];
+}
 
 - (void)_showInputAlert {
   UIAlertController *alertVC=[UIAlertController alertControllerWithTitle:@"How much was the item?" message:@"Please input the price of the item" preferredStyle:UIAlertControllerStyleAlert];
@@ -143,20 +161,7 @@
     }];
 }
 - (IBAction)didPressAddToCart:(id)sender {
-    __weak __typeof__(self) weakSelf = self;
-    [Cart addItemToCart:state.cart withItem:self.item fromList:self.list withCompletion:^(Cart * _Nonnull updatedCart, NSError * _Nonnull error) {
-        if(updatedCart) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            if(strongSelf) {
-                strongSelf->state.cart = updatedCart;
-                [ShoppingList removeItemFromList:weakSelf.list withItem:weakSelf.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
-                    if(!error) {
-                        [weakSelf _showInputAlert];
-                    }
-                }];
-            }
-        }
-    }];
+    [self _addToCart:sender];
 }
 
 #pragma mark - Collection View
