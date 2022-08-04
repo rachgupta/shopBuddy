@@ -19,6 +19,7 @@
     AppState *manager;
     NSDictionary<NSString *, NSMutableArray<Item *> *> *organizedData;
     __weak IBOutlet UILabel *totalLabel;
+    __weak IBOutlet UIView *animationView;
 }
 
 @end
@@ -32,11 +33,27 @@
     tableView.rowHeight = UITableViewAutomaticDimension;
     manager = [AppState sharedManager];
     [self _updateView];
+    [self openCartAnimation];
     // Do any additional setup after loading the view.
 }
 
 - (void) viewWillAppear {
     [self _updateView];
+}
+
+- (void) openCartAnimation {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    [UIView animateWithDuration:0.2 animations:^{
+        self->animationView.frame = CGRectMake(screenRect.size.width, animationView.frame.origin.y, animationView.frame.size.width, animationView.frame.size.height);
+    } completion:^(BOOL finished) {}];
+}
+
+- (void) closeCartAnimation:(void(^)(BOOL succeeded))completion{
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    [UIView animateWithDuration:0.2 animations:^{
+        self->animationView.frame = CGRectMake(screenRect.size.width+50, animationView.frame.origin.y, -animationView.frame.size.width, animationView.frame.size.height);
+    } completion:completion];
 }
 
 - (void) _organizeData {
@@ -77,8 +94,10 @@
             [Cart emptyCart:strongSelf->manager.cart withCompletion:^(Cart * _Nonnull new_cart, NSError * _Nonnull error) {
                 strongSelf->manager.cart = new_cart;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tabBarController setSelectedIndex:3];
-                    [weakSelf performSegueWithIdentifier:@"showHistory" sender:self];
+                    [self closeCartAnimation:^(BOOL succeeded) {
+                        [self.tabBarController setSelectedIndex:3];
+                        [weakSelf performSegueWithIdentifier:@"showHistory" sender:self];
+                    }];
                 });
             }];
         }

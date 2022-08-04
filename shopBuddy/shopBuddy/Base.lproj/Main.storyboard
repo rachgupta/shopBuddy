@@ -891,10 +891,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="yPU-KC-UkJ">
-                                <rect key="frame" x="0.0" y="122" width="414" height="450"/>
+                                <rect key="frame" x="0.0" y="122" width="414" height="519"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="450" id="7sy-DU-zSw"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="300" id="uXe-Ai-RJD"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CartItemCell" rowHeight="123" id="Hs3-AX-YBh" customClass="CartItemCell">
@@ -946,14 +946,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewHeaderView" id="wAd-W8-Pza">
-                                        <rect key="frame" x="0.0" y="167.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="167.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wAd-W8-Pza" id="NqV-UL-nzh">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="123" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qI3-45-gyN">
-                                                    <rect key="frame" x="30" y="11" width="354" height="21.5"/>
+                                                    <rect key="frame" x="30" y="11" width="354" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -971,13 +971,13 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total: $0.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mnG-dW-sZX">
-                                <rect key="frame" x="250" y="602" width="134" height="20.5"/>
+                                <rect key="frame" x="250" y="671" width="134" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FyL-LA-dJQ">
-                                <rect key="frame" x="100" y="632" width="214" height="31"/>
+                                <rect key="frame" x="100" y="701" width="214" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="Checkout"/>
                                 <connections>
@@ -990,6 +990,27 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kHC-26-hMY">
+                                <rect key="frame" x="20" y="752" width="60" height="60"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="rnj-Ly-AzB">
+                                        <rect key="frame" x="5" y="6.5" width="50" height="48.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="17q-fR-hms"/>
+                                            <constraint firstAttribute="height" constant="50" id="1sz-CR-y31"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="rnj-Ly-AzB" firstAttribute="top" secondItem="kHC-26-hMY" secondAttribute="top" constant="5" id="0aC-Oa-7rG"/>
+                                    <constraint firstAttribute="height" constant="60" id="GS4-w2-H5e"/>
+                                    <constraint firstItem="rnj-Ly-AzB" firstAttribute="leading" secondItem="kHC-26-hMY" secondAttribute="leading" constant="5" id="TA6-vx-l29"/>
+                                    <constraint firstAttribute="bottom" secondItem="rnj-Ly-AzB" secondAttribute="bottom" constant="5" id="bFp-rh-v4O"/>
+                                    <constraint firstAttribute="width" constant="60" id="sfR-AG-rwj"/>
+                                    <constraint firstAttribute="trailing" secondItem="rnj-Ly-AzB" secondAttribute="trailing" constant="5" id="xfe-7H-8L4"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ihw-mc-FRa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1004,12 +1025,16 @@
                             <constraint firstItem="Ihw-mc-FRa" firstAttribute="trailing" secondItem="EAf-gp-f0O" secondAttribute="trailing" constant="120" id="XI2-Cu-ZtB"/>
                             <constraint firstItem="yPU-KC-UkJ" firstAttribute="trailing" secondItem="Ihw-mc-FRa" secondAttribute="trailing" id="Y6p-vj-fCb"/>
                             <constraint firstItem="EAf-gp-f0O" firstAttribute="leading" secondItem="Ihw-mc-FRa" secondAttribute="leading" constant="120" id="Z9S-17-ESi"/>
+                            <constraint firstItem="kHC-26-hMY" firstAttribute="leading" secondItem="Ihw-mc-FRa" secondAttribute="leading" constant="20" id="cJA-Ku-Ax5"/>
                             <constraint firstItem="yPU-KC-UkJ" firstAttribute="top" secondItem="EAf-gp-f0O" secondAttribute="bottom" constant="30" id="lTv-Kc-CGP"/>
+                            <constraint firstItem="kHC-26-hMY" firstAttribute="top" secondItem="FyL-LA-dJQ" secondAttribute="bottom" constant="20" id="qmB-GV-q2F"/>
+                            <constraint firstItem="Ihw-mc-FRa" firstAttribute="bottom" secondItem="kHC-26-hMY" secondAttribute="bottom" constant="30" id="r3U-Ff-N4a"/>
                             <constraint firstItem="FyL-LA-dJQ" firstAttribute="leading" secondItem="Ihw-mc-FRa" secondAttribute="leading" constant="100" id="vpN-RT-Z4e"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Uae-oC-d1w"/>
                     <connections>
+                        <outlet property="animationView" destination="kHC-26-hMY" id="erh-7c-ttS"/>
                         <outlet property="tableView" destination="yPU-KC-UkJ" id="AL1-gq-jOs"/>
                         <outlet property="totalLabel" destination="mnG-dW-sZX" id="Chz-HK-EgS"/>
                         <segue destination="FA6-nX-uHg" kind="show" identifier="showHistory" id="pIM-hk-hZG"/>
@@ -1205,10 +1230,11 @@
     <inferredMetricsTieBreakers>
         <segue reference="Gzc-Ko-gqu"/>
         <segue reference="pIM-hk-hZG"/>
-        <segue reference="hKh-QN-NRU"/>
-        <segue reference="q6h-y1-Rwj"/>
+        <segue reference="QU9-bt-dF1"/>
+        <segue reference="Hsz-sw-o2a"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="cart" catalog="system" width="128" height="102"/>
         <image name="cart.fill" catalog="system" width="128" height="102"/>
         <image name="clock" catalog="system" width="128" height="121"/>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
