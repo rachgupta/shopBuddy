@@ -48,12 +48,11 @@
 }
 
 - (void) _calculateTotalStatus {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    NSDateFormatter *const dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"MM"];
-    NSString *current_month = [dateFormatter stringFromDate:[NSDate now]];
+    NSString *const current_month = [dateFormatter stringFromDate:[NSDate now]];
     double sum = 0;
     for (NSString *date in [organizedData allKeys]) {
-        NSLog(@"%@",[date substringToIndex:2]);
         if([[date substringToIndex:2] isEqualToString:current_month]) {
             for (Trip *trip in organizedData[date]) {
                 for (NSNumber *num in [trip.item_prices allValues]) {
@@ -63,8 +62,8 @@
         }
     }
     totalLabel.text = [NSString stringWithFormat:@"Total This Month: $ %.2f",sum];
-    double budget = [[PFUser currentUser][@"budget"] doubleValue];
-    double difference = budget - sum;
+    double const budget = [[PFUser currentUser][@"budget"] doubleValue];
+    double const difference = budget - sum;
     budgetLabel.text =[NSString stringWithFormat:@"You're $ %.2f under budget.",difference];
 }
 

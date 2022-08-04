@@ -29,7 +29,7 @@
     [query whereKey:@"user" equalTo:[PFUser currentUser]];
     dispatch_group_t tripFetchGroup = dispatch_group_create();
     [query findObjectsInBackgroundWithBlock:^(NSArray <PFObject *> *fetched_objects, NSError *error) {
-        NSMutableArray<Trip *> *new_trips = [NSMutableArray new];
+        NSMutableArray<Trip *> *const new_trips = [NSMutableArray new];
         for (PFObject *object in fetched_objects)
         {
             dispatch_group_enter(tripFetchGroup);
@@ -40,6 +40,7 @@
                 }
                 else {
                     completion(nil,error);
+                    dispatch_group_leave(tripFetchGroup);
                 }
             }];
         }
