@@ -65,7 +65,7 @@
     totalLabel.text = [NSString stringWithFormat:@"Total This Month: $ %.2f",sum];
     double budget = [[PFUser currentUser][@"budget"] doubleValue];
     double difference = budget - sum;
-    budgetLabel.text =[NSString stringWithFormat:@"You;re $ %.2f under budget.",difference];
+    budgetLabel.text =[NSString stringWithFormat:@"You're $ %.2f under budget.",difference];
 }
 
 #pragma mark - TableView
