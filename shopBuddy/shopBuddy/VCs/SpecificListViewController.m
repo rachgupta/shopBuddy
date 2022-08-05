@@ -31,7 +31,7 @@
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
-    _list_label.text = [NSString stringWithFormat:@"%@ Shopping List", self.list.store_name];
+    self.title = [NSString stringWithFormat:@"%@ Shopping List", self.list.store_name];
     items = self.list.items;
     [tableView reloadData];
 }

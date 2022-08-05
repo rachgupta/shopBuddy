@@ -27,6 +27,7 @@
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
+    self.title = @"History";
     manager = [AppState sharedManager];
     [self _organizeData:manager.trips];
     [self _calculateTotalStatus];

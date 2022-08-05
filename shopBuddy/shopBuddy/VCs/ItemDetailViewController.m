@@ -89,6 +89,7 @@
 
 - (void)_populateView {
     //TODO: add Show More button and shortened description
+    self.title = self.item.name;
     titleLabel.text = self.item.name;
     brandLabel.text = self.item.brand;
     descriptionView.text = self.item.item_description;
@@ -147,26 +148,39 @@
 #pragma mark - CollectionView
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if(self.item.prices.count==0) {
+        return 1;
+    }
     return self.item.prices.count;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PriceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PriceCell" forIndexPath:indexPath];
-    Price *const price = self.item.prices[indexPath.item];
-    cell.storeLabel.text = price.store;
-    cell.priceLabel.text = [price.price stringValue];
+    if(self.item.prices.count>0) {
+        Price *const price = self.item.prices[indexPath.item];
+        cell.storeLabel.text = price.store;
+        cell.priceLabel.text = [price.price stringValue];
+    }
+    else {
+        cell.storeLabel.text = @"No Prices Found";
+        cell.priceLabel.text = @" ";
+    }
+    cell.layer.masksToBounds = YES;
+    cell.layer.cornerRadius = 10;
     
     return cell;
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    Price *const price = self.item.prices[indexPath.item];
-    __weak __typeof__(self) weakSelf = self;
-    [self _priceSelected:price withCompletion:^(BOOL succeeded) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        });
-    }];
+    if(self.item.prices.count>0) {
+        Price *const price = self.item.prices[indexPath.item];
+        __weak __typeof__(self) weakSelf = self;
+        [self _priceSelected:price withCompletion:^(BOOL succeeded) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            });
+        }];
+    }
 }
 
 @end
