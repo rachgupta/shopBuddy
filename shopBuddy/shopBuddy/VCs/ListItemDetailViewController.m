@@ -179,7 +179,7 @@
     if(self.item.prices.count>0) {
         Price *const price = self.item.prices[indexPath.item];
         cell.storeLabel.text = price.store;
-        cell.priceLabel.text = [price.price stringValue];
+        cell.priceLabel.text = [NSString stringWithFormat:@"$ %.2f",[price.price doubleValue]];
     }
     else {
         cell.storeLabel.text = @"No Prices Found";

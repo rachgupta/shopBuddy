@@ -35,11 +35,28 @@
 }
 
 - (IBAction)didTapSearch:(id)sender {
-    //TODO: Search field validation
+    __weak __typeof__(self) weakSelf = self;
     [[BarcodeAPIManager shared] searchItemsWithQuery:_searchField.text completion:^(NSMutableArray<Item*> *items, NSError *error) {
-        //TODO: handle error
-        self->_searchResults = items;
-        [self->_tableView reloadData];
+        if(items) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            if(strongSelf)
+            {
+                strongSelf->_searchResults = items;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [strongSelf->_tableView reloadData];
+                });
+            }
+        }
+        else {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Item Not Found" message:@"The searched item is not found." preferredStyle:(UIAlertControllerStyleAlert)];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){}];
+            [alert addAction:okAction];
+            [weakSelf presentViewController:alert animated:YES completion:^{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                });
+            }];
+        }
     }];
     
 }
@@ -47,7 +64,6 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqual:@"showDetailSegue"]) {
         ItemDetailViewController *const detailVC = [segue destinationViewController];
-        //TODO: move to GlobalManager
         detailVC.barcode = _barcodeField.text;
     } else if([segue.identifier isEqual:@"showBarcodeSegue"]) {
         ScanBarcodeViewController *const barcodeVC = [segue destinationViewController];
