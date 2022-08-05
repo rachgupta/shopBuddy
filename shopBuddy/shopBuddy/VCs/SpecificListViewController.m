@@ -31,6 +31,7 @@
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.title = [NSString stringWithFormat:@"%@ Shopping List", self.list.store_name];
     items = self.list.items;
     [tableView reloadData];

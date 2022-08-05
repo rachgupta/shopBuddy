@@ -31,13 +31,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //UINavigationBar *bar = [self.navigationController navigationBar];
+    
+    //[bar setTintColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0]];
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
+    
+}
+- (void) viewWillAppear:(BOOL)animated {
+    AppState *manager = [AppState sharedManager];
     stores = @[@"Walmart",@"Target",@"Amazon"];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.label.text = @"Loading";
-    AppState *manager = [AppState sharedManager];
     __weak __typeof__(self) weakSelf = self;
     [manager updateAppState:^(BOOL succeeded) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -50,6 +56,7 @@
             });
         }
     }];
+    //Test
 }
 
 - (void)_fetchLists {

@@ -40,7 +40,7 @@
         [current_user saveInBackground];
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if(strongSelf) {
-            self.budgetLabel.text = [NSString stringWithFormat:@"Budget for this month: $ %.2f",[[PFUser currentUser][@"budget"] doubleValue]];
+            strongSelf.budgetLabel.text = [NSString stringWithFormat:@"Budget for this month: $ %.2f",[[PFUser currentUser][@"budget"] doubleValue]];
         }
     }];
     [alertVC addAction:action];
