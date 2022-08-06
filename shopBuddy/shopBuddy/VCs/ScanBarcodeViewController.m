@@ -9,8 +9,7 @@
 #import "AVFoundation/AVFoundation.h"
 #import "ItemDetailViewController.h"
 
-@interface ScanBarcodeViewController ()
-{
+@interface ScanBarcodeViewController () {
     BOOL isScanning;
     AVCaptureSession *captureSession;
     AVCaptureVideoPreviewLayer *videoPreviewLayer;

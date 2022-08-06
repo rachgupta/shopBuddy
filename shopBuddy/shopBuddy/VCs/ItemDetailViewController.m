@@ -187,7 +187,6 @@
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if(self.item.prices.count>0) {
         Price *const price = self.item.prices[indexPath.item];
-        __weak __typeof__(self) weakSelf = self;
         [self _priceSelected:price withCompletion:^(BOOL succeeded) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:YES];

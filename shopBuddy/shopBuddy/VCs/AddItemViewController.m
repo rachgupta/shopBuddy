@@ -27,6 +27,7 @@
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.rowHeight = UITableViewAutomaticDimension;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [super viewDidLoad];
 }
 
