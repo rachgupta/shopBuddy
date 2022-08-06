@@ -399,7 +399,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNR-XG-3k8">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rNR-XG-3k8">
                                 <rect key="frame" x="157" y="640" width="100" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Sync Prices"/>
@@ -453,6 +453,7 @@
                             <constraint firstItem="sgP-1w-74e" firstAttribute="top" secondItem="hyE-hb-HBu" secondAttribute="top" constant="50" id="m0x-K3-vdd"/>
                             <constraint firstItem="Aj8-Dw-eTv" firstAttribute="top" secondItem="QwL-pE-vxu" secondAttribute="top" id="mIf-iN-ZUH"/>
                             <constraint firstItem="azQ-pd-nZC" firstAttribute="trailing" secondItem="hyE-hb-HBu" secondAttribute="trailing" id="mWZ-pA-GIr"/>
+                            <constraint firstItem="rNR-XG-3k8" firstAttribute="centerX" secondItem="0Fo-zV-wNi" secondAttribute="centerX" id="oRZ-BN-GQI"/>
                             <constraint firstItem="gPb-Td-Fy4" firstAttribute="trailing" secondItem="QwL-pE-vxu" secondAttribute="trailing" id="qUF-nW-CLW"/>
                             <constraint firstItem="hyE-hb-HBu" firstAttribute="trailing" secondItem="Aj8-Dw-eTv" secondAttribute="trailing" constant="10" id="vhc-xa-o9E"/>
                             <constraint firstItem="rNR-XG-3k8" firstAttribute="top" secondItem="azQ-pd-nZC" secondAttribute="bottom" constant="20" id="vi2-zd-6jJ"/>
@@ -1007,14 +1008,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewHeaderView" id="wAd-W8-Pza">
-                                        <rect key="frame" x="0.0" y="167.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="167.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wAd-W8-Pza" id="NqV-UL-nzh">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="123" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qI3-45-gyN">
-                                                    <rect key="frame" x="30" y="11" width="354" height="21.5"/>
+                                                    <rect key="frame" x="30" y="11" width="354" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -1145,14 +1146,14 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewHeaderView" id="Xtu-tb-EqB">
-                                        <rect key="frame" x="0.0" y="161.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="161.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Xtu-tb-EqB" id="9dZ-8W-YcH">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="123" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FD4-Qt-gop">
-                                                    <rect key="frame" x="30" y="11" width="354" height="21.5"/>
+                                                    <rect key="frame" x="30" y="11" width="354" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
