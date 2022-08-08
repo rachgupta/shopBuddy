@@ -44,7 +44,7 @@
             {
                 strongSelf->_searchResults = items;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [strongSelf->_tableView reloadData];
+                    [weakSelf _reloadData];
                 });
             }
         }
@@ -54,13 +54,21 @@
             [alert addAction:okAction];
             [weakSelf presentViewController:alert animated:YES completion:^{
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.navigationController popToRootViewControllerAnimated:YES];
+                    [weakSelf _backToLists];
                 });
             }];
         }
     }];
-    
 }
+
+- (void)_reloadData {
+    [_tableView reloadData];
+}
+
+- (void)_backToLists {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqual:@"showDetailSegue"]) {

@@ -39,26 +39,37 @@
     } completion:^(BOOL finished) {
         [weakSelf _updateView:^(BOOL succeeded) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self->tableView reloadData];
+                [weakSelf _reloadTable];
             });
         }];
     }];
     // Do any additional setup after loading the view.
 }
 
+- (void) _reloadTable {
+    [tableView reloadData];
+}
+
 - (void) viewWillAppear: (BOOL)animated {
+    __weak __typeof__(self) weakSelf = self;
     [self _updateView:^(BOOL succeeded) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self->tableView reloadData];
+            [weakSelf _reloadTable];
         });
     }];
 }
 
-- (void) closeCartAnimation:(void(^)(BOOL succeeded))completion{
+- (void) _closeCartAnimation {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
+    __weak __typeof__(self) weakSelf = self;
     [UIView animateWithDuration:0.2 animations:^{
         self->animationView.frame = CGRectMake(screenRect.size.width+50, self->animationView.frame.origin.y, -self->animationView.frame.size.width, self->animationView.frame.size.height);
-    } completion:completion];
+    } completion:^(BOOL finished) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if(strongSelf) {
+            [strongSelf.tabBarController setSelectedIndex:3];
+        }
+    }];
 }
 
 - (void) _organizeData {
@@ -83,15 +94,20 @@
         if(strongSelf) {
             strongSelf->items = strongSelf->manager.cart.items;
             [weakSelf _organizeData];
-            double sum = 0;
-            for (NSNumber *num in [strongSelf->manager.cart.item_prices allValues]) {
-                sum = sum + [num doubleValue];
-            }
-            strongSelf->totalLabel.text = [NSString stringWithFormat:@"Total: $ %.2f",sum];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf _setTotal];
+            });
             completion(YES);
         }
     }];
-    
+}
+
+- (void) _setTotal {
+    double sum = 0;
+    for (NSNumber *num in [manager.cart.item_prices allValues]) {
+        sum = sum + [num doubleValue];
+    }
+    totalLabel.text = [NSString stringWithFormat:@"Total: $ %.2f",sum];
 }
 - (IBAction)didCheckout:(id)sender {
     __weak __typeof__(self) weakSelf = self;
@@ -105,10 +121,7 @@
             [Cart emptyCart:strongSelf->manager.cart withCompletion:^(Cart * _Nonnull new_cart, NSError * _Nonnull error) {
                 strongSelf->manager.cart = new_cart;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self closeCartAnimation:^(BOOL succeeded) {
-                        [self.tabBarController setSelectedIndex:3];
-                        //[weakSelf performSegueWithIdentifier:@"showHistory" sender:self];
-                    }];
+                    [weakSelf _closeCartAnimation];
                 });
             }];
         }
