@@ -73,7 +73,7 @@
             [alert addAction:okAction];
             [weakSelf presentViewController:alert animated:YES completion:^{
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.navigationController popToRootViewControllerAnimated:YES];
+                    [weakSelf _popToRoot];
                 });
             }];
         }
@@ -88,13 +88,20 @@
         if(strongSelf) {
             [strongSelf.item syncPrices:prices];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [strongSelf->activityIndicator stopAnimating];
-                strongSelf->doneLoading = YES;
-                [strongSelf->collectionView reloadData];
-                
+                [weakSelf _pricesFetched];
             });
         }
     }];
+}
+
+- (void) _pricesFetched {
+    [activityIndicator stopAnimating];
+    doneLoading = YES;
+    [collectionView reloadData];
+}
+
+- (void) _popToRoot {
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)_populateView {
@@ -117,7 +124,7 @@
             [[AppState sharedManager] addItemToList:list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
                 if(succeeded) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.navigationController popToRootViewControllerAnimated:YES];
+                        [weakSelf _popToRoot];
                     });
                 }
             }];
@@ -187,9 +194,10 @@
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if(self.item.prices.count>0) {
         Price *const price = self.item.prices[indexPath.item];
+        __weak __typeof__(self) weakSelf = self;
         [self _priceSelected:price withCompletion:^(BOOL succeeded) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                [weakSelf _popToRoot];
             });
         }];
     }

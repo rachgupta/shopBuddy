@@ -55,7 +55,7 @@
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if(strongSelf) {
                 strongSelf->state.cart = updatedCart;
-                [ShoppingList removeItemFromList:weakSelf.list withItem:weakSelf.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
+                [ShoppingList removeItemFromList:strongSelf.list withItem:strongSelf.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
                     if(!error) {
                         [weakSelf _showInputAlert];
                     }
@@ -145,6 +145,18 @@
     }];
 }
 
+- (void) _reloadCollection {
+    [collectionView reloadData];
+}
+
+- (void) _stopAnimating {
+    [activityIndicator stopAnimating];
+}
+
+- (void) _popToRoot {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 #pragma mark - Actions
 - (IBAction)didPressSync:(id)sender {
     [activityIndicator startAnimating];
@@ -155,8 +167,8 @@
         if(strongSelf) {
             [strongSelf.item syncPrices:prices];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self->activityIndicator stopAnimating];
-                [self->collectionView reloadData];
+                [weakSelf _stopAnimating];
+                [weakSelf _reloadCollection];
             });
         }
         
@@ -193,10 +205,11 @@
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if(self.item.prices.count>0) {
         Price *const price = self.item.prices[indexPath.item];
+        __weak __typeof__(self) weakSelf = self;
         [self _priceSelected:price withCompletion:^(BOOL succeeded) {
             if(YES) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.navigationController popToRootViewControllerAnimated:YES];
+                    [weakSelf _popToRoot];
                 });
             }
         }];

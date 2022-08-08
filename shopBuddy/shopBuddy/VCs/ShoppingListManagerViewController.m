@@ -51,20 +51,27 @@
             strongSelf->lists = manager.lists;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf _makeMenu];
-                [strongSelf->tableView reloadData];
+                [weakSelf _reloadTable];
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
             });
         }
     }];
-    //Test
+}
+
+- (void) _reloadTable {
+    [tableView reloadData];
 }
 
 - (void)_fetchLists {
+    __weak __typeof__(self) weakSelf = self;
     [ShoppingList fetchLists:^(NSArray<ShoppingList *> *lists, NSError *error) {
-        self->lists = lists;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self->tableView reloadData];
-        });
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if(strongSelf) {
+            strongSelf->lists = lists;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf _reloadTable];
+            });
+        }
     }];
 }
 

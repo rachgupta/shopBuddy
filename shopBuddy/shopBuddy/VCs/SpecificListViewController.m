@@ -76,7 +76,7 @@
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if(strongSelf) {
                 state.cart = updatedCart;
-                [ShoppingList removeItemFromList:weakSelf.list withItem:item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
+                [ShoppingList removeItemFromList:strongSelf.list withItem:item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
                     if(!error) {
                         [weakSelf _showInputAlert:item];
                     }
@@ -104,8 +104,8 @@
             [Cart updatePrice:newPrice forItem:item withCart:state.cart withCompletion:^(Cart * _Nonnull cart) {
                 if(cart) {
                     state.cart = cart;
-                    [self.navigationController popToRootViewControllerAnimated:YES];
-                    [self.tabBarController setSelectedIndex:2];
+                    [strongSelf.navigationController popToRootViewControllerAnimated:YES];
+                    [strongSelf.tabBarController setSelectedIndex:2];
                 }
             }];
         }
