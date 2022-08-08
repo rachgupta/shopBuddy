@@ -27,6 +27,7 @@
     __weak IBOutlet UIButton *addItemToListButton;
     __weak IBOutlet UICollectionView *collectionView;
     __weak IBOutlet UIActivityIndicatorView *activityIndicator;
+    BOOL doneLoading;
     
 }
 
@@ -36,6 +37,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    doneLoading = NO;
     descriptionView.scrollEnabled=YES;
     collectionView.delegate = self;
     collectionView.dataSource = self;
@@ -66,7 +68,14 @@
                 completion(YES);
             }
         } else {
-            //TODO: Failure logic
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Item Not Found" message:@"The scanned item is not found. Please try with a different item. " preferredStyle:(UIAlertControllerStyleAlert)];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){}];
+            [alert addAction:okAction];
+            [weakSelf presentViewController:alert animated:YES completion:^{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf _popToRoot];
+                });
+            }];
         }
     }];
 }
@@ -79,16 +88,25 @@
         if(strongSelf) {
             [strongSelf.item syncPrices:prices];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [strongSelf->activityIndicator stopAnimating];
-                [strongSelf->collectionView reloadData];
-                
+                [weakSelf _pricesFetched];
             });
         }
     }];
 }
 
+- (void) _pricesFetched {
+    [activityIndicator stopAnimating];
+    doneLoading = YES;
+    [collectionView reloadData];
+}
+
+- (void) _popToRoot {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 - (void)_populateView {
     //TODO: add Show More button and shortened description
+    self.title = self.item.name;
     titleLabel.text = self.item.name;
     brandLabel.text = self.item.brand;
     descriptionView.text = self.item.item_description;
@@ -105,7 +123,9 @@
         [actions addObject:[UIAction actionWithTitle:actionTitle image:nil identifier:nil handler:^(__kindof UIAction* _Nonnull action) {
             [[AppState sharedManager] addItemToList:list withItem:self.item withCompletion:^(BOOL succeeded, NSError *error) {
                 if(succeeded) {
-                    [self performSegueWithIdentifier:@"segueBackToLists" sender:self];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [weakSelf _popToRoot];
+                    });
                 }
             }];
         }]];
@@ -145,26 +165,42 @@
 #pragma mark - CollectionView
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if(doneLoading) {
+        if(self.item.prices.count==0) {
+            return 1;
+        }
+    }
     return self.item.prices.count;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PriceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PriceCell" forIndexPath:indexPath];
-    Price *const price = self.item.prices[indexPath.item];
-    cell.storeLabel.text = price.store;
-    cell.priceLabel.text = [price.price stringValue];
-    
+    if(doneLoading) {
+        if(self.item.prices.count>0) {
+            Price *const price = self.item.prices[indexPath.item];
+            cell.storeLabel.text = price.store;
+            cell.priceLabel.text = [NSString stringWithFormat:@"$ %.2f",[price.price doubleValue]];
+        }
+        else {
+            cell.storeLabel.text = @"No Prices Found";
+            cell.priceLabel.text = @" ";
+        }
+        cell.layer.masksToBounds = YES;
+        cell.layer.cornerRadius = 10;
+    }
     return cell;
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    Price *const price = self.item.prices[indexPath.item];
-    __weak __typeof__(self) weakSelf = self;
-    [self _priceSelected:price withCompletion:^(BOOL succeeded) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
-        });
-    }];
+    if(self.item.prices.count>0) {
+        Price *const price = self.item.prices[indexPath.item];
+        __weak __typeof__(self) weakSelf = self;
+        [self _priceSelected:price withCompletion:^(BOOL succeeded) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf _popToRoot];
+            });
+        }];
+    }
 }
 
 @end

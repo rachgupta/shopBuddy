@@ -9,15 +9,13 @@
 #import "AVFoundation/AVFoundation.h"
 #import "ItemDetailViewController.h"
 
-@interface ScanBarcodeViewController ()
-{
+@interface ScanBarcodeViewController () {
     BOOL isScanning;
     AVCaptureSession *captureSession;
     AVCaptureVideoPreviewLayer *videoPreviewLayer;
     NSString *barcode;
     __weak IBOutlet UIView *preview;
     __weak IBOutlet UIBarButtonItem *scanButton;
-    __weak IBOutlet UIButton *lookupButton;
     
 }
 
@@ -28,7 +26,6 @@
     [super viewDidLoad];
     isScanning = NO;
     captureSession = nil;
-    [lookupButton setTitle:@"" forState:UIControlStateNormal];
     
 }
 
@@ -71,8 +68,8 @@
 
 //updates the lookup button and the _barcode variable to reflect the new barcode
 -(void)_updateWithBarcode:(NSString *)givenBarcode {
-    [lookupButton setTitle:[NSString stringWithFormat:@"Lookup Item with Barcode %@",givenBarcode] forState:UIControlStateNormal];
     barcode = givenBarcode;
+    [self performSegueWithIdentifier:@"showItemDetailView" sender:self];
     //TODO: Validate Barcode
 }
 
@@ -81,12 +78,6 @@
     [captureSession stopRunning];
     captureSession = nil;
     [videoPreviewLayer removeFromSuperlayer];
-}
-
-//triggers segue to detail view
-- (IBAction)didTapLookup:(id)sender {
-    [self performSegueWithIdentifier:@"showItemDetailView" sender:self];
-
 }
 
 //sends barcode info to detail view

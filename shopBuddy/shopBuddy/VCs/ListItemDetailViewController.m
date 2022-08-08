@@ -41,10 +41,29 @@
     descriptionView.scrollEnabled=YES;
     collectionView.delegate = self;
     collectionView.dataSource = self;
+    self.title = self.item.name;
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action: @selector (_addToCart:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [self.view addGestureRecognizer:doubleTap];
     // Do any additional setup after loading the view.
 }
 
-
+- (void) _addToCart:(id)sender {
+    __weak __typeof__(self) weakSelf = self;
+    [Cart addItemToCart:state.cart withItem:self.item fromList:self.list withCompletion:^(Cart * _Nonnull updatedCart, NSError * _Nonnull error) {
+        if(updatedCart) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            if(strongSelf) {
+                strongSelf->state.cart = updatedCart;
+                [ShoppingList removeItemFromList:strongSelf.list withItem:strongSelf.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
+                    if(!error) {
+                        [weakSelf _showInputAlert];
+                    }
+                }];
+            }
+        }
+    }];
+}
 
 - (void)_showInputAlert {
   UIAlertController *alertVC=[UIAlertController alertControllerWithTitle:@"How much was the item?" message:@"Please input the price of the item" preferredStyle:UIAlertControllerStyleAlert];
@@ -63,8 +82,9 @@
             [Cart updatePrice:newPrice forItem:strongSelf.item withCart:strongSelf->state.cart withCompletion:^(Cart * _Nonnull cart) {
                 if(cart) {
                     strongSelf->state.cart = cart;
+                    [self.navigationController popToRootViewControllerAnimated:YES];
                     [self.tabBarController setSelectedIndex:2];
-                    [weakSelf performSegueWithIdentifier:@"segueToCart" sender:self];
+                    //[weakSelf performSegueWithIdentifier:@"segueToCart" sender:self];
                 }
             }];
         }
@@ -125,6 +145,18 @@
     }];
 }
 
+- (void) _reloadCollection {
+    [collectionView reloadData];
+}
+
+- (void) _stopAnimating {
+    [activityIndicator stopAnimating];
+}
+
+- (void) _popToRoot {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 #pragma mark - Actions
 - (IBAction)didPressSync:(id)sender {
     [activityIndicator startAnimating];
@@ -135,59 +167,52 @@
         if(strongSelf) {
             [strongSelf.item syncPrices:prices];
             dispatch_async(dispatch_get_main_queue(), ^{
-                [strongSelf->activityIndicator stopAnimating];
-                [strongSelf->collectionView reloadData];
+                [weakSelf _stopAnimating];
+                [weakSelf _reloadCollection];
             });
         }
         
     }];
 }
 - (IBAction)didPressAddToCart:(id)sender {
-    __weak __typeof__(self) weakSelf = self;
-    [Cart addItemToCart:state.cart withItem:self.item fromList:self.list withCompletion:^(Cart * _Nonnull updatedCart, NSError * _Nonnull error) {
-        if(updatedCart) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            if(strongSelf) {
-                strongSelf->state.cart = updatedCart;
-                [ShoppingList removeItemFromList:weakSelf.list withItem:weakSelf.item withCompletion:^(ShoppingList * _Nonnull new_list, NSError * _Nonnull error) {
-                    if(!error) {
-                        [weakSelf _showInputAlert];
-                    }
-                }];
-            }
-        }
-    }];
+    [self _addToCart:sender];
 }
 
 #pragma mark - Collection View
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if(self.item.prices.count==0) {
+        return 1;
+    }
     return self.item.prices.count;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PriceCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PriceCell" forIndexPath:indexPath];
-    Price *const price = self.item.prices[indexPath.item];
-    cell.storeLabel.text = price.store;
-    cell.priceLabel.text = [price.price stringValue];
-    
+    if(self.item.prices.count>0) {
+        Price *const price = self.item.prices[indexPath.item];
+        cell.storeLabel.text = price.store;
+        cell.priceLabel.text = [NSString stringWithFormat:@"$ %.2f",[price.price doubleValue]];
+    }
+    else {
+        cell.storeLabel.text = @"No Prices Found";
+        cell.priceLabel.text = @" ";
+    }
+    cell.layer.cornerRadius = 15;
+    cell.layer.borderWidth = 0.0;
     return cell;
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    Price *const price = self.item.prices[indexPath.item];
-    __weak __typeof__(self) weakSelf = self;
-    [self _priceSelected:price withCompletion:^(BOOL succeeded) {
-        if(YES) {
-            [weakSelf performSegueWithIdentifier:@"segueFromPriceToList" sender:self];
-        }
-    }];
-    
-}
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqual:@"segueFromPriceToList"]) {
-        ShoppingListManagerViewController *const listManagerVC = [segue destinationViewController];
+    if(self.item.prices.count>0) {
+        Price *const price = self.item.prices[indexPath.item];
+        __weak __typeof__(self) weakSelf = self;
+        [self _priceSelected:price withCompletion:^(BOOL succeeded) {
+            if(YES) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf _popToRoot];
+                });
+            }
+        }];
     }
 }
 

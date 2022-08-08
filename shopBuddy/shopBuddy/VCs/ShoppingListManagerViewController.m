@@ -14,6 +14,7 @@
 #import "AddItemViewController.h"
 #import "AppState.h"
 #import "Cart+Persistent.h"
+#import "MBProgressHUD/MBProgressHUD.h"
 
 @interface ShoppingListManagerViewController () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -30,11 +31,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //UINavigationBar *bar = [self.navigationController navigationBar];
+    
+    //[bar setTintColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0]];
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
-    stores = @[@"Walmart",@"Target",@"Amazon"];
+    
+}
+- (void) viewWillAppear:(BOOL)animated {
     AppState *manager = [AppState sharedManager];
+    stores = @[@"Walmart",@"Target",@"Amazon"];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.label.text = @"Loading";
     __weak __typeof__(self) weakSelf = self;
     [manager updateAppState:^(BOOL succeeded) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -42,18 +51,27 @@
             strongSelf->lists = manager.lists;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf _makeMenu];
-                [strongSelf->tableView reloadData];
+                [weakSelf _reloadTable];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
             });
         }
     }];
 }
 
+- (void) _reloadTable {
+    [tableView reloadData];
+}
+
 - (void)_fetchLists {
+    __weak __typeof__(self) weakSelf = self;
     [ShoppingList fetchLists:^(NSArray<ShoppingList *> *lists, NSError *error) {
-        self->lists = lists;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self->tableView reloadData];
-        });
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if(strongSelf) {
+            strongSelf->lists = lists;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf _reloadTable];
+            });
+        }
     }];
 }
 

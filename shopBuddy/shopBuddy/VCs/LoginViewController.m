@@ -37,6 +37,7 @@
             [newUser saveInBackground];
             if (!error) {
                 NSLog(@"User registered successfully");
+                __weak __typeof__(self) weakSelf = self;
                 [ShoppingList createEmptyList: @"Unspecified" withCompletion:^(ShoppingList *shoppingList,NSError *error) {
                     if(!error) {
                         [Cart createEmptyCart:^(Cart * _Nonnull new_cart, NSError * _Nonnull error) {
@@ -45,7 +46,7 @@
                                 state.cart = new_cart;
                                 state.trips = [NSArray new];
                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                    [self performSegueWithIdentifier:@"loginSegue" sender:nil];
+                                    [weakSelf performSegueWithIdentifier:@"loginSegue" sender:nil];
                                 });
                             }
                         }];

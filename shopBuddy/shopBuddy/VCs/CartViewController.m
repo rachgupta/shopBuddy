@@ -19,6 +19,7 @@
     AppState *manager;
     NSDictionary<NSString *, NSMutableArray<Item *> *> *organizedData;
     __weak IBOutlet UILabel *totalLabel;
+    __weak IBOutlet UIView *animationView;
 }
 
 @end
@@ -31,12 +32,44 @@
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
     manager = [AppState sharedManager];
-    [self _updateView];
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    __weak __typeof__(self) weakSelf = self;
+    [UIView animateWithDuration:0.2 animations:^{
+        self->animationView.frame = CGRectMake(screenRect.size.width, animationView.frame.origin.y, animationView.frame.size.width, animationView.frame.size.height);
+    } completion:^(BOOL finished) {
+        [weakSelf _updateView:^(BOOL succeeded) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf _reloadTable];
+            });
+        }];
+    }];
     // Do any additional setup after loading the view.
 }
 
-- (void) viewWillAppear {
-    [self _updateView];
+- (void) _reloadTable {
+    [tableView reloadData];
+}
+
+- (void) viewWillAppear: (BOOL)animated {
+    __weak __typeof__(self) weakSelf = self;
+    [self _updateView:^(BOOL succeeded) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf _reloadTable];
+        });
+    }];
+}
+
+- (void) _closeCartAnimation {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    __weak __typeof__(self) weakSelf = self;
+    [UIView animateWithDuration:0.2 animations:^{
+        self->animationView.frame = CGRectMake(screenRect.size.width+50, self->animationView.frame.origin.y, -self->animationView.frame.size.width, self->animationView.frame.size.height);
+    } completion:^(BOOL finished) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if(strongSelf) {
+            [strongSelf.tabBarController setSelectedIndex:3];
+        }
+    }];
 }
 
 - (void) _organizeData {
@@ -54,16 +87,27 @@
     organizedData = [NSDictionary dictionaryWithDictionary:output];
 }
 
-- (void) _updateView {
-    items = manager.cart.items;
-    [self _organizeData];
-    [tableView reloadData];
+- (void) _updateView:(void(^)(BOOL succeeded))completion {
+    __weak __typeof__(self) weakSelf = self;
+    [Cart fetchCurrentCart:^(Cart * _Nonnull cart, NSError * _Nonnull error) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if(strongSelf) {
+            strongSelf->items = strongSelf->manager.cart.items;
+            [weakSelf _organizeData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf _setTotal];
+            });
+            completion(YES);
+        }
+    }];
+}
+
+- (void) _setTotal {
     double sum = 0;
     for (NSNumber *num in [manager.cart.item_prices allValues]) {
         sum = sum + [num doubleValue];
     }
     totalLabel.text = [NSString stringWithFormat:@"Total: $ %.2f",sum];
-    
 }
 - (IBAction)didCheckout:(id)sender {
     __weak __typeof__(self) weakSelf = self;
@@ -77,8 +121,7 @@
             [Cart emptyCart:strongSelf->manager.cart withCompletion:^(Cart * _Nonnull new_cart, NSError * _Nonnull error) {
                 strongSelf->manager.cart = new_cart;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tabBarController setSelectedIndex:3];
-                    [weakSelf performSegueWithIdentifier:@"showHistory" sender:self];
+                    [weakSelf _closeCartAnimation];
                 });
             }];
         }

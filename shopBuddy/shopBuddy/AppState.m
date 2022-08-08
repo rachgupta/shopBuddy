@@ -38,7 +38,7 @@
         }
     }];
 }
-
+//this initially fetches the lists cart and trips and populates the app state with the most recent info in the Parse database
 - (void)updateAppState:(void(^)(BOOL succeeded))completion {
     [ShoppingList fetchLists:^(NSArray<ShoppingList *> *lists, NSError *error) {
         [Cart fetchCurrentCart:^(Cart * _Nonnull cart, NSError * _Nonnull error) {

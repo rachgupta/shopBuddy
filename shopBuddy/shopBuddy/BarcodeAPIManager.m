@@ -47,8 +47,7 @@ AFHTTPSessionManager *manager;
         completion(item, nil);
      }failure:^(NSURLSessionDataTask *task, NSError *error)
      {
-         // Failure
-        //TODO: Failure logic
+        completion(nil,error);
      }];
     
     
@@ -72,8 +71,7 @@ AFHTTPSessionManager *manager;
         completion(items, nil);
      }failure:^(NSURLSessionDataTask *task, NSError *error)
      {
-         // Failure
-        //TODO: Failure logic
+        completion(nil,error);
      }];
     
     

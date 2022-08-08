@@ -25,6 +25,14 @@
     }];
 
     [Parse initializeWithConfiguration:config];
+    if (@available(iOS 15.0, *)) {
+        UINavigationBarAppearance *navBarAppearance = [[UINavigationBarAppearance alloc] init];
+        navBarAppearance.backgroundColor = [UIColor colorWithRed: 0.05 green: 0.04 blue: 0.37 alpha: 1.00];
+        navBarAppearance.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+        //[navBarAppearance configureWithOpaqueBackground];
+        [UINavigationBar appearance].standardAppearance = navBarAppearance;
+        [UINavigationBar appearance].scrollEdgeAppearance = navBarAppearance;
+    }
 
     return YES;
 }

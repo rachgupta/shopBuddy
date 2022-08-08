@@ -27,11 +27,16 @@
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.rowHeight = UITableViewAutomaticDimension;
+    self.title = @"History";
     manager = [AppState sharedManager];
-    [self _organizeData:manager.trips];
-    [self _calculateTotalStatus];
     // Do any additional setup after loading the view.
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self _organizeData:manager.trips];
+    [self _calculateTotalStatus];
+}
+
 - (void) _organizeData: (NSArray<Trip *> *)trips {
     NSMutableDictionary *output = [NSMutableDictionary new];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
