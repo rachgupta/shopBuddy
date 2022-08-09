@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Trip (Persistent)
 
 @property (nonatomic,copy) PFObject *tripObject;
+@property (nonatomic,copy) NSNumber *totalCouldHaveSaved;
 
 + (void)fetchTrips:(void(^)(NSArray<Trip *> *trips, NSError *error))completion;
 

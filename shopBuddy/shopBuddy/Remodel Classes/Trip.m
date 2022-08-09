@@ -8,7 +8,6 @@
 #endif
 
 #import "Trip.h"
-#import "Item.h"
 
 @implementation Trip
 

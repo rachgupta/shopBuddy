@@ -22,6 +22,14 @@
     objc_setAssociatedObject(self, @selector(tripObject), new_tripObject, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+- (PFObject *)totalCouldHaveSaved {
+    return objc_getAssociatedObject(self, @selector(totalCouldHaveSaved));
+}
+
+- (void)setTotalCouldHaveSaved:(PFObject *)new_totalCouldHaveSaved {
+    objc_setAssociatedObject(self, @selector(totalCouldHaveSaved), new_totalCouldHaveSaved, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 //gets all trips by current user
 + (void)fetchTrips:(void(^)(NSArray<Trip *> *trips, NSError *error))completion {
     PFQuery *const query = [PFQuery queryWithClassName:@"Trip"];
@@ -52,6 +60,26 @@
     }];
 }
 
+- (NSNumber *)_calculateTotalCouldHaveSaved {
+    double total = 0;
+    for (Item *item in self.items) {
+        NSArray<Price *> *prices = item.prices;
+        if(prices.count>0) {
+            double lowest_price = [prices[0].price doubleValue];
+            for (Price *price in prices) {
+                if([price.price doubleValue]<lowest_price){
+                    lowest_price = [price.price doubleValue];
+                }
+            }
+            double difference = [self.item_prices[item.objectID] doubleValue] - lowest_price;
+            if(difference>0) {
+                total = total + difference;
+            }
+        }
+    }
+    return [NSNumber numberWithDouble:total];
+}
+
 + (void)_hydrateTripFromPFObject: (PFObject *)object withCompletion:(void(^)(Trip * trip, NSError *error))completion {
     NSArray<PFObject *> *const item_objects = object[@"items"];
     NSDictionary<NSString *, NSNumber *>  *const item_prices = object[@"item_prices"];
@@ -74,11 +102,12 @@
         
         Trip *const newTrip = [[Trip alloc] initWithItems:items item_prices:item_prices item_store:item_store purchase_date:purchase];
         newTrip.tripObject = object;
+        newTrip.totalCouldHaveSaved = [newTrip _calculateTotalCouldHaveSaved];
         completion(newTrip, nil);
     });
 }
 
-//Used to create new carts
+//Used to create new trips
 + (void)createTripFromCart:(Cart *)cart withCompletion:(void(^)(Trip *new_trip,NSError *error))completion{
     NSMutableArray<PFObject *> *const item_objects = [NSMutableArray new];
     for (Item *item in cart.items) {

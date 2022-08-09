@@ -4,7 +4,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "Item.h"
+#import "Item+Persistent.h"
 
 @interface Trip : NSObject <NSCopying>
 
