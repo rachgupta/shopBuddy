@@ -64,7 +64,6 @@ AFHTTPSessionManager *manager;
             Item *item = [Item createItemWithDictionary:responseObject[@"products"][i]];
             NSArray *categories = [responseObject[@"products"][i][@"category"] componentsSeparatedByString:@" > "];
             item.category = categories[0];
-            NSLog(@"%@",item.category);
             [all_items addObject:item];
             
         }
