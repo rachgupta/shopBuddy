@@ -26,6 +26,7 @@
     __weak IBOutlet UICollectionView *collectionView;
     __weak IBOutlet UIActivityIndicatorView *activityIndicator;
     AppState *state;
+    NSNumber *lowest_price;
     
     
 }
@@ -42,6 +43,14 @@
     collectionView.delegate = self;
     collectionView.dataSource = self;
     self.title = self.item.name;
+    if(self.item.prices.count>0) {
+        lowest_price = self.item.prices[0].price;
+        for (Price *price in self.item.prices) {
+            if ([price.price doubleValue]<[lowest_price doubleValue]) {
+                lowest_price = price.price;
+            }
+        }
+    }
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action: @selector (_addToCart:)];
     doubleTap.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:doubleTap];
@@ -151,6 +160,14 @@
 }
 
 - (void) _reloadCollection {
+    if(self.item.prices.count>0) {
+        lowest_price = self.item.prices[0].price;
+        for (Price *price in self.item.prices) {
+            if ([price.price doubleValue]<[lowest_price doubleValue]) {
+                lowest_price = price.price;
+            }
+        }
+    }
     [collectionView reloadData];
 }
 
@@ -197,6 +214,9 @@
         Price *const price = self.item.prices[indexPath.item];
         cell.storeLabel.text = price.store;
         cell.priceLabel.text = [NSString stringWithFormat:@"$ %.2f",[price.price doubleValue]];
+        if([price.price doubleValue]==[lowest_price doubleValue]) {
+            cell.contentView.backgroundColor = [UIColor colorWithRed: 0.64 green: 0.86 blue: 0.55 alpha: 1.00];;
+        }
     }
     else {
         cell.storeLabel.text = @"No Prices Found";
