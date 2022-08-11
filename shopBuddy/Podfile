@@ -12,6 +12,7 @@ target 'shopBuddy' do
   pod 'AFNetworking'
   pod 'MBProgressHUD', '~> 1.2.0'
 
+
   target 'shopBuddyTests' do
     inherit! :search_paths
     # Pods for testing

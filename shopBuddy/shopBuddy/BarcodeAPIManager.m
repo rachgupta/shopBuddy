@@ -12,7 +12,8 @@
 
 static NSString * const baseURLString = @"https://api.barcodelookup.com";
 static NSString * const kBarcode_url = @"v3/products?barcode=%@&formatted=y&key=%@";
-static NSString * const kSearch_url = @"v3/products?search=%@&formatted=y&key=%@";
+static NSString * const kSearch_url = @"v3/products?search=%@&formatted=y&key=%@&metadata=y&cursor=y";
+static NSString * const kSearch_cursor_url = @"v3/products?search=%@&formatted=y&key=%@&metadata=y&cursor=%@";
 NSString * key;
 @implementation BarcodeAPIManager
 AFHTTPSessionManager *manager;
@@ -41,8 +42,6 @@ AFHTTPSessionManager *manager;
 
     [manager GET:path parameters:nil headers: nil progress:nil success:^(NSURLSessionTask *task, NSDictionary *responseObject)
      {
-         // Success
-        //TODO: Validate server response
         Item *item = [Item createItemWithDictionary:responseObject[@"products"][0]];
         completion(item, nil);
      }failure:^(NSURLSessionDataTask *task, NSError *error)
@@ -56,15 +55,40 @@ AFHTTPSessionManager *manager;
 {
 
     NSString *const path = [NSString stringWithFormat:kSearch_url, search, key];
-
+    __weak __typeof__(self) weakSelf = self;
+    __block NSMutableArray *all_items = [NSMutableArray new];
     [manager GET:path parameters:nil headers: nil progress:nil success:^(NSURLSessionTask *task, NSDictionary *responseObject)
      {
-         // Success
-        //TODO: Validate server response
+        for (int i = 0; i < [responseObject[@"products"] count]; i++)
+        {
+            Item *item = [Item createItemWithDictionary:responseObject[@"products"][i]];
+            NSArray *categories = [responseObject[@"products"][i][@"category"] componentsSeparatedByString:@" > "];
+            item.category = categories[0];
+            NSLog(@"%@",item.category);
+            [all_items addObject:item];
+            
+        }
+        [weakSelf _getNextPageWithCursor:responseObject[@"metadata"] [@"next_cursor"] withQuery:search completion:^(NSMutableArray<Item *> *items, NSError *error) {
+            [all_items addObjectsFromArray:items];
+            completion(all_items, nil);
+        }];
+     }failure:^(NSURLSessionDataTask *task, NSError *error)
+     {
+        completion(nil,error);
+     }];
+}
+
+- (void)_getNextPageWithCursor:(NSString *)cursor withQuery:(NSString *)search completion:(void(^)(NSMutableArray<Item*> *items, NSError *error))completion
+{
+    NSString *const path = [NSString stringWithFormat:kSearch_cursor_url, search, key,cursor];
+    [manager GET:path parameters:nil headers: nil progress:nil success:^(NSURLSessionTask *task, NSDictionary *responseObject)
+     {
         NSMutableArray *items = [NSMutableArray new];
         for (int i = 0; i < [responseObject[@"products"] count]; i++)
         {
             Item *item = [Item createItemWithDictionary:responseObject[@"products"][i]];
+            NSArray *categories = [responseObject[@"products"][i][@"category"] componentsSeparatedByString:@" > "];
+            item.category = categories[0];
             [items addObject:item];
             
         }
@@ -73,7 +97,5 @@ AFHTTPSessionManager *manager;
      {
         completion(nil,error);
      }];
-    
-    
 }
 @end
