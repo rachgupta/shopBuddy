@@ -3,7 +3,9 @@ This shopping assistant app simplifies a user's shopping experience and helps th
 
 # API Keys
 Please register for a free demo account for both the Barcode API and PriceAPI and input the keys into the Keys.plist file. 
+
 https://www.barcodelookup.com/api#log-in
+
 https://www.priceapi.com/
 
 
