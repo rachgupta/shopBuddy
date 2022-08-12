@@ -21,6 +21,14 @@
     objc_setAssociatedObject(self, @selector(objectID), new_objectID, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+- (NSString *)category {
+    return objc_getAssociatedObject(self, @selector(category));
+}
+
+- (void)setCategory:(NSString *)new_category {
+    objc_setAssociatedObject(self, @selector(category), new_category, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 - (NSDate *)lastSynced {
     return objc_getAssociatedObject(self, @selector(lastSynced));
 }

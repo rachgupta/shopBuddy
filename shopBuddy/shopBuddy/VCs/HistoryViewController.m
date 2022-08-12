@@ -8,6 +8,7 @@
 #import "HistoryViewController.h"
 #import "Trip+Persistent.h"
 #import "AppState.h"
+#import "TripViewController.h"
 
 @interface HistoryViewController () <UITableViewDataSource, UITableViewDelegate>
 {
@@ -33,7 +34,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self _organizeData:manager.trips];
+    [self _organizeData:[[manager.trips reverseObjectEnumerator] allObjects]];
     [self _calculateTotalStatus];
 }
 
@@ -69,7 +70,15 @@
     totalLabel.text = [NSString stringWithFormat:@"Total This Month: $ %.2f",sum];
     double const budget = [[PFUser currentUser][@"budget"] doubleValue];
     double const difference = budget - sum;
-    budgetLabel.text =[NSString stringWithFormat:@"You're $ %.2f under budget.",difference];
+    if(difference>0) {
+        budgetLabel.text =[NSString stringWithFormat:@"You're $ %.2f under budget for this month.",difference];
+    }
+    else if (difference<0) {
+        budgetLabel.text =[NSString stringWithFormat:@"You're $ %.2f over budget for this month.",(0-difference)];
+    }
+    else {
+        budgetLabel.text =@"You're exactly on budget for this month.";
+    }
 }
 
 #pragma mark - TableView
@@ -110,6 +119,16 @@
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSArray *keys = [organizedData allKeys];
     return organizedData[keys[section]].count;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([segue.identifier isEqual:@"showTripDetail"]) {
+        NSIndexPath *const myPath = [tableView indexPathForCell:sender];
+        NSArray *keys = [organizedData allKeys];
+        Trip *const trip = organizedData[keys[myPath.section]][myPath.row];
+        TripViewController *const tripVC = [segue destinationViewController];
+        tripVC.trip = trip;
+    }
 }
 
 @end

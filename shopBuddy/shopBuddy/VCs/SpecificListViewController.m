@@ -91,9 +91,14 @@
   UIAlertController *alertVC=[UIAlertController alertControllerWithTitle:@"How much was the item?" message:@"Please input the price of the item" preferredStyle:UIAlertControllerStyleAlert];
     [alertVC addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
       {
-        textField.placeholder=@"ex. 0.00";
-        textField.textColor=[UIColor redColor];
-        textField.clearButtonMode=UITextFieldViewModeWhileEditing;
+          NSArray<Price *> *prices = item.prices;
+            for (Price *price in prices) {
+                if([price.store isEqual:self.list.store_name]) {
+                    textField.placeholder=[NSString stringWithFormat:@"%.2f",[price.price doubleValue]];
+                }
+            }
+          textField.textColor=[UIColor redColor];
+          textField.clearButtonMode=UITextFieldViewModeWhileEditing;
       }
     }];
     __weak __typeof__(self) weakSelf = self;

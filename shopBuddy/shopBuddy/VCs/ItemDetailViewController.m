@@ -27,6 +27,7 @@
     __weak IBOutlet UIButton *addItemToListButton;
     __weak IBOutlet UICollectionView *collectionView;
     __weak IBOutlet UIActivityIndicatorView *activityIndicator;
+    NSNumber *lowest_price;
     BOOL doneLoading;
     
 }
@@ -95,6 +96,14 @@
 }
 
 - (void) _pricesFetched {
+    if(self.item.prices.count>0) {
+        lowest_price = self.item.prices[0].price;
+        for (Price *price in self.item.prices) {
+            if ([price.price doubleValue]<[lowest_price doubleValue]) {
+                lowest_price = price.price;
+            }
+        }
+    }
     [activityIndicator stopAnimating];
     doneLoading = YES;
     [collectionView reloadData];
@@ -180,6 +189,9 @@
             Price *const price = self.item.prices[indexPath.item];
             cell.storeLabel.text = price.store;
             cell.priceLabel.text = [NSString stringWithFormat:@"$ %.2f",[price.price doubleValue]];
+            if([price.price doubleValue]==[lowest_price doubleValue]) {
+                cell.contentView.backgroundColor = [UIColor colorWithRed: 0.64 green: 0.86 blue: 0.55 alpha: 1.00];;
+            }
         }
         else {
             cell.storeLabel.text = @"No Prices Found";
