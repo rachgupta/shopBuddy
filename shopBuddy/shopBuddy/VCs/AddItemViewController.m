@@ -44,7 +44,7 @@
 - (IBAction)didTapSearch:(id)sender {
     __weak __typeof__(self) weakSelf = self;
     [[BarcodeAPIManager shared] searchItemsWithQuery:_searchField.text completion:^(NSMutableArray<Item*> *items, NSError *error) {
-        if(items) {
+        if(items.count>0) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if(strongSelf)
             {

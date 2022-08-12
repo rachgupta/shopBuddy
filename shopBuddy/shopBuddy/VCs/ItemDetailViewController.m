@@ -192,6 +192,9 @@
             if([price.price doubleValue]==[lowest_price doubleValue]) {
                 cell.contentView.backgroundColor = [UIColor colorWithRed: 0.64 green: 0.86 blue: 0.55 alpha: 1.00];;
             }
+            else {
+                cell.contentView.backgroundColor = [UIColor lightGrayColor];
+            }
         }
         else {
             cell.storeLabel.text = @"No Prices Found";
