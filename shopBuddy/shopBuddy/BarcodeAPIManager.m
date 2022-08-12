@@ -53,33 +53,24 @@ AFHTTPSessionManager *manager;
 }
 - (void)searchItemsWithQuery:(NSString *)search completion:(void(^)(NSMutableArray<Item*> *items, NSError *error))completion
 {
-
     NSString *const path = [NSString stringWithFormat:kSearch_url, search, key];
     __weak __typeof__(self) weakSelf = self;
     __block NSMutableArray *all_items = [NSMutableArray new];
-    [manager GET:path parameters:nil headers: nil progress:nil success:^(NSURLSessionTask *task, NSDictionary *responseObject)
-     {
-        for (int i = 0; i < [responseObject[@"products"] count]; i++)
-        {
-            Item *item = [Item createItemWithDictionary:responseObject[@"products"][i]];
-            NSArray *categories = [responseObject[@"products"][i][@"category"] componentsSeparatedByString:@" > "];
-            item.category = categories[0];
-            [all_items addObject:item];
-            
-        }
-        [weakSelf _getNextPageWithCursor:responseObject[@"metadata"] [@"next_cursor"] withQuery:search completion:^(NSMutableArray<Item *> *items, NSError *error) {
+    [weakSelf _getSearchResultsWithPath:path completion:^(NSMutableArray<Item *> *items, NSString *cursor, NSError *error) {
+        if(items) {
             [all_items addObjectsFromArray:items];
-            completion(all_items, nil);
-        }];
-     }failure:^(NSURLSessionDataTask *task, NSError *error)
-     {
-        completion(nil,error);
-     }];
+        }
+        if(cursor) {
+            NSString *const cursor_path = [NSString stringWithFormat:kSearch_cursor_url, search, key,cursor];
+            [weakSelf _getSearchResultsWithPath:cursor_path completion:^(NSMutableArray<Item *> *items, NSString *cursor, NSError *error) {
+                [all_items addObjectsFromArray:items];
+                completion(all_items,nil);
+            }];
+        }
+    }];
 }
 
-- (void)_getNextPageWithCursor:(NSString *)cursor withQuery:(NSString *)search completion:(void(^)(NSMutableArray<Item*> *items, NSError *error))completion
-{
-    NSString *const path = [NSString stringWithFormat:kSearch_cursor_url, search, key,cursor];
+- (void) _getSearchResultsWithPath:(NSString *)path completion:(void(^)(NSMutableArray<Item*> *items, NSString *cursor, NSError *error))completion {
     [manager GET:path parameters:nil headers: nil progress:nil success:^(NSURLSessionTask *task, NSDictionary *responseObject)
      {
         NSMutableArray *items = [NSMutableArray new];
@@ -91,10 +82,16 @@ AFHTTPSessionManager *manager;
             [items addObject:item];
             
         }
-        completion(items, nil);
+        if(responseObject[@"metadata"] [@"next_cursor"]) {
+            completion(items,responseObject[@"metadata"] [@"next_cursor"],nil);
+        }
+        else {
+            completion(items,nil,nil);
+        }
      }failure:^(NSURLSessionDataTask *task, NSError *error)
      {
-        completion(nil,error);
+        completion(nil,nil,error);
      }];
+    
 }
 @end

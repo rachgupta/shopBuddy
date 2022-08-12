@@ -48,8 +48,6 @@
     NSMutableArray *const previous_items = [NSMutableArray arrayWithArray:self.listObject[@"items"]];
     PFObject *item_to_delete = nil;
     for (PFObject *itemObject in previous_items) {
-        NSLog(@"%@",itemObject.objectId);
-        NSLog(@"%@",itemID);
         if([itemObject.objectId isEqual:itemID]) {
             item_to_delete = itemObject;
         }
@@ -73,7 +71,6 @@
     ShoppingList *const newList = [[ShoppingList alloc] initWithStore_name:list.store_name items:[mutable_items copy]];
     newList.objectID = list.objectID;
     newList.listObject = list.listObject;
-    NSLog(@"%@",item.objectID);
     [newList _updateSavedListWithoutItemID:item.objectID withCompletion:^(BOOL succeeded, NSError *error) {
         if(succeeded) {
             completion(newList,nil);

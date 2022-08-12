@@ -26,7 +26,6 @@
 }
 
 - (void)viewDidLoad {
-    //categories = [@[@"Animals & Pet Supplies",@"Apparel & Accessories", @"Arts & Entertainment", @"Baby & Toddler", @"Business & Industrial",@"Cameras & Optics",@"Electronics",@"Food, Beverages & Tobacco",@"Furniture",@"Hardware",@"Health & Beauty",@"Home & Garden",@"Luggage & Bags",@"Mature",@"Media",@"Office Supplies",@"Religious & Ceremonial",@"Software",@"Sporting Goods",@"Toys & Games",@"Vehicles & Parts",] mutableCopy];
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.rowHeight = UITableViewAutomaticDimension;
@@ -49,7 +48,6 @@
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if(strongSelf)
             {
-                //strongSelf->_searchResults = items;
                 NSMutableDictionary *local_results = [NSMutableDictionary new];
                 for (Item *item in items) {
                     local_results[item.category] = [NSMutableArray new];
